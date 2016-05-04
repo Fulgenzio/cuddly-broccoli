@@ -1,0 +1,169 @@
+== Struttura del mondo
+
+L'universo è diviso in 3 parti: 
+
+* Piano Materiale
+* Piano Astrale
+* Oltretomba
+
+I 2 piani sono separati ma allo stesso tempo collegati. Sono divisi da una "barriera", e collegati da portali. L'oltretomba è una parte del piano astrale, dove gli spiriti degli esseri viventi vanno una volta morti, e variano a seconda della razza. Inoltre il collegamento tra i piani varia in forza a seconda del luogo. In cima alla montagna ai confini del Regno di Balir ad esempio, risiede Avyumakra, il grande dragone bianco, semidio, signore dell'inverno, e la montagna stessa è infestata da elementali di ghiaccio. Nei pilastri invece, dopo la catastrofe che ha spazzato via la civiltà, il collegamento tra i 2 mondi è particolarmente forte, è dove buona parte dei mezzosangue vivono, assieme agli aviani. Sopra Vhir, nell'isola di valentar, dove i draghi vanno a morire, l'oltretomba e il materiale sono particolarmente vicini.
+
+=== Piano Materiale
+
+Il piano dove vivono quasi tutti i mortali vivono. Composto da 5 continenti principali: Valentar, Talenalia, Gorlanos, Arhada, Vallea.
+
+* Valentar
+** Il continente dove per prima è comparsa la vita, sottoforma di draghi. Composto da un'unica isola ora è l'unico rifugio di molti draghi, nonché il loro principale cimitero, ed il centro del culto dei grandi dragoni.
+* Vallea
+** Vallea ospita perlopiù umani. La maggior parte del continente è territorio dell'Impero degli uomini, o di Adahimia. Il continente è diviso in 2 isole: Vallea, l'isola più grande, e l'isola volante di Arquel, che ospita l'omonima capitale imperiale.
+* Talenalia
+** Il continente, prende il nome da Talena, la matriarca e regina degli elfi alti. Il continente è attualmente diviso in 4 nazioni: Matriarcato di Talena, Regno di Balir, Terre Selvagge di Yas e la Legione di Tilgan. Il continente è composto da 4 isole, Talenalia, l'isola principale contesa tra barbari di Yas, il popolo di Balir ed il Matriarcato, Elelia, lo scudo del sud, occupato dalla Legione di Tilgan, Valelya, centro di studio religioso e magico del Matriarcato, e Marelia, terra perennemente spazzata da venti gelidi, dove si trova Yas.
+* Arhada
+** Arhada, comunemente noto come I Pilastri, o Pilastri, era un'unica isola, abitata da quelli che ora sono gli elfi astrali. Dopo un'enorme catastrofe dovuta all'arroganza degli elfi, che hanno tentato di soggiogare le divinità che loro stessi hanno creato, l'isola è emersa dalle acque, e si è spaccata formando un arcipelago di fiordi e altopiani. Il continente ora è spazzato da costanti tempeste di pura energia magica, emanata da quella che era la capitale elfica, che ora prende il nome di Krater, dall'enorme cratere rimasto, ha mutato gli elfi, i loro schiavi umani e quasi tutte le creature che popolavano il continente, mutandole e generando gli abomini noti adesso come gli uomini-bestia e gli aviani.
+* Gorlanos
+** Gorlanos, oggi comunemente noto come Terre Libere del Nord Ovest è un piccolo continente, popolato perlopiù da umani.
+
+=== Piano Astrale
+
+Il piano astrale è un grande vuoto, privo di luce, dove l'energia e quindi la magia, scorre in flutti come fosse un fiume, è il dominio di dèi, demoni e guardiani, che si muovono come esseri di pura energia. Gli unici elementi "solidi" che occupano il piano astrale sono i viaggiatori che utilizzano il piano per spostarsi lungo grandi distanze, i vari portali che collegano parti del mondo, e le "ancore" dimensionali utilizzate come punto di riferimento per il viaggio: si tratta di strutture che esistono sia nel materiale che nell'astrale. Agiscono un po come fari, contornati dal riflesso astrale di tutti gli esseri viventi che popolano il mondo. Vi sono inoltre delle piccole enclave di elfi astrali, ed una loro città.
+
+=== Oltretomba
+
+Prima di parlare dell'oltretomba dobbiamo parlare di cosa è composto l'essere vivente nell'universo: come per i 3 piani, anche l'essere vivente è separato in 3 parti. La prima parte, e la più importante, è quella materiale, il corpo. È presente assieme al corpo anche un'anima, uno spirito, che è pura energia del piano astrale che anima il corpo. Questo spirito però non lascia completamente il piano astrale, ma una piccola porzione vi rimane. Il cosiddetto riflesso astrale. Questo "riflesso" collega lo spirito diviso al corpo materiale, e quando il secondo viene meno, l'energia si riunisce e va in quello che è chiamato oltretomba. 
+
+L'oltretomba è una grande distesa grigia, dove vagano le anime dei morti. È un luogo pacifico, dove le anime a cui è concesso l'accesso si riuniscono con i propri cari. Quando un qualsiasi essere vivente muore, si scinde il collegamento tra il corpo ed il suo riflesso astrale. Il corpo quindi rimane privo di vita, mentre il riflesso astrale si spegne per riaccendersi nell'oltretomba, più forte di prima, dato che anche l'anima torna al piano astrale.
+
+== Razze
+
+[cols="3", options="header"]
+|===
+^.^|Razza			^.^|Descrizione																	^.^|Magia		
+^.^|Umani			^.^|Standard umani																^.^|D, E, S
+^.^|Elfi Alti		^.^|Secondi arrivati al mondo, arroganti										^.^|D
+^.^|Elfi Silvani	^.^|Elfi "buoni", guardiani della natura										^.^|D, E
+^.^|Driadi			^.^|Silvani che reincarnano lo spirito					  						^.^|E,
+^.^|Aviani			^.^|Elfi alati, vivono distaccati dal mondo										^.^|X
+^.^|Goblin			^.^|Piccoli orcoidi intelligenti, affini alla magia								^.^|D, E
+^.^|Orchi			^.^|Orcoidi di taglia media, poco intelligenti									^.^|S
+^.^|Ogre			^.^|Orcoidi grossi, relativamente intelligenti									^.^|E, S
+^.^|Lucertoloidi	^.^|Draconidi bipedi, affini al sangue e al piano astrale						^.^|D, S
+^.^|Coboldi			^.^|Piccoli draconidi bipedi che adorano i metalli preziosi 					^.^|E
+^.^|Draghi			^.^|Quadrupedi alati simili a felini, affini agli elementi						^.^|D, E
+^.^|Dragoni			^.^|Manifestazioni materiali del piano astrale, immortali						^.^|D
+^.^|Viverne			^.^|Draconidi alati bipedi, poco intelligenti									^.^|X
+^.^|Nani			^.^|Standard nani																^.^|E
+^.^|Gnomi			^.^|Piccoli umanoidi, molto intelligenti, grandi accademici						^.^|D, E
+^.^|Vampiri			^.^|Non morti che migliorano in capacità fisica col tempo						^.^|D, E, S
+^.^|Lich			^.^|Non morti che risorgono se uccisi											^.^|D, E, S
+^.^|Spettri			^.^|Standard spettri, eterei													^.^|X
+^.^|Mezzosangue		^.^|Uomini-bestie, mezz'orchi e mezzi draghi									^.^|D, E, S
+^.^|Demoni			^.^|Manifestazioni meteriali delle emozioni, e maghi che perdono il controllo	^.^|D, E, S
+^.^|Guardiani		^.^|Manifestazioni meteriali delle emozioni, e maghi che si distaccano dal mat	^.^|D, E, S
+^.^|Divinità		^.^|Riflessi astrali delle credenze del piano materiale, e emozioni				^.^|D, E, S
+^.^|Semidei			^.^|Creature del piano materiale connesse col piano astrale						^.^|D, E, S
+^.^|Elementali		^.^|Manifestazioni materiali degli elementi. Privi di intelligenza individuale	^.^|D, E
+^.^|Elfi Astrali	^.^|Elfi alti che hanno abbandonato il piano materiale e vivono nell'astrale	^.^|D
+|===	
+
+=== Creazione del mondo: 
+
+All'inizio i 2 piani erano uniti, l'energia e la materia erano uniti. Grandi concentrazioni di energia hanno iniziato a spostarsi, e ad "agire" da sole. Questo ha portato alla nascita degli elementi che hanno iniziato a separarsi, ed hanno iniziato a manifestarsi sulla materia. Questa separazione ha portato ad uno scisma tra i due piani, separando il materiale dal piano dell'energia. Il mondo è stato creato da queste manifestazioni di energia, che col tempo hanno iniziato a sviluppare una "coscenza" anche se non si tratta di una vera e propria coscenza di se. Hanno comunque iniziato a creare creature, che inizialmente erano "rappresentazioni" dell'elemento stesso che li ha creati. Questi erano, e sono i 8 grandi dragoni Avyumakra, Aazrelag, Rolaan, Levhithkron, Jotraanviir, Nehrothkras e Londrun. Queste 8 creature hanno a loro volta iniziato a plasmare il mondo, modificando i continenti un po a loro piacimento. Hanno poi iniziato a creare la vita, prima sottoforma di piante, poi animali, fino ad arrivare a creare i draghi, i quali sono stati anch'essi creati a loro volta come rappresentazioni degli elementi, seppur in forma molto più ridotta rispetto ai loro creatori. I semidei, vedendo la bellezza delle loro creazioni, hanno scelto di manifestarsi ad essi nella loro forma. Solo allora, da agglomerati di energia pura, e senza forma sono passati ad essere i grandi dragoni che esistono tutt'ora. I draghi vivevano liberi ed incontrastati ovunque nel mondo, ma riconoscevano nell'isola di Valentar la loro casa, dove risiedevano gli 8 semidei. Col tempo poi altre forme di vita hanno iniziato a svilupparsi, con l'aiuto dei grandi dragoni, soprattutto Londrun. Ha reso possibile la nascita e lo sviluppo delle prime civiltà: gli elfi alti e gli umani. I primi, creati da Londrun, sono stati poi benedetti da Drogshul con una connessione al piano astrale particolarmente accentuata. Gli umani invece, inizialmente erano liberi, visti dagli elfi come poco più che animali selvaggi e violenti. Col passare dei secoli nuove razze hanno iniziato a spuntare, come i nani, benedetti da Jotraanviir con una conoscenza profonda della roccia e dei metalli, e gli gnomi, prediletti da Drogshul, dotati di una straordinaria intelligenza 
+
+* Dragoni: 
+** Aazrelag, il grande dragone rosso, semidio e manifestazione del fuoco, signore dei vulcani
+** Avyumakra, il grande dragone bianco, semidio e manifestazione del ghiaccio, signore dell'inverno e dei ghiacci
+** Drogshul, il grande dragone dorato, semidio e manifestazione del potere astrale, signore della magia
+** Jotraanviir, il grande dragone marrone, semidio e manifestazione della terra, signore delle montagne
+** Levhithkron, il grande dragone blu, semidio e manifestazione dell'acqua, signore dei mari
+** Londrun, il grande dragone verde, semidio e manifestazione della vita, signore di tutte le creature viventi
+** Nehrothkras, il grande dragone azzurro, semidio e manifestazione dell'aria, signore dei cieli
+** Kaalvurn, il grande dragone nero, semidio e manifestazione della morte, signore dei morti
+** Rolaan, il grande dragone viola, semidio e manifestazione del fulmine, signore delle tempeste
+
+* Draghi: 
+** Azzurro
+** Bianco
+** Blu
+** Dorato (Oro)
+** Marrone
+** Nero
+** Rosso
+** Verde
+** Viola
+
+* Elfi Alti: 
+
+
+[cols="3", options="header"]
+|===
+^.^|Nome			^.^|Posizione				^.^|Nazione
+^.^|Norlyn			^.^|Meridia					^.^|Regno libero del sottosuolo, TLDNO
+^.^|Laria			^.^|Meridia					^.^|Impero di Meridia, TLDNO
+^.^|Carelian		^.^|Meridia					^.^|Ribelli, TLDNO
+^.^|Tedara			^.^|Asteda					^.^|Città stato di Tedara, TLDNO
+^.^|Ederla			^.^|Meridia					^.^|Ducato Vulic, TLDNO
+^.^|Medor			^.^|Lunia					^.^|Gilda della Fenice / Confederazione Commerciale, TLDNO
+^.^|Sernost			^.^|Vagra					^.^|Repubblica Senzaluce, TLDNO
+^.^|Ethedan			^.^|Vagra					^.^|Repubblica Senzaluce, TLDNO
+^.^|Vihr			^.^|Valentar				^.^|Valentar
+^.^|Krater			^.^|Pilastro di Krater		^.^|Pilastri di Arhada
+^.^|Yas				^.^|Marelia					^.^|Regno di Ignar
+^.^|Balir			^.^|Talenalia				^.^|Regno di Balir
+^.^|Garenia		 	^.^|Talenalia				^.^|Regno di Balir
+^.^|Exeter			^.^|Talenalia				^.^|Regno di Balir
+^.^|Opensha			^.^|Talenalia				^.^|Regno di Balir
+^.^|Lingmell		^.^|Talenalia				^.^|Regno di Balir
+^.^|Nuxvar 			^.^|Talenalia				^.^|Regno di Balir
+^.^|Threlkeld		^.^|Talenalia				^.^|Regno di Balir
+^.^|Hankala			^.^|Talenalia				^.^|Regno di Balir
+^.^|Aynor			^.^|Talenalia				^.^|Regno di Balir
+^.^|Fernsworth		^.^|Talenalia				^.^|Regno di Balir
+^.^|Nantgarth		^.^|Talenalia				^.^|Regno di Balir
+^.^|Blaena			^.^|Talenalia				^.^|Regno di Balir
+^.^|Penshaw			^.^|Talenalia				^.^|Regno di Balir
+^.^|Ilebur			^.^|Talenalia				^.^|Regno di Balir
+^.^|Ar-olmore 		^.^|Talenalia				^.^|Regno di Balir
+^.^|Swindmore		^.^|Talenalia				^.^|Regno di Balir
+^.^|Kaiven			^.^|Talenalia				^.^|Regno di Balir
+^.^|Grilab			^.^|Talenalia				^.^|Regno di Balir
+^.^|Olusien			^.^|Talenalia				^.^|Regno di Balir
+^.^|Calibard		^.^|Talenalia				^.^|Regno di Balir
+^.^|Urfao			^.^|Talenalia				^.^|Regno di Balir
+^.^|Pimmalin		^.^|Talenalia				^.^|Regno di Balir
+^.^|Amaril			^.^|Talenalia				^.^|Figlie di Talena
+^.^|Nydalla			^.^|Valelya					^.^|Figlie di Talena
+^.^|Harailin		^.^|Talenalia				^.^|Figlie di Talena
+^.^|Casserin		^.^|Talenalia				^.^|Figlie di Talena
+^.^|Londaure		^.^|Talenalia				^.^|Figlie di Talena
+^.^|Isil Galas		^.^|Talenalia				^.^|Figlie di Talena
+^.^|Colthyr			^.^|Talenalia				^.^|Figlie di Talena
+^.^|Deloriamd		^.^|Talenalia				^.^|Figlie di Talena
+^.^|Thrulith		^.^|Talenalia				^.^|Figlie di Talena
+^.^|Niomir			^.^|Talenalia				^.^|Figlie di Talena
+^.^|Shyrlond		^.^|Talenalia				^.^|Figlie di Talena
+^.^|Sil Gandil		^.^|Talenalia				^.^|Figlie di Talena
+^.^|Belil Gadien	^.^|Talenalia				^.^|Figlie di Talena
+^.^|Ril Galia		^.^|Talenalia				^.^|Figlie di Talena
+^.^|Muriand			^.^|Talenalia				^.^|Figlie di Talena
+^.^|Pil Gand		^.^|Talenalia				^.^|Figlie di Talena
+^.^|Moriand			^.^|Talenalia				^.^|Figlie di Talena
+^.^|Erynior			^.^|Talenalia				^.^|Figlie di Talena
+^.^|Daerist			^.^|Talenalia				^.^|Figlie di Talena
+^.^|Annuithang		^.^|Talenalia				^.^|Figlie di Talena
+^.^|Calaril			^.^|Valelya					^.^|Figlie di Talena
+^.^|Anorion			^.^|Valelya					^.^|Figlie di Talena
+^.^|Veomyr			^.^|Elelia					^.^|Legione di Tilgan
+^.^|Bralen			^.^|Vallea					^.^|Impero di Adahim
+^.^|Bralenfort		^.^|Vallea					^.^|Impero di Adahim
+^.^|Asoar			^.^|Vallea					^.^|Impero di Adahim
+^.^|Sedrim			^.^|Vallea					^.^|Impero di Adahim
+^.^|Sedrimfort		^.^|Vallea					^.^|Impero di Adahim
+^.^|Artosk			^.^|Vallea					^.^|Impero di Adahim
+^.^|Shaystorn		^.^|Vallea					^.^|Impero di Adahim
+^.^|Shayfort		^.^|Vallea					^.^|Impero di Adahim
+^.^|Grilming		^.^|Vallea					^.^|Impero di Adahim
+^.^|Winglark		^.^|Vallea					^.^|Impero di Adahim
+^.^|Conacon			^.^|Vallea					^.^|Impero di Adahim
+^.^|Arquel			^.^|Vallea					^.^|Impero di Adahim
+^.^|Caras Astra		^.^|Piano Astrale			^.^|Enclave astrale di Caras Astra
+|===
