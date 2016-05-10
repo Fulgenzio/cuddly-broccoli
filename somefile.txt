@@ -1,1 +1,2 @@
-questo è un file
+﻿questo è un file
+questo file puzza
