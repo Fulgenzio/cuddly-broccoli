@@ -1,8 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+ia ia cthulu ftaghn
+=======
 Fire in the Taco-Bell
 =======
 <<<<<<< HEAD
 rajlifaljfoaijwfiawi
+>>>>>>> 40c456fd8fe3e547fe2341dac20f2af18484e52b
 =======
 Fire in the disco!
 
