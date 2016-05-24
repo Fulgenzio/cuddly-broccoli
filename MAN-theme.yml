@@ -1,0 +1,72 @@
+font:
+    catalog:
+        CutiveMono:
+            normal: CutiveMono-Regular.ttf
+        JosefinSans:
+            normal: JosefinSans-Regular.ttf
+            bold: JosefinSans-Bold.ttf
+            italic: JosefinSans-Italic.ttf
+            bold_italic: JosefinSans-BoldItalic.ttf
+page:
+    background_color: #ffffff
+    margin: [0.9in, 0.67in, 1in, 0.9in]
+
+
+title_page:
+    font_color: #660000
+    font_size: 32
+    font_family: JosefinSans
+    font_style: bold
+code:
+    background_color: #e6e6e6
+    font_family: CutiveMono
+base:
+    font_color: #1a1a1a
+    font_size: 14
+    font_family: JosefinSans
+    
+literal:
+    font_color: #2f65b6
+    font_size: 14
+    font_style: normal
+    font_family: CutiveMono
+    
+heading:
+    font_color: #660000
+    font_style: normal
+    h1_font_size: $base_font_size * 2
+    h2_font_size: $base_font_size * 1.8
+    h3_font_size: $base_font_size * 1.6
+    h4_font_size: $base_font_size * 1.4
+    h5_font_size: $base_font_size * 1.2
+    h6_font_size: $base_font_size
+    text_transform: uppercase    
+table:
+    border_color: #e6e6e6
+    font_family: JosefinSans
+    head:
+        font_style: normal
+        font_color: $heading_font_color
+        font_size: $heading_h5_font_size
+    even_row:
+        background_color: $table_border_color
+    header_cell:
+        background_color: $table_border_color
+
+vertical_spacing: 12
+footer:
+  height: 0.75in
+  line_height: 1.6
+  border_width: 1pt
+  border_color: #0d0d0d
+  recto_content:
+    right: |
+      {document-title}: {document-subtitle}  20&#8260;05&#8260;2016 Copyright &#169; Jmatica srl - Tutti i diritti riservati.    {page-number}/{page-count}
+  verso_content:
+    left: |
+      {document-title}: {document-subtitle}  20&#8722;05&#8722;2016 Copyright &#169; Jmatica srl - Tutti i diritti riservati.     {page-number}/{page-count}
+
+header:
+    height: 0.75in
+    border_color: #0d0d0d
+    border_width: 1pt

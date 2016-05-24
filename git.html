@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.4">
+<title>Git: a quickstart guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
+/* Remove comment around @import statement below when using as a custom stylesheet */
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}
+audio,canvas,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+[hidden],template{display:none}
+script{display:none!important}
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+body{margin:0}
+a{background:transparent}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+abbr[title]{border-bottom:1px dotted}
+b,strong{font-weight:bold}
+dfn{font-style:italic}
+hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}
+input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}
+input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+body{-webkit-font-smoothing:antialiased}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.center{margin-left:auto;margin-right:auto}
+.spread{width:100%}
+p.lead,.paragraph.lead>p,#preamble>.sectionbody>.paragraph:first-of-type p{font-size:1.21875em;line-height:1.6}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0;direction:ltr}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:none}
+p{font-family:inherit;font-weight:400;font-size:1em;line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #ddddd8;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em;height:0}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{font-size:1em;line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol,ul.no-bullet,ol.no-bullet{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0;font-size:1em}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ul.no-bullet{list-style:none}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+abbr,acronym{text-transform:uppercase;font-size:90%;color:rgba(0,0,0,.8);border-bottom:1px dotted #ddd;cursor:help}
+abbr{text-transform:none}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote cite{display:block;font-size:.9375em;color:rgba(0,0,0,.6)}
+blockquote cite:before{content:"\2014 \0020"}
+blockquote cite a,blockquote cite a:visited{color:rgba(0,0,0,.6)}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media only screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
+table thead,table tfoot{background:#f7f8f7;font-weight:bold}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt,table tr:nth-of-type(even){background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+body{tab-size:4}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.clearfix:before,.clearfix:after,.float-group:before,.float-group:after{content:" ";display:table}
+.clearfix:after,.float-group:after{clear:both}
+*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+pre,pre>code{line-height:1.45;color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;text-rendering:optimizeSpeed}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menu{color:rgba(0,0,0,.8)}
+b.button:before,b.button:after{position:relative;top:-1px;font-weight:400}
+b.button:before{content:"[";padding:0 3px 0 2px}
+b.button:after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header:before,#header:after,#content:before,#content:after,#footnotes:before,#footnotes:after,#footer:before,#footer:after{content:" ";display:table}
+#header:after,#content:after,#footnotes:after,#footer:after{clear:both}
+#content{margin-top:1.25em}
+#content:before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #ddddd8}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #ddddd8;padding-bottom:8px}
+#header .details{border-bottom:1px solid #ddddd8;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:-ms-flexbox;display:-webkit-flex;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span:before{content:"\00a0\2013\00a0"}
+#header .details br+span.author:before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark:before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber:after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #ddddd8;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #efefed;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media only screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background-color:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #efefed;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #efefed;left:auto;right:0}}
+@media only screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:100%;background-color:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:rgba(255,255,255,.8);line-height:1.44}
+.sect1{padding-bottom:.625em}
+@media only screen and (min-width:768px){.sect1{padding-bottom:1.25em}}
+.sect1+.sect1{border-top:1px solid #efefed}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor:before,h2>a.anchor:before,h3>a.anchor:before,#toctitle>a.anchor:before,.sidebarblock>.content>.title>a.anchor:before,h4>a.anchor:before,h5>a.anchor:before,h6>a.anchor:before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock>caption.title{white-space:nowrap;overflow:visible;max-width:0}
+.paragraph.lead>p,#preamble>.sectionbody>.paragraph:first-of-type p{color:rgba(0,0,0,.85)}
+table.tableblock #preamble>.sectionbody>.paragraph:first-of-type p{font-size:inherit}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #ddddd8;color:rgba(0,0,0,.6)}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border-style:solid;border-width:1px;border-color:#e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;-webkit-border-radius:4px;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock pre:not(.highlight),.listingblock pre[class="highlight"],.listingblock pre[class^="highlight "],.listingblock pre.CodeRay,.listingblock pre.prettyprint{background:#f7f7f8}
+.sidebarblock .literalblock pre,.sidebarblock .listingblock pre:not(.highlight),.sidebarblock .listingblock pre[class="highlight"],.sidebarblock .listingblock pre[class^="highlight "],.sidebarblock .listingblock pre.CodeRay,.sidebarblock .listingblock pre.prettyprint{background:#f2f1f1}
+.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{-webkit-border-radius:4px;border-radius:4px;word-wrap:break-word;padding:1em;font-size:.8125em}
+.literalblock pre.nowrap,.literalblock pre[class].nowrap,.listingblock pre.nowrap,.listingblock pre[class].nowrap{overflow-x:auto;white-space:pre;word-wrap:normal}
+@media only screen and (min-width:768px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:.90625em}}
+@media only screen and (min-width:1280px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:1em}}
+.literalblock.output pre{color:#f7f7f8;background-color:rgba(0,0,0,.9)}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;-webkit-border-radius:4px;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]:before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:#999}
+.listingblock:hover code[data-lang]:before{display:block}
+.listingblock.terminal pre .command:before{content:attr(data-prompt);padding-right:.5em;color:#999}
+.listingblock.terminal pre .command:not([data-prompt]):before{content:"$"}
+table.pyhltable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.pyhltable td{vertical-align:top;padding-top:0;padding-bottom:0;line-height:1.45}
+table.pyhltable td.code{padding-left:.75em;padding-right:0}
+pre.pygments .lineno,table.pyhltable td:not(.code){color:#999;padding-left:0;padding-right:.5em;border-right:1px solid #ddddd8}
+pre.pygments .lineno{display:inline-block;margin-right:.25em}
+table.pyhltable .linenodiv{background:none!important;padding-right:0!important}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock blockquote p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote:before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.5em;margin-right:.5ex;text-align:right}
+.quoteblock .quoteblock{margin-left:0;margin-right:0;padding:.5em 0;border-left:3px solid rgba(0,0,0,.6)}
+.quoteblock .quoteblock blockquote{padding:0 0 0 .75em}
+.quoteblock .quoteblock blockquote:before{display:none}
+.verseblock{margin:0 1em 1.25em 1em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract{margin:0 0 1.25em 0;display:block}
+.quoteblock.abstract blockquote,.quoteblock.abstract blockquote p{text-align:left;word-spacing:0}
+.quoteblock.abstract blockquote:before,.quoteblock.abstract blockquote p:first-of-type:before{display:none}
+table.tableblock{max-width:100%;border-collapse:separate}
+table.tableblock td>.paragraph:last-child p>p:last-child,table.tableblock th>p:last-child,table.tableblock td>p:last-child{margin-bottom:0}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all th.tableblock,table.grid-all td.tableblock{border-width:0 1px 1px 0}
+table.grid-all tfoot>tr>th.tableblock,table.grid-all tfoot>tr>td.tableblock{border-width:1px 1px 0 0}
+table.grid-cols th.tableblock,table.grid-cols td.tableblock{border-width:0 1px 0 0}
+table.grid-all *>tr>.tableblock:last-child,table.grid-cols *>tr>.tableblock:last-child{border-right-width:0}
+table.grid-rows th.tableblock,table.grid-rows td.tableblock{border-width:0 0 1px 0}
+table.grid-all tbody>tr:last-child>th.tableblock,table.grid-all tbody>tr:last-child>td.tableblock,table.grid-all thead:last-child>tr>th.tableblock,table.grid-rows tbody>tr:last-child>th.tableblock,table.grid-rows tbody>tr:last-child>td.tableblock,table.grid-rows thead:last-child>tr>th.tableblock{border-bottom-width:0}
+table.grid-rows tfoot>tr>th.tableblock,table.grid-rows tfoot>tr>td.tableblock{border-width:1px 0 0 0}
+table.frame-all{border-width:1px}
+table.frame-sides{border-width:0 1px}
+table.frame-topbot{border-width:1px 0}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{display:table-cell;line-height:1.6;background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+td>div.verse{white-space:pre}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.unstyled,ol.unnumbered,ul.checklist,ul.none{list-style-type:none}
+ul.unstyled,ol.unnumbered,ul.checklist{margin-left:.625em}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1em;font-size:.85em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{width:1em;position:relative;top:1px}
+ul.inline{margin:0 auto .625em auto;margin-left:-1.375em;margin-right:0;padding:0;list-style:none;overflow:hidden}
+ul.inline>li{list-style:none;float:left;margin-left:1.375em;display:block}
+ul.inline>li>*{display:block}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist>table tr>td:first-of-type{padding:0 .75em;line-height:1}
+.colist>table tr>td:last-of-type{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:solid 4px #fff;-webkit-box-shadow:0 0 0 1px #ddd;box-shadow:0 0 0 1px #ddd}
+.imageblock.left,.imageblock[style*="float: left"]{margin:.25em .625em 1.25em 0}
+.imageblock.right,.imageblock[style*="float: right"]{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em 0;border-width:1px 0 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;text-indent:-1.05em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+.gist .file-data>table{border:0;background:#fff;width:100%;margin-bottom:0}
+.gist .file-data>table td.line-data{width:99%}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background-color:#00fafa}
+.black{color:#000}
+.black-background{background-color:#000}
+.blue{color:#0000bf}
+.blue-background{background-color:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background-color:#fa00fa}
+.gray{color:#606060}
+.gray-background{background-color:#7d7d7d}
+.green{color:#006000}
+.green-background{background-color:#007d00}
+.lime{color:#00bf00}
+.lime-background{background-color:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background-color:#7d0000}
+.navy{color:#000060}
+.navy-background{background-color:#00007d}
+.olive{color:#606000}
+.olive-background{background-color:#7d7d00}
+.purple{color:#600060}
+.purple-background{background-color:#7d007d}
+.red{color:#bf0000}
+.red-background{background-color:#fa0000}
+.silver{color:#909090}
+.silver-background{background-color:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background-color:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background-color:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background-color:#fafa00}
+span.icon>.fa{cursor:default}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background-color:rgba(0,0,0,.8);-webkit-border-radius:100px;border-radius:100px;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]:after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background-color:#fffef7;border-color:#e0e0dc;-webkit-box-shadow:0 1px 4px #e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@media print{@page{margin:1.25cm .75cm}
+*{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare):after,a[href^="https:"]:not(.bare):after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]:after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #ddddd8!important;padding-bottom:0!important}
+.sect1{padding-bottom:0!important}
+.sect1+.sect1{border:0!important}
+#header>h1:first-child{margin-top:1.25rem}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em 0}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span:before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]:before{display:block}
+#footer{background:none!important;padding:0 .9375em}
+#footer-text{color:rgba(0,0,0,.6)!important;font-size:.9em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Git: a quickstart guide</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Index</div>
+<ul class="sectlevel1">
+<li><a href="#_what_is_git">1. What is Git</a></li>
+<li><a href="#_installation">2. Installation</a>
+<ul class="sectlevel2">
+<li><a href="#_linux">2.1. Linux</a></li>
+<li><a href="#_windows">2.2. Windows</a></li>
+<li><a href="#_mac">2.3. Mac</a></li>
+</ul>
+</li>
+<li><a href="#_first_steps">3. First steps</a>
+<ul class="sectlevel2">
+<li><a href="#_creating_a_local_repository">3.1. Creating a local repository</a></li>
+<li><a href="#_adding_files_to_the_repository">3.2. Adding files to the repository</a></li>
+<li><a href="#_committing_changes">3.3. Committing changes</a></li>
+<li><a href="#_undoing_changes_to_the_repository">3.4. Undoing changes to the repository</a></li>
+<li><a href="#_the_log">3.5. The Log</a></li>
+</ul>
+</li>
+<li><a href="#_working_with_remote_repositories">4. Working with remote repositories</a>
+<ul class="sectlevel2">
+<li><a href="#_bare_repositories">4.1. Bare repositories</a></li>
+<li><a href="#_adding_a_remote_repository">4.2. Adding a remote repository</a></li>
+<li><a href="#_committing_changes_to_a_remote_repository">4.3. Committing changes to a remote repository</a></li>
+<li><a href="#_getting_data_from_a_remote_repository">4.4. Getting data from a remote repository</a></li>
+</ul>
+</li>
+<li><a href="#_branching">5. Branching</a>
+<ul class="sectlevel2">
+<li><a href="#_what_is_a_branch">5.1. What is a branch</a></li>
+<li><a href="#_making_a_branch">5.2. Making a branch</a></li>
+<li><a href="#_merging_branches">5.3. Merging branches</a></li>
+<li><a href="#_rebaisng">5.4. Rebaisng</a></li>
+<li><a href="#_conflict_resolution">5.5. Conflict resolution</a></li>
+<li><a href="#_deleting_branches">5.6. Deleting branches</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_what_is_git">1. What is Git</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Git is a <em>Distributed Version Control System</em>, which allows the user to track changes through different version of a project, displaying the authors of such changes, and allowing the user to access older versions of the project. Being a DVCS, Git keeps a copy of the whole repository locally, meaning that every user has the whole repository, instead of a standard VCS, where the user checks out the working repository but the whole repository is still on the server, meaning that should the server go down, the repository won&#8217;t be accessible, which might cause data loss.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_installation">2. Installation</h2>
+<div class="sectionbody">
+<div id="AnImage" class="imageblock">
+<div class="content">
+<img src="img/img.jpg" alt="stuff" width="300" height="200">
+</div>
+<div class="title">Figure 1. An image</div>
+</div>
+<div class="sect2">
+<h3 id="_linux">2.1. Linux</h3>
+<div class="paragraph">
+<p>Installing Git on Linux is fairly simple, on most operative systems, via the package management tool that comes with most OS:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">sudo yum install git-all</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or, with a Debian based operative system, use</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">sudo apt-get install git-all</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For other Linux distributions, check <a href="https://git-scm.com/download/linux">here</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_windows">2.2. Windows</h3>
+<div class="paragraph">
+<p>Installing Git on Windows is as simple as downloading and running the executable file, available <a href="https://git-scm.com/download/win">here</a>. Alternatively it is possible to install Git by installing Github for Windows, which is available for download <a href="https://desktop.github.com/">here</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mac">2.3. Mac</h3>
+<div class="paragraph">
+<p>To install Git on Mac, download and run the binaries available for download <a href="https://git-scm.com/download/mac">here</a>. It is also possible to install Git by installing Github for Mac, downloadable <a href="https://desktop.github.com/">here</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_first_steps">3. First steps</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_creating_a_local_repository">3.1. Creating a local repository</h3>
+<div class="paragraph">
+<p>Once you have installed Git, you need to move to the directory where the <a href="#AnImage">pippo</a> repository will be located, and, run the following command via Bash or, on Windows, either the Git Bash or the Windows Command Prompt:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>git init</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This initializes a git repository in the directory you&#8217;re at, creating a .git hidden folder which you don&#8217;t need to access in order to use git, but contains the pointers to the current file, the configuration for the repository and so on. Once initialized a repository, you need to configure it, via the <code>git config</code> command, which accepts several fields for its arguement, and their relative setting. For a basic configuration however, you just need to set up your identity, composed of name and email address.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git config user.name "name here"
+
+git config user.email email@address.com</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>These 2 commands set your username and email address, which are used to identify authors of changes in a project; Git and Github record changes by email address. These commands though set your credentials only for the current repository; to set them globally on all repositories you might work on, you need to pass the <code>--global</code> option:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git config --global user.name "name here"
+
+git config --global user.email email@address.com</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It is also possible to set up a text editor for Git to use when it needs the user to enter text, as in commit comments and the like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git config --global core.editor emacs</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>On Windows, you need to specify the directory where the text editor is located. If not specified, Git will use your system&#8217;s default text editor.</p>
+</div>
+<div class="paragraph">
+<p>Once the basic configuration is done, you can check your settings with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git config user.name</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command displays the value to that key. Alternatively it is possible to output the various settings, showing a list of all the available options.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git config --list</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When done with the configuration it is time to start working with the repository.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_adding_files_to_the_repository">3.2. Adding files to the repository</h3>
+<div class="paragraph">
+<p>The way Git works is fairly simple: all files present in the repo directory are considered <em>untracked</em>, which means that the files present are not part of the repo, although they are in the repo directory. Git assigns different states for files, indicating whether a file is part of the repo or not, has been modified or will be added. To check the state of the file use the command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git status
+
+On branch master
+
+Initial commit
+
+Untracked files:
+(use "git add &lt;file&gt;..." to include in what will be committed)
+README.md
+nothing added to commit but untracked files present (use "git add" to track)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example, <code>git status</code> tells us that the <code>README</code> file is not tracked, so it will not be added to the repo in case of a commit. In order to tell Git to track the file and the various changes, we will need to add the <code>git add</code> command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git add README.md</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now if we run the status command again, we&#8217;ll see that the file has been added to the staging area, which means that the file will be added on the next commit.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git status
+
+On branch master
+
+Initial commit
+
+Changes to be committed:
+(use "git rm --cached &lt;file&gt;..." to unstage)
+
+new file:   README.md</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Suppose we have another file though, which is already part of the repository, let&#8217;s call it <code>stuff.txt</code>. If we modify that file and run the status command, we&#8217;ll see something like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git status
+
+On branch master
+
+Initial commit
+
+Changes to be committed:
+(use "git rm --cached &lt;file&gt;..." to unstage)
+
+new file:   README.md
+
+Changes not staged for commit:
+(use "git add &lt;file&gt;..." to update what will be committed)
+
+Recording Changes to the Repository
+
+(use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+modified:   stuff.txt</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This means that should we commit the changes to the repo, the modified <code>stuff.txt</code> will not be added, so we need to run an add command on that file too ion order to stage it. But before we stage it, we might want to check what we&#8217;ve actually changed about the file. To do so we&#8217;ll use the <code>git diff</code> command.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">$ git diff
+diff --git a/stuff.txt b/stuff.txt
+index dc1b047..a422a68 100644
+--- a/stuff.txt
++++ b/stuff.txt
+@@ -1,2 +1,3 @@
+ this is a file
+ there are many files like this
++but this is my file
+-i like my file
+warning: LF will be replaced by CRLF in stuff.txt.
+The file will have its original line endings in your working directory.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This tells us what has changed in the file: the + tells us that something has been added to the file, and the - tells us that something has been removed. Note that the <code>README.md</code> file is not listed in the <code>diff</code> output because the file has been staged and is ready to be committed.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git status
+
+On branch master
+
+Initial commit
+
+Changes to be committed:
+(use "git rm --cached &lt;file&gt;..." to unstage)
+
+new file:   README.md
+modified:   stuff.txt</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_committing_changes">3.3. Committing changes</h3>
+<div class="paragraph">
+<p>A commit means that everything that was staged will be added to the repository, and a new snapshot will be taken. To commit changes simply type:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git commit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Doing so however isn&#8217;t quite enough. If you run that command git will open the text editor and ask that you input a message. All commits must have a comment, generally describing what it does. Common practice on the Git community is to add comments in the simple present, for example: "Update changelog". Once the message has been entered, exit the editor and git will work its magic and commit the changes, outputting something like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">[master cb8f0cf] update changelog
+ 1 file changed, 1979 insertions(+)
+ create mode 100644 README.md
+ create mode 100644 stuff.txt</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Git will open the default text editor, usually vi or emacs. You can change that using the core.editor option with the config command.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Suppose we didn&#8217;t commit though, because we wanted to do everything in one go, so the files are still staged and ready to be committed. In order to commit and enter a comment at the same time, you need to run the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git commit -m 'update changelog'
+
+$ git commit -m 'update changelog'
+[master cb8f0cf] update changelog
+ 1 file changed, 1979 insertions(+)
+ create mode 100644 README.md
+ create mode 100644 stuff.txt</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_undoing_changes_to_the_repository">3.4. Undoing changes to the repository</h3>
+<div class="paragraph">
+<p>Now, we&#8217;ve added our files to the repo, but later on, we realize that we&#8217;ve made a mistake, and need to undo something. In this case Git offers some ways to undo things, although it is possible to lose data undoing something by mistake.</p>
+</div>
+<div class="paragraph">
+<p>First off we&#8217;ll see the <code>--amend</code>, which allows us to add a file we might have forgotten to stage before our last commit:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git commit -m 'another commit'
+git add forgotten-file.xml
+git commit --amend</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will add the <code>forgotten-file.xml</code> to the last commit we made, though it will open up the text editor and allow us to change the commit message. What if we staged some files by mistake though? If we run the <code>git status</code> command, git will tell us what to do:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+        modified:   README.md</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In order to unstage a staged file, we need to run the <code>git reset HEAD &lt;file&gt;</code> command, we&#8217;ll see something like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">$ git reset HEAD README.md
+Unstaged changes after reset:
+M       README.md</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This removes the file from the staging area, and a run of the <code>git status</code> command will tell us that the file is unstaged. Suppose we modified a file and committed the changes and later on we want to revert to a previous version of the file: Git gives us a way to do so with the <code>git checkout</code> command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git checkout -- file</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This replaces the current file with the last version of the file itself. Be careful though, since the command overwrites the file, the content of the file is lost.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_log">3.5. The Log</h3>
+<div class="paragraph">
+<p>The log, displayed with <code>git log</code> is a powerful tool that shows us the commit history of our repository.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git log
+
+commit aedb3b0a02afb5105ba9b2a962fdc93923429412
+Author: Alex Zuan &lt;studioquattrodue@gmail.com&gt;
+Date:   Tue May 17 12:05:01 2016 +0200
+
+    file</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By default, the log passed without options shows the commit&#8217;s SHA-1 checksum, the commit author, the commit date and the commit message. The log sorts every commit in reverse chronological order, meaning that most recent snapshots of the repo are at the top of the list.</p>
+</div>
+<div class="paragraph">
+<p>One of the most useful options is <code>-p</code> which shows the differences introduced with each commit. We can limit the output to a set number of commits, by passing a second option, <code>-x</code> where x is the number of commits to display.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git log -p -2
+
+commit f057005cccd83ad4dd363fb9674fc225a272bf22
+Author: Alex Zuan &lt;studioquattrodue@gmail.com&gt;
+Date:   Tue May 17 12:05:48 2016 +0200
+
+    file.txt-master
+
+diff --git a/file.txt b/file.txt
+index 93d88e9..c063fce 100644
+--- a/file.txt
++++ b/file.txt
+@@ -1 +1,2 @@
+ some other file is there
++because i forgot to add it
+
+commit aedb3b0a02afb5105ba9b2a962fdc93923429412
+Author: Alex Zuan &lt;studioquattrodue@gmail.com&gt;
+Date:   Tue May 17 12:05:01 2016 +0200
+
+    file
+
+diff --git a/file.txt b/file.txt
+index 93d88e9..da4a5ef 100644
+--- a/file.txt
++++ b/file.txt
+@@ -1 +1,3 @@
+ some other file is there
++
++meaning that another file is present there.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This shows that some lines were added to <code>file.txt</code>, shown by prepending them with a <code>+</code>. The <code>--pretty</code> option changes the output fromat of the log, with 3 possible settings:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>--pretty=oneline</code></p>
+</li>
+<li>
+<p><code>--pretty=short</code></p>
+</li>
+<li>
+<p><code>--pretty=full</code></p>
+</li>
+<li>
+<p><code>--pretty=fuller</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>oneline</code> displays the information in a single line, while <code>short</code>, <code>full</code> and <code>fuller</code> display an increasing amount of information about the commit, such as author, committer and dates. Another option for the <code>--pretty</code> arguement is <code>format</code> which lets the user choose what to display:</p>
+</div>
+<div class="paragraph">
+<p><sup>.</sup>|Option	<sup>.</sup>|Displays
+<sup>.</sup>|%H		<sup>.</sup>|Commit hash
+<sup>.</sup>|%h		<sup>.</sup>|Abbreviated commit hash
+<sup>.</sup>|%T		<sup>.</sup>|Tree hash
+<sup>.</sup>|%t		<sup>.</sup>|Abbreviated tree hash
+<sup>.</sup>|%P		<sup>.</sup>|Parent hashes
+<sup>.</sup>|%p		<sup>.</sup>|Abbreviated parent hashes
+<sup>.</sup>|%an		<sup>.</sup>|Author name
+<sup>.</sup>|%ae		<sup>.</sup>|Author email
+<sup>.</sup>|%ad		<sup>.</sup>|Author date (format respects the --date=option)
+<sup>.</sup>|%ar		<sup>.</sup>|Author date, relative
+<sup>.</sup>|%cn		<sup>.</sup>|Committer name
+<sup>.</sup>|%ce		<sup>.</sup>|Committer email
+<sup>.</sup>|%cd		<sup>.</sup>|Committer date
+<sup>.</sup>|%cr		<sup>.</sup>|Committer date, relative
+<sup>.</sup>|%s		<sup>.</sup>|Subject</p>
+</div>
+<div class="paragraph">
+<p>The log also can output, with the <code>--graph</code> option, an ascii graph that shows the branching of thhe current repository along with the commit history:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git log --pretty=short --graph
+
+*   commit 28cafabd833494f26413042cbb75272e40373f10
+|\  Merge: f057005 aedb3b0
+| | Author: Alex Zuan &lt;studioquattrodue@gmail.com&gt;
+| |
+| |     merge test into master
+| |
+| * commit aedb3b0a02afb5105ba9b2a962fdc93923429412
+| | Author: Alex Zuan &lt;studioquattrodue@gmail.com&gt;
+| |
+| |     file
+| |
+* | commit f057005cccd83ad4dd363fb9674fc225a272bf22
+|/  Author: Alex Zuan &lt;studioquattrodue@gmail.com&gt;
+|
+|       file.txt-master</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>One of the most useful things about the log though is the possibility to limit the output in several ways, for example to show the commit history of a single author, or the commits done in a certain period. To do that we have the following options:</p>
+</div>
+<div class="paragraph">
+<p><sup>.</sup>|Option				<sup>.</sup>|Example								<sup>.</sup>|Function
+<sup>.</sup>|-(n)				<sup>.</sup>|git log -n							<sup>.</sup>|Show only the last n commits
+<sup>.</sup>|--since, --after	<sup>.</sup>|git log	--since 2016-01-31			<sup>.</sup>|Limit the commits to those made after the specified date.
+<sup>.</sup>|--until, --before	<sup>.</sup>|git log	--until 2015-12-31			<sup>.</sup>|Limit the commits to those made before the specified date.
+<sup>.</sup>|--author			<sup>.</sup>|git log	--author=name				<sup>.</sup>|Only show commits in which the author entry matches the specified string.
+<sup>.</sup>|--committer			<sup>.</sup>|git log	--committer=name			<sup>.</sup>|Only show commits in which the committer entry matches the specified string.
+<sup>.</sup>|--grep				<sup>.</sup>|git log	--grep=abc					<sup>.</sup>|Only show commits with a commit message containing the string.
+<sup>.</sup>|-S					<sup>.</sup>|git log	-Smethod					<sup>.</sup>|Only show commits adding or removing code matching the string. (useful to find commits that worked with specific code parts)</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The date specified in <code>since</code>, <code>after</code>, <code>before</code> and <code>until</code> can be full dates, or relative dates, as in <code>--since=12.hours</code> or <code>5.days</code> and so on.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_working_with_remote_repositories">4. Working with remote repositories</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A remote repository is, as the name suggests, a repo that is hosted one a different machine or directory, which we can use to store data.</p>
+</div>
+<div class="sect2">
+<h3 id="_bare_repositories">4.1. Bare repositories</h3>
+<div class="paragraph">
+<p>At the creation of our remote, we have 2 choices: we can add a remote with a working directory, which means that the files will be stored in the remote and we can edit them from there, or we can create a <code>bare</code> repo, which won&#8217;t have a working directory, meaning that we won&#8217;t be able to access the files from there. Generally bare repositories are used to host the data on a server, while regular repos are used locally for edits. Creating a bare repository means initializing a repo with the <code>bare</code> option, as shown in the example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git init --bare</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Another way to create a bare repo is to clone the content of a repository into a directory, again, with the <code>bare</code> option.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git clone --bare &lt;url&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Another important difference between a regular repository and a bare one is that we cannot push to a regular repository&#8217;s branch if that branch is currently checked out. In this section, we&#8217;ll work with a bare remote.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_adding_a_remote_repository">4.2. Adding a remote repository</h3>
+<div class="paragraph">
+<p>To add a remote repository we simply need to type <code>git remote add</code> and some arguements, as shown in the example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git remote add &lt;name&gt; &lt;URL&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will allow us to get from and send data to the remote given that we have access to the specified URL, and simplify the command by using the remote name insead of the full url when we need to work with it.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_committing_changes_to_a_remote_repository">4.3. Committing changes to a remote repository</h3>
+<div class="paragraph">
+<p>Now that we&#8217;ve added our remote we might want to check what&#8217;s in there, as both need to be up to date, and we won&#8217;t be able to push data to the remote if the remote has been modified. In order to do so we&#8217;ll use the <code>remote show</code> command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git remote show &lt;name&gt;
+* remote &lt;name&gt;
+Fetch URL: &lt;url&gt;
+Push  URL: &lt;url&gt;
+HEAD branch: (unknown)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This tells us that the remote we&#8217;re using is empty, as it has no <code>HEAD</code> branch. We can now add data to our remote, via the <code>push</code> command.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git push &lt;remote&gt; &lt;branch&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The command needs the remote name, and the branch we&#8217;re trying to push to, so if we wanted to push to a remote named <code>test</code>, on its <code>master</code> branch, we&#8217;d type this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">$ git push test master
+Counting objects: 101, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (76/76), done.
+Writing objects: 100% (101/101), 272.04 KiB | 0 bytes/s, done.
+Total 101 (delta 39), reused 21 (delta 8)
+To C:/prova.git
+ * [new branch]      master -&gt; master</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This tells us that a new brach named <code>master</code> was created on our remote, and that a snapshot of our local repo&#8217;s current branch (master) was taken. Pushing is the way to commit changes to a remote, meaning that if we have a working directory on our remote, every file we push will overwrite the same file present on our remote.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_getting_data_from_a_remote_repository">4.4. Getting data from a remote repository</h3>
+<div class="paragraph">
+<p>Unless we initialize a repository and then add a remote, we might add a remote that already contains data we need to work on, so we need to get the files from that remote to our own local repo. There are three ways to do that in git: clone, fetch and pull. First we&#8217;ll go over the <code>clone</code> command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git clone &lt;url&gt; [folder]
+Cloning into 'folder'...
+done.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With the <code>clone</code> command Git takes everything present in the repository at the specified url and copies it into a folder of which we might specify the name. If we do not specify the name of the folder that will contain the cloned repository, Git will create a folder with the same name of the folder containing the repository we are cloning. Using <code>clone</code> basically tells Git to perform a <code>git init</code> on the new folder and then it will perform a <code>fetch</code> to get the data.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+the <code>clone</code> command does not work with remote shortnames, you need to specify the url of the repository.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <code>git fetch</code> command downloads all data that was pushed or added to the remote since the last fetch or clone, without merging it with existing files or modifying your work.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git fetch &lt;remote name&gt;
+remote: Counting objects: 3, done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 1), reused 0 (delta 0)
+Unpacking objects: 100% (3/3), done.
+From &lt;remote URL&gt;
+   a7d7f94..4914003  &lt;local branch&gt;     -&gt; &lt;remote name&gt;/&gt;&lt;remote brach&gt;
+   * [new branch] 	 &lt;local branch&gt;		-&gt; &lt;remote name&gt;/&lt;remote branch&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Finally, another way to get data from a remote is with the <code>git pull</code> command, which performs a <code>fetch</code> from the remote, but also merges the fetched files into the ones present in the working directory.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git pull &lt;remote name&gt;
+From &lt;remote URL&gt;
+ * branch            &lt;local branch&gt;       -&gt; FETCH_HEAD
+Updating a7d7f94..4914003
+Fast-forward
+ test.md | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 test.md</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>git pull</code> command requires that you also specify a branch from which to download data, and it will merge the downloaded files with the ones on the branch that is currently checked out.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_branching">5. Branching</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We&#8217;ve mentioned branches several times over in the previous sections, and here we&#8217;ll cover what a branch is and its functionalities.</p>
+</div>
+<div class="sect2">
+<h3 id="_what_is_a_branch">5.1. What is a branch</h3>
+<div class="paragraph">
+<p>A branch is a section of a repo independent from the others. Each branch of a repository will have different working directories, and files which can be edited independently. Branches are commonly used to develop and test new features, separately, before integrating them with the main branch.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_making_a_branch">5.2. Making a branch</h3>
+<div class="paragraph">
+<p>The <code>git branch</code> command allows us to see the branches that are present in our repository as well as creating a new branch. By default every Git repository has a main branch called <code>master</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git branch test</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command creates a new branch for us to work on. The new branch will start with the same content as the branch it was split from, but now the <code>test</code> branch and the <code>master</code> branch are independent of each other, meaning that a commit on the test branch will not affect content of the master branch. If we now want to work on the new branch though, we need to use the <code>checkout</code> command, as we still are working on the master branch.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git checkout test
+Switched to branch 'test'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If a branch is present on a remote, Git will also tell you the current state of the branch relative to the remote branch; your local branch can be:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>up to date:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>both local and remote branches have the same versions of files</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>out of date:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>your local branch is not up to date with the remote</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>ahead by x commits</p>
+<div class="ulist">
+<ul>
+<li>
+<p>x commits done locally have not been pushed to the remote branch</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Now that we&#8217;ve checked out the test branch, we can perform some changes there, and commit them. We can also push the new branch on the remote, by typing</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git push &lt;remote&gt; test</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will create a new branch on the remote, with the same commit history of our branch.</p>
+</div>
+<div class="paragraph">
+<p>Another way to create a new branch uses the  <code>-b</code> option of the checkout command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git checkout -b test2
+Switched to branch 'test2'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>-b</code> option of the checkout command creates and checks out a new branch, named <code>test2</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_merging_branches">5.3. Merging branches</h3>
+<div class="paragraph">
+<p>Once we&#8217;re done working on our separate branch, we may want to include those changes onto the main branch, and this is done by merging branches together. Merging performs a three way merge between your current branch, the branch you want to merge with and their most recent common commit. In order to merge test back into master then we need to switch to master fist, and then merge the two branches.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git checkout master
+Switched to branch 'master'
+
+git merge test</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>At this point Git will open up the text editor and as you to insert a commit message for the merging. Once done, the merge will be done, and the content of the <code>test</code> branch will be copied over to the <code>master</code> branch.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rebaisng">5.4. Rebaisng</h3>
+<div class="paragraph">
+<p>Rebasing is another way of merging, but works in a different way. Insead of performing a three way merge, rebasing commits all the changes on a branch ontop of another one. The branch order here is inverted: when we run the <code>git rebase</code> command, it will rebase our current branch ontop of the target, while with the <code>git merge</code>, the target is merged into our current branch.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git checkout test2
+Switched to branch 'test2'
+
+git rebase master
+First, rewinding head to replay your work on top of it...
+Applying: added staged command</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>What we get from that is that our test branch has now been moved to our master branch, and our master branch is one commit behind. In order to fix that, we can perform a fast-forward merge:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git checkout master
+Switched to branch 'master'
+
+git merge test</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Rebasing is a way of merging branches that leaves with a cleaner commit history. It also works in a way more similar to commits rather than merge, which makes it a powerful but also dangerous tool, especially when working in a distributed enviornment.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_conflict_resolution">5.5. Conflict resolution</h3>
+<div class="paragraph">
+<p>Most of the times Git will solve conflicts between files by cpying the newest file over the oldest, this however happens only if one of the files hasn&#8217;t been modified. For example if we branch out of our master branch, edit a file on a test branch and then merge back in.</p>
+</div>
+<div class="paragraph">
+<p>If when we&#8217;ve branched out from master we did some work on a file, and then made a commit, and did the same on our secondary branch, Git will put the merging on hold until we&#8217;ve resolved all the conflicts. The changes of both branches will be inserted on the conflicting file in our current branch, and we&#8217;ll have to manually fix that. Git tells us where the conflict is in the file by placing markers showing the conflicting content of the current branch frist, then the content to be merged.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD:file.txt
+Is this the real life?
+
+Is this just fantasy?
+=======
+Is this real life? Is this just fantasy?
+Caught in a landslide
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; test:file.txt</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once we&#8217;ve fixed our file and resolved the conflict, we need to stage and commit the conflicting file to finalize the merging.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deleting_branches">5.6. Deleting branches</h3>
+<div class="paragraph">
+<p>Now that we&#8217;re done working on our branches we can delete them. Merging and rebasing a branch doesn&#8217;t remove it: a merged branch can still be worked on. To delete it we need to use the <code>-d</code> option of the <code>branch</code> command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git branch -d test
+Deleted branch test (was aedb3b0).</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once we&#8217;re done with a remote branch, we can remove it from the remote with the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">git push &lt;remote&gt; --delete &lt;branch&gt;
+To &lt;remote URL&gt;
+ - [deleted]         &lt;branch&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2016-05-20 09:59:28 W. Europe Summer Time
+<br>
+Copyright Acme, Inc.
+</div>
+</div>
+</body>
+</html>

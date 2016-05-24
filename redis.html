@@ -1,0 +1,4130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.4">
+<meta name="author" content="Alex Zuan">
+<title>Redis: No-SQL database e caching</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
+/* Remove comment around @import statement below when using as a custom stylesheet */
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}
+audio,canvas,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+[hidden],template{display:none}
+script{display:none!important}
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+body{margin:0}
+a{background:transparent}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+abbr[title]{border-bottom:1px dotted}
+b,strong{font-weight:bold}
+dfn{font-style:italic}
+hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}
+input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}
+input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+body{-webkit-font-smoothing:antialiased}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.center{margin-left:auto;margin-right:auto}
+.spread{width:100%}
+p.lead,.paragraph.lead>p,#preamble>.sectionbody>.paragraph:first-of-type p{font-size:1.21875em;line-height:1.6}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0;direction:ltr}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:none}
+p{font-family:inherit;font-weight:400;font-size:1em;line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #ddddd8;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em;height:0}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{font-size:1em;line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol,ul.no-bullet,ol.no-bullet{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0;font-size:1em}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ul.no-bullet{list-style:none}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+abbr,acronym{text-transform:uppercase;font-size:90%;color:rgba(0,0,0,.8);border-bottom:1px dotted #ddd;cursor:help}
+abbr{text-transform:none}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote cite{display:block;font-size:.9375em;color:rgba(0,0,0,.6)}
+blockquote cite:before{content:"\2014 \0020"}
+blockquote cite a,blockquote cite a:visited{color:rgba(0,0,0,.6)}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media only screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
+table thead,table tfoot{background:#f7f8f7;font-weight:bold}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt,table tr:nth-of-type(even){background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+body{tab-size:4}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.clearfix:before,.clearfix:after,.float-group:before,.float-group:after{content:" ";display:table}
+.clearfix:after,.float-group:after{clear:both}
+*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+pre,pre>code{line-height:1.45;color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;text-rendering:optimizeSpeed}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menu{color:rgba(0,0,0,.8)}
+b.button:before,b.button:after{position:relative;top:-1px;font-weight:400}
+b.button:before{content:"[";padding:0 3px 0 2px}
+b.button:after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header:before,#header:after,#content:before,#content:after,#footnotes:before,#footnotes:after,#footer:before,#footer:after{content:" ";display:table}
+#header:after,#content:after,#footnotes:after,#footer:after{clear:both}
+#content{margin-top:1.25em}
+#content:before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #ddddd8}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #ddddd8;padding-bottom:8px}
+#header .details{border-bottom:1px solid #ddddd8;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:-ms-flexbox;display:-webkit-flex;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span:before{content:"\00a0\2013\00a0"}
+#header .details br+span.author:before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark:before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber:after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #ddddd8;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #efefed;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media only screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background-color:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #efefed;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #efefed;left:auto;right:0}}
+@media only screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:100%;background-color:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:rgba(255,255,255,.8);line-height:1.44}
+.sect1{padding-bottom:.625em}
+@media only screen and (min-width:768px){.sect1{padding-bottom:1.25em}}
+.sect1+.sect1{border-top:1px solid #efefed}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor:before,h2>a.anchor:before,h3>a.anchor:before,#toctitle>a.anchor:before,.sidebarblock>.content>.title>a.anchor:before,h4>a.anchor:before,h5>a.anchor:before,h6>a.anchor:before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock>caption.title{white-space:nowrap;overflow:visible;max-width:0}
+.paragraph.lead>p,#preamble>.sectionbody>.paragraph:first-of-type p{color:rgba(0,0,0,.85)}
+table.tableblock #preamble>.sectionbody>.paragraph:first-of-type p{font-size:inherit}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #ddddd8;color:rgba(0,0,0,.6)}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border-style:solid;border-width:1px;border-color:#e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;-webkit-border-radius:4px;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock pre:not(.highlight),.listingblock pre[class="highlight"],.listingblock pre[class^="highlight "],.listingblock pre.CodeRay,.listingblock pre.prettyprint{background:#f7f7f8}
+.sidebarblock .literalblock pre,.sidebarblock .listingblock pre:not(.highlight),.sidebarblock .listingblock pre[class="highlight"],.sidebarblock .listingblock pre[class^="highlight "],.sidebarblock .listingblock pre.CodeRay,.sidebarblock .listingblock pre.prettyprint{background:#f2f1f1}
+.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{-webkit-border-radius:4px;border-radius:4px;word-wrap:break-word;padding:1em;font-size:.8125em}
+.literalblock pre.nowrap,.literalblock pre[class].nowrap,.listingblock pre.nowrap,.listingblock pre[class].nowrap{overflow-x:auto;white-space:pre;word-wrap:normal}
+@media only screen and (min-width:768px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:.90625em}}
+@media only screen and (min-width:1280px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:1em}}
+.literalblock.output pre{color:#f7f7f8;background-color:rgba(0,0,0,.9)}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;-webkit-border-radius:4px;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]:before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:#999}
+.listingblock:hover code[data-lang]:before{display:block}
+.listingblock.terminal pre .command:before{content:attr(data-prompt);padding-right:.5em;color:#999}
+.listingblock.terminal pre .command:not([data-prompt]):before{content:"$"}
+table.pyhltable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.pyhltable td{vertical-align:top;padding-top:0;padding-bottom:0;line-height:1.45}
+table.pyhltable td.code{padding-left:.75em;padding-right:0}
+pre.pygments .lineno,table.pyhltable td:not(.code){color:#999;padding-left:0;padding-right:.5em;border-right:1px solid #ddddd8}
+pre.pygments .lineno{display:inline-block;margin-right:.25em}
+table.pyhltable .linenodiv{background:none!important;padding-right:0!important}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock blockquote p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote:before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.5em;margin-right:.5ex;text-align:right}
+.quoteblock .quoteblock{margin-left:0;margin-right:0;padding:.5em 0;border-left:3px solid rgba(0,0,0,.6)}
+.quoteblock .quoteblock blockquote{padding:0 0 0 .75em}
+.quoteblock .quoteblock blockquote:before{display:none}
+.verseblock{margin:0 1em 1.25em 1em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract{margin:0 0 1.25em 0;display:block}
+.quoteblock.abstract blockquote,.quoteblock.abstract blockquote p{text-align:left;word-spacing:0}
+.quoteblock.abstract blockquote:before,.quoteblock.abstract blockquote p:first-of-type:before{display:none}
+table.tableblock{max-width:100%;border-collapse:separate}
+table.tableblock td>.paragraph:last-child p>p:last-child,table.tableblock th>p:last-child,table.tableblock td>p:last-child{margin-bottom:0}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all th.tableblock,table.grid-all td.tableblock{border-width:0 1px 1px 0}
+table.grid-all tfoot>tr>th.tableblock,table.grid-all tfoot>tr>td.tableblock{border-width:1px 1px 0 0}
+table.grid-cols th.tableblock,table.grid-cols td.tableblock{border-width:0 1px 0 0}
+table.grid-all *>tr>.tableblock:last-child,table.grid-cols *>tr>.tableblock:last-child{border-right-width:0}
+table.grid-rows th.tableblock,table.grid-rows td.tableblock{border-width:0 0 1px 0}
+table.grid-all tbody>tr:last-child>th.tableblock,table.grid-all tbody>tr:last-child>td.tableblock,table.grid-all thead:last-child>tr>th.tableblock,table.grid-rows tbody>tr:last-child>th.tableblock,table.grid-rows tbody>tr:last-child>td.tableblock,table.grid-rows thead:last-child>tr>th.tableblock{border-bottom-width:0}
+table.grid-rows tfoot>tr>th.tableblock,table.grid-rows tfoot>tr>td.tableblock{border-width:1px 0 0 0}
+table.frame-all{border-width:1px}
+table.frame-sides{border-width:0 1px}
+table.frame-topbot{border-width:1px 0}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{display:table-cell;line-height:1.6;background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+td>div.verse{white-space:pre}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.unstyled,ol.unnumbered,ul.checklist,ul.none{list-style-type:none}
+ul.unstyled,ol.unnumbered,ul.checklist{margin-left:.625em}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1em;font-size:.85em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{width:1em;position:relative;top:1px}
+ul.inline{margin:0 auto .625em auto;margin-left:-1.375em;margin-right:0;padding:0;list-style:none;overflow:hidden}
+ul.inline>li{list-style:none;float:left;margin-left:1.375em;display:block}
+ul.inline>li>*{display:block}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist>table tr>td:first-of-type{padding:0 .75em;line-height:1}
+.colist>table tr>td:last-of-type{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:solid 4px #fff;-webkit-box-shadow:0 0 0 1px #ddd;box-shadow:0 0 0 1px #ddd}
+.imageblock.left,.imageblock[style*="float: left"]{margin:.25em .625em 1.25em 0}
+.imageblock.right,.imageblock[style*="float: right"]{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em 0;border-width:1px 0 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;text-indent:-1.05em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+.gist .file-data>table{border:0;background:#fff;width:100%;margin-bottom:0}
+.gist .file-data>table td.line-data{width:99%}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background-color:#00fafa}
+.black{color:#000}
+.black-background{background-color:#000}
+.blue{color:#0000bf}
+.blue-background{background-color:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background-color:#fa00fa}
+.gray{color:#606060}
+.gray-background{background-color:#7d7d7d}
+.green{color:#006000}
+.green-background{background-color:#007d00}
+.lime{color:#00bf00}
+.lime-background{background-color:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background-color:#7d0000}
+.navy{color:#000060}
+.navy-background{background-color:#00007d}
+.olive{color:#606000}
+.olive-background{background-color:#7d7d00}
+.purple{color:#600060}
+.purple-background{background-color:#7d007d}
+.red{color:#bf0000}
+.red-background{background-color:#fa0000}
+.silver{color:#909090}
+.silver-background{background-color:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background-color:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background-color:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background-color:#fafa00}
+span.icon>.fa{cursor:default}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note:before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip:before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning:before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution:before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important:before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background-color:rgba(0,0,0,.8);-webkit-border-radius:100px;border-radius:100px;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]:after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background-color:#fffef7;border-color:#e0e0dc;-webkit-box-shadow:0 1px 4px #e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@media print{@page{margin:1.25cm .75cm}
+*{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare):after,a[href^="https:"]:not(.bare):after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]:after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #ddddd8!important;padding-bottom:0!important}
+.sect1{padding-bottom:0!important}
+.sect1+.sect1{border:0!important}
+#header>h1:first-child{margin-top:1.25rem}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em 0}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span:before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]:before{display:block}
+#footer{background:none!important;padding:0 .9375em}
+#footer-text{color:rgba(0,0,0,.6)!important;font-size:.9em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Redis: No-SQL database e caching</h1>
+<div class="details">
+<span id="author" class="author">Alex Zuan</span><br>
+<span id="email" class="email"><a href="mailto:studioquattrodue@gmail.com">studioquattrodue@gmail.com</a></span><br>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Indice</div>
+<ul class="sectlevel1">
+<li><a href="#_introduzione">Introduzione</a></li>
+<li><a href="#_installazione">Installazione</a>
+<ul class="sectlevel2">
+<li><a href="#_linux_e_os_x">Linux e OS X</a></li>
+<li><a href="#_windows">Windows</a></li>
+</ul>
+</li>
+<li><a href="#_strutture_dati">Strutture dati</a>
+<ul class="sectlevel2">
+<li><a href="#_chiave">Chiave</a></li>
+<li><a href="#_stringhe">Stringhe</a></li>
+<li><a href="#_liste">Liste</a></li>
+<li><a href="#_hash">Hash</a></li>
+<li><a href="#_set">Set</a></li>
+<li><a href="#_set_ordinati">Set Ordinati</a></li>
+<li><a href="#_bitmap">Bitmap</a></li>
+<li><a href="#_hyperloglog">Hyperloglog</a></li>
+</ul>
+</li>
+<li><a href="#_persistenza_sul_disco">Persistenza sul Disco</a></li>
+<li><a href="#_cluster">Cluster</a></li>
+<li><a href="#_api">API</a>
+<ul class="sectlevel2">
+<li><a href="#_installazione_2">Installazione</a></li>
+<li><a href="#_utilizzo">Utilizzo</a></li>
+</ul>
+</li>
+<li><a href="#_lista_dei_comandi">Lista dei comandi</a>
+<ul class="sectlevel2">
+<li><a href="#_comandi_relativi_alla_gestione_del_server">Comandi relativi alla gestione del server</a></li>
+<li><a href="#_comandi_relativi_alla_connessione">Comandi relativi alla connessione</a></li>
+<li><a href="#_comandi_generici_delle_chiavi">Comandi generici delle chiavi</a></li>
+<li><a href="#_comandi_delle_stringhe">Comandi delle Stringhe</a></li>
+<li><a href="#_comandi_delle_liste">Comandi delle Liste</a></li>
+<li><a href="#_comandi_delle_hash">Comandi delle Hash</a></li>
+<li><a href="#_comandi_dei_set">Comandi dei Set</a></li>
+<li><a href="#_comandi_dei_set_ordinati">Comandi dei Set Ordinati</a></li>
+<li><a href="#_comandi_delle_bitmap">Comandi delle Bitmap</a></li>
+<li><a href="#_comandi_degli_hyperloglog">Comandi degli Hyperloglog</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_introduzione">Introduzione</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Redis è un <em>key-value</em> data structure store usato come database, cache e message broker. Come strutture dati supporta stringhe, liste, hash, set, set ordinati, bitmap, hyperloglog, e dalla versione 3.2, supporta anche indici geospaziali. Redis inoltre supporta script in Lua, transazioni, LRU eviction, replica master-slave, diversi strumenti per la persistenza dei dati, e partizione automatica tramite il Redis Cluster.</p>
+</div>
+<div class="paragraph">
+<p>Redis è sviluppato e supportato per Linux, OS X e BSD. Non c&#8217;è supporto ufficiale né sviluppo di redis per i dispositivi Windows, ma Microsoft ha realizzato, e mantiene un port win-64 open source, tramite MS Open Tech.</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_installazione">Installazione</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#_linux_e_os_x">Linux e OS X</a></p>
+</li>
+<li>
+<p><a href="#_windows">Windows</a></p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_linux_e_os_x">Linux e OS X</h3>
+<div class="paragraph">
+<p>Per installare Redis su macchine Linux o su sistemi OS X, prima di tutto bisogna scaricare la versione desiderata di Redis, disponibile <a href="http://www.redis.io/download">qui</a>, oppure tramite Bash</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">$ wget http://download.redis.io/releases/redis-3.0.7.tar.gz</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Una volta scaricato Redis, via download diretto o Bash, si procede ad estrarre e compilare il file.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">$ tar xzf redis-3.0.7.tar.gz
+
+$ cd redis-3.0.7
+
+$ make</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>I file binari compilati sono presenti nella directory src. Per avviare il server digitare nella shell:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">$ src/redis-server</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Per interagire con il server, avviare il client:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Bash" data-lang="Bash">$ src/redis-cli</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_windows">Windows</h3>
+<div class="paragraph">
+<p>Installare Redis su macchine Windows è più complesso, in quanto Redis non è ufficialmente supportato per Windows. Ci sono due modi per installarlo: compilare con Visual Studio, o via NuGet</p>
+</div>
+<div class="sect3">
+<h4 id="_visual_studio">Visual Studio</h4>
+<div class="paragraph">
+<p>Per installare Redis tramite Visual Studio, bisogna scaricare il fork di Redis realizzato dal team di MS OpenTech, disponibile su <a href="https://github.com/MSOpenTech/redis">github</a>.</p>
+</div>
+<div class="paragraph">
+<p>Una volta scaricato ed estratto l&#8217;archivio, aprire il file redisserver.sln, nella cartella msvs. Nelle proprietà del progetto, selezionare la configurazione della build desiderata (debug o release), ed il target (in genere x64).</p>
+</div>
+<div class="paragraph">
+<p>Impostate le proprietà, si può procedere a compilare la soluzione: ciò va a creare dei file eseguibili, locati nella cartella msvs\$(Target)\$(Configuration), impostata nelle proprietà prima della compilazione. Avviare il server con il file redis-server.exe, ed il client per interagire con il server avviando redis-cli.exe.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_nuget">NuGet</h4>
+<div class="paragraph">
+<p>Un&#8217;altro modo di installare Redis è quello di scaricarlo tramite la package manager console.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-PM" data-lang="PM">PM &gt; Install-Package Redis-64</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Questo comando, chiamato nella package manager console, va a scaricare ed installare Redis nella directory tools di default di NuGet. Come per Visual Studio, per avviare il server ed il client, basta avviare gli eseguibili redis-server.exe, e redis-cli.exe.</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_strutture_dati">Strutture dati</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A differenza di molti key-value store, Redis consente di assegnare alle chiavi diverse strutture dati oltre alle stringhe.</p>
+</div>
+<div class="sect2">
+<h3 id="_chiave">Chiave</h3>
+<div class="paragraph">
+<p>Le chiavi di Redis sono binary-safe, ovvero è possibile utilizzare, oltre a stringhe e valori, anche sequenze binarie come chiavi di Redis; è inoltre possibile utilizzare una stringa vuota come chiave. La dimensione massima di una chiave è 512MB.</p>
+</div>
+<div class="paragraph">
+<p>È possibile, tramite alcuni comandi che non sono ristretti a delle tipologie di dati, effettuare alcune operazioni sulle chiavi: il comando <code>EXISTS</code> restituisce 1 o 0 a seconda che la chiave esista o meno nel database, mentre il comando <code>DEL</code> va ad eliminare la chiave ed il valore ad essa associato. Anche il comando <code>DEL</code> restituisce 1 o 0: se la chiave è stata rimossa, quindi esisteva, restituirà 1, altrimenti, se non è stata rimossa, quindi non eisteva una chiave con quel nome sul database, restituirà 0. Il comando <code>TYPE</code> invece restituisce il tipo di dato associato a quella chiave.</p>
+</div>
+<div class="paragraph">
+<p>Gli esempi qui riportati mostrano due query di redis, ed il loro output.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; set mykey hello
+OK
+&gt; exists mykey
+(integer) 1
+&gt; del mykey
+(integer) 1
+&gt; exists mykey
+(integer) 0</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; set mykey x
+OK
+&gt; type mykey
+string
+&gt; del mykey
+(integer) 1
+&gt; del mykey
+(integer) 0</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_redis_expires_persists_e_ttl">Redis Expires, Persists e TTL</h4>
+<div class="paragraph">
+<p>Un&#8217;altra importante funzionalità che non dipende dalla struttura dati assegnata alla chiave è il comando <code>EXPIRE</code>: questo comando imposta un timeout, espresso in secondi o millisecondi, alla scadenza del quale, viene eseguito un <code>DEL</code> e la chiave viene eliminata. Le informazioni riguardanti l&#8217;expire sono salvate sul disco; ciò significa che Redis salva su disco la data in cui quella chiave cesserà di esistere</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; set mykey x
+OK
+&gt; expire mykey 10
+(integer) 1
+&gt; get mykey (subito)
+"x"
+&gt; get mykey (dopo 10 secondi)
+(nil)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>L&#8217;expire può essere impostato all&#8217;inserimento del valore, in forma abbrieviata, aggiungendo <code>EX</code> e la vita della chiave, può anche essere utilizzato per prolungare la vita della chiave, o ridurla: ogni expire successivo al primo andrà a sostituire il valore precedente. È possibile inoltre verificare quanto tempo rimane alla rimozione della chiave tramite il comando <code>TTL</code>, ovvero Time To Live:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; set mykey x ex 10
+OK
+&gt; ttl mykey
+(integer) 9
+&gt; expire mykey 20
+(integer) 1
+&gt; ttl mykey
+(integer) 19</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Per annullare un expire, e rendere la chiave ed il suo valore persistenti, si usa il comando <code>PERSIST</code>, che, come <code>EXPIRE</code> restituisce un valore di 1 se ha avuto successo. Dopo aver chiamato il comando <code>PERSIST</code>, <code>TTL</code> restituirà un valore di -1. Ciò indica che la variabile è persistente, e rimarrà nel database finché non verrà eliminata. Infine, per impostare il ttl, e verificarlo esprimendolo in millisecondi, vengono usati i comandi <code>PEXPIRE</code> e <code>PTTL</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_stringhe">Stringhe</h3>
+<div class="paragraph">
+<p>La stringa è il più semplice tipo di dato disponibile in Redis; le stesse chiavi vengono memorizzate come stringhe.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; set mykey x
+OK
+&gt; get mykey
+"x"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Il <code>SET</code> ed il <code>GET</code> sono i metodi con cui si assegna un valore ad una chiave, e con cui si ottiene il valore assegnato. Il <code>SET</code> va a sostituire qualsiasi valore fosse precedentemente assegnato alla chiave. I valori assegnabili come stringa possono essere di qualsiasi tipo: dal testo, al file binario, o ad esempio un file .jpg. L&#8217;unica limitazione che ha la stringa è che non può essere più grande di 512MB.</p>
+</div>
+<div class="paragraph">
+<p>È possibile in un&#8217;unica chiamata, definire ed ottenere più chiavi, tramite <code>MSET</code> e <code>MGET</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; mset a 10 b 20 c 7
+OK
+&gt; mget a b c
+1) "10"
+2) "20"
+3) "30"</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>MGET</code> restituisce un array di valori.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Sulle stringhe è possibile compiere operazioni atomiche, come ad esempio incrementare un valore:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; set counter 10
+OK
+&gt; type counter
+"string"
+&gt; incr counter
+(integer) 11
+&gt; incr counter
+(integer) 12</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Il valore di counter, pur essendo una stringa, viene interpretato come un intero, sul quale viene poi effettuato un incremento. <code>INCR</code> rappresenta un&#8217;operazione atomica, ovvero un&#8217;operazione che viene eseguita da un client alla volta, evitando così che più client entrino in una corsa.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_liste">Liste</h3>
+<div class="paragraph">
+<p>Le liste in Redis sono di tipo linked list o lista concatenata, quindi l&#8217;aggiunta di nuovi elementi in cima o in fondo ad una lista avviene in tempo costante. Il contro però è che cercare elementi all&#8217;interno di una lista è proporzionale all&#8217;indice dell&#8217;elemento che si sta cercando.</p>
+</div>
+<div class="paragraph">
+<p>I comandi <code>LPUSH</code> e <code>RPUSH</code> servono ad inserire elementi nella lista, rispettivamente a sinistra (in cima), e a destra (in fondo). Il comando <code>LRANGE</code> permette di ottenere valori all&#8217;interno della lista compresi tra due indici specificati nell&#8217;argomento del comando.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; lpush list 1
+(integer) 1
+&gt; rpush list 2
+(integer) 2
+&gt; rpush list 3
+(integer) 3
+&gt; rpush list d
+(integer) 4
+&gt; lpush list e
+(integer) 5
+&gt; lrange list 2 4
+1) "2"
+2) "3"
+3) "d"
+&gt; lrange list 0 -1
+1) "e"
+2) "1"
+3) "2"
+4) "3"
+5) "d"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>La lista contiene valori sottoforma di stringhe. <code>LRANGE</code> ha come argomenti gli indici della parte della lista da mostrare, ma se come secondo argomento viene passato -1, procederà a mostrare tutti gli elementi dal primo elemento all&#8217;indice inserito come primo argomento, all&#8217;ultimo elemento della lista. Sia <code>LPUSH</code> che <code>RPUSH</code> sono funzioni variadiche, quindi è possibile inserire in una lista più elementi in un&#8217;unica chiamata.</p>
+</div>
+<div class="paragraph">
+<p>Un&#8217;altra operazione possibile con le liste è il <em>pop</em>: <code>LPOP</code> e <code>RPOP</code> infatti, permettono di estrarre il primo o l&#8217;ultimo elemento della lista, togliendolo dalla lista stessa:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; rpush list a b c 1 2 3
+(integer) 6
+&gt; lpop list
+"a"
+&gt; rpop list
+"3"
+&gt; lrange list 0 -1
+1) "b"
+2) "c"
+3) "1"
+4) "2"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In alcuni casi, ad esempio per tenere in memoria gli ultimi post o messaggi degli utenti, sono necessarie delle liste di una data lunghezza: ciò si ottiene con il <em>trim</em>; Il comando <code>LTRIM</code>, funziona come <code>LRANGE</code>, tranne che, invece di restituire i valori, elimina i valori esterni al range:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; rpush list a b c 1 2 3
+(integer) 6
+&gt; ltrim list 0 2
+OK
+&gt; lrange list 0 -1
+1) "a"
+2) "b"
+3) "c"</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_blocking_operations">Blocking Operations</h4>
+<div class="paragraph">
+<p>Le liste in Redis consentono l&#8217;implementazione di code, ed un setup a produttore-consumatore. Ad esempio il produttore o produttori usano un <code>LPUSH</code> per inserire dei dati in una lista, ed i consumatori usano <code>RPOP</code> per estrarre i dati sulla lista, ed elaborarli. Nel caso la lista sia vuota però, <code>RPOP</code> restituisce <code>NULL</code>, questo potrebbe portare i consumatori a ripetere il comando finché non ottengono un dato. Questo però porta ad una serie di chiamate inutili. Per evitare ciò, Redis implementa i comandi <code>BLPOP</code> e <code>BRPOP</code>, che funzionano come <code>LPOP</code> e <code>RPOP</code>, ma, se la lista è vuota aspettano un periodo di tempo, espresso in secondi, e dichiarato come argomento, e se la lista è vuota, restituirà <code>NULL</code>. È possibile dare 0 come argomento per l&#8217;attesa, in questo modo, si fa sì che il client che ha chiamato il <code>BLPOP</code> o <code>BRPOP</code> rimanga in attesa indefinitamente finché la lista rimane vuota.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; brpop list 5
+1) "list"
+2) "a"
+&gt; brpop list 5
+(nil)
+(5.10s)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>BLPOP</code> e <code>BRPOP</code> possono ricevere come argomenti più liste, e elaborare un dato dalla prima lista che viene popolata nel caso sia vuota. I client che bloccano le liste vengono serviti in modo ordinato, ovvero il primo client che ha bloccato la lista ed è in attesa di un dato verrà servito per primo, e così via. I comandi inoltre restituiscono un array, e non un singolo valore: dato che <code>BLPOP</code> e <code>BRPOP</code> possono attendere dati da più liste, viene anche restituita la chiave a cui il valore ottenuto è associato.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_hash">Hash</h3>
+<div class="paragraph">
+<p>Le hash sono coppie di campi e valori, ideali per rappresentare oggetti in Redis, e non vi sono limitazioni al numero di campi possibili in una hash. Per assegnare campi e valori alla hash viene utilizzato il comando <code>HMSET</code>;</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; hmset user:0001 name pippo age 32 mail pippo@mail.com
+OK</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Per ottenere i dati dalla hash invece, abbiamo a disposizione diversi comandi:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>HGET</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Restituisce il valore di un singolo campo specificato nell&#8217;argomento del comando</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>HMGET</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Restituisce il valore di più campi specificati negli argomenti del comando</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>HGETALL</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Restituisce il valore di tutti i campi</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; hget user:0001 name
+"pippo"
+&gt; hmget user:0001 name mail
+1) "pippo"
+2) "pippo@mail.com"
+&gt; hgetall user:0001
+1) "name"
+2) "pippo"
+3) "age"
+4) "32"
+5) "mail"
+6) "pippo@mail.com"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>È possibile effettuare anche alcune operazioni sui campi, come ricerca o incremento dei valori numerici; in seguito è presente una lista dei <a href="#_comandi_delle_hash">comandi delle hash</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_set">Set</h3>
+<div class="paragraph">
+<p>I set sono insiemi non ordinati di strighe uniche: un set non può avere al suo interno valori uguali tra loro</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; sadd users user:0000 user:0001 user:0002 user:0003
+(integer) 4
+&gt; smembers users
+1) "user:0000"
+2) "user:0002"
+3) "user:0001"
+4) "user:0003"
+&gt; sadd users user:0000
+(integer) 0
+&gt; sadd users user:0004
+(integer) 1
+&gt; smembers users
+1) "user:0002"
+2) "user:0001"
+3) "user:0003"
+4) "user:0000"
+5) "user:0004"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Come <code>RPUSH</code> per le liste, <code>SADD</code> va ad aggiungere un elemento alla fine del set; dato che i set non sono ordinati, la disposizione degli elementi di un set varia ad ogni nuovo inserimento o rimozione di un elemento. Il comando <code>SMEMBERS</code> restituisce un array contenente tutti gli elementi del set.</p>
+</div>
+<div class="paragraph">
+<p>Dato che i set contengono solo valori unici, è possibile verificare se un elemento è già presente nel set o meno, tramite il comando <code>SISMEMBER</code>, che restituisce un valore di 1 o 0 a seconda della presenza o meno del valore all&#8217;interno del set. Per ottenere elementi dal set, viene utilizzato il comando <code>SPOP</code>, che prende un elemento a caso dal set, rimuovendolo dal set stesso.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; spop users
+"user:0003"
+&gt; smembers users
+1) "user:0000"
+2) "user:0004"
+3) "4"
+4) "3"
+5) "user:0002"
+&gt; sismember users user:0001
+(integer) 0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Sui set si possono effettuare operazioni simili a quelle tra insiemi, come l&#8217;unione, l&#8217;intersezione, e la differenza, tramite i comandi <code>SINTER</code>, <code>SUNION</code> e <code>SDIFF</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; sadd users user:0000 user:0001 user:0002
+(integer) 3
+&gt; sadd users2 user:0000 user:0001 user:0002 user:0003 user:0004
+(integer) 5
+&gt; sinter users users2
+1) "user:0000"
+2) "user:0002"
+3) "user:0001"
+&gt; sunion users users2
+1) "user:0003"
+2) "user:0000"
+3) "user:0004"
+4) "user:0002"
+5) "user:0001"
+&gt; sdiff users users2
+(empty list or set)
+&gt; sdiff users2 users
+1) "user:0004"
+2) "user:0003"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>I comandi restituiscono tutti array di stringhe, ma i risultati di questi comandi non vengono memorizzati, permettendo di eseguire i comandi sugli stessi set più volte. Per tenere i risultati in memoria, sono disponibili delle varianti dei comandi appena visti: <code>SINTERSTORE</code>, <code>SUNIONSTORE</code> e <code>SDIFFSTORE</code>. La lista completa dei <a href="#_comandi_dei_set">comandi dei set</a> sono elencati più avanti.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_set_ordinati">Set Ordinati</h3>
+<div class="paragraph">
+<p>I Sorted Set di Redis sono un mix tra i set e le hash. Come i set, sono un insieme di valori unici, ma come nelle hash, gli elementi del set sono associati ad un valore: questo valore è un numero decimale chiamato <em>score</em>. Lo score è un valore che viene definito assieme al valore assegnato, all&#8217;inserimento del valore nel set, tramite il comando <code>ZADD</code>, e, a differenza del valore ad esso associato, non deve necessariamente essere un valore unico: più elementi possono avere lo stesso score. Per l&#8217;ordinamento del set, vengono seguite due regole:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A e B sono due elementi di un set con uno score S differente, ed I è il loro indice nel set.</p>
+</li>
+<li>
+<p>Se A<sub>S</sub> &gt; B<sub>S</sub> allora I<sub>A</sub> &gt; I<sub>B</sub></p>
+</li>
+<li>
+<p>Se A<sub>S</sub> = B<sub>S</sub> allora A e B sono ordinati alfabeticamente.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; zadd StarWars 1999 "La Minaccia Fantasma"
+(integer) 1
+&gt; zadd StarWars 2002 "L'Attacco Dei Cloni"
+(integer) 1
+&gt; zadd StarWars 2005 "La Vendetta Dei Sith"
+(integer) 1
+&gt; zadd StarWars 1977 "Guerre Stellari"
+(integer) 1
+&gt; zadd StarWars 1980 "L'Impero Colpisce Ancora"
+(integer) 1
+&gt; zadd StarWars 1983 "Il Ritorno Dello Jedi"
+(integer) 1
+&gt; zadd StarWars 2015 "Il Risveglio Della Forza"
+(integer) 1</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>ZADD</code> funziona esattamente come <code>SADD</code>, ma richiede due argomenti, lo score ed il valore. Come <code>SADD</code>, è un comando variadico, quindi l&#8217;inserimento di più elementi con un unico comando è possibile. Una volta inseriti gli elementi, se viene chiamato un comando come <code>ZRANGE</code> per ottenere gli elementi del set, l&#8217;array ottenuto è già ordinato; Redis infatti ordina gli elementi all&#8217;inserimento, confrontando gli score.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; zrange StarWars 0 -1
+1) "Guerre Stellari"
+2) "L'Impero Colpisce Ancora"
+3) "Il Ritorno Dello Jedi"
+4) "La Minaccia Fantasma"
+5) "L'Attacco Dei Cloni"
+6) "La Vendetta Dei Sith"
+7) "Il Risveglio Della Forza"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Oltre ad operazioni del genere, è anche possibile estrarre degli elementi in base al loro score. Ad esempio con il set che è appena stato creato, possiamo estrarre tutti i film usciti dopo il 1990. Per farlo viene utilizzato il comando <code>ZRANGEBYSCORE</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; zrangebyscore StarWars 1990 +inf
+1) "La Minaccia Fantasma"
+2) "L'Attacco Dei Cloni"
+3) "La Vendetta Dei Sith"
+4) "Il Risveglio Della Forza"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>È anche possibile eliminare un range di elementi da un set ordinato in base allo score. Possiamo ad esempio eliminare i film in cui compare Jar Jar Binks, tramite il comando <code>ZREMRANGEBYSCORE</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; zremrangebyscore StarWars 1999 2002
+2
+&gt; zrange StarWars 0 -1
+1) "Guerre Stellari"
+2) "L'Impero Colpisce Ancora"
+3) "Il Ritorno Dello Jedi"
+4) "La Vendetta Dei Sith"
+5) "Il Risveglio Della Forza"</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_score_lessicografici">Score Lessicografici</h4>
+<div class="paragraph">
+<p>Dalla versione 2.8 di Redis, è possibile ordinare elementi in ordine alfabetico. Prendiamo il set di prima, ma invece di ordinare i film per data di uscita, assegnamo loro lo stesso score:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; zadd StarWars 0 "La Minaccia Fantasma" 0 "L'Attacco Dei Cloni" 0 "La Vendetta Dei Sith" 0 "Guerre Stellari" 0 "L'Impero Colpisce Ancora" 0 "Il Ritorno Dello Jedi" 0 "Il Risveglio Della Forza"
+(integer) 7
+&gt; zrange StarWars 0 -1
+1) "Guerre Stellari"
+2) "Il Risveglio Della Forza"
+3) "Il Ritorno Dello Jedi"
+4) "L'Attacco Dei Cloni"
+5) "L'Impero Colpisce Ancora"
+6) "La Minaccia Fantasma"
+7) "La Vendetta Dei Sith"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Possiamo anche, sempre nel caso ci siano più elementi con lo stesso score, selezionare alcuni elementi in base alla loro iniziale, con il comando <code>ZRANGEBYLEX</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; zrangebylex StarWars [I [L
+1) "Il Risveglio Della Forza"
+2) "Il Ritorno Dello Jedi"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>I comandi di ordinamento e le operazioni vengono analizzati in seugito nella sezione dedicata ai <a href="#_comandi_dei_set_ordinati">comandi</a></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Aggiungere un elemento già presente nel set, con uno score maggiore rispetto a quello nel set, va ad aggiornare lo score dell&#8217;elemento. Questo è particolarmente utile nello use case delle leaderboards
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_bitmap">Bitmap</h3>
+<div class="paragraph">
+<p>Le bitmap non sono vere e proprie strutture dati, ma una serie di operazioni sui bit. Dato che le stringhe possono contenere valori binari, e la loro dimensione massima è 512MB, possono contenere fino a 2<sup>32</sup> bit. Le operazioni sui bit sono divise in due gruppi: operazioni a tempo costante, su bit singoli, come impostare un bit su 1 o 0 o ottenerne il valore, e operazioni su gruppi di bit, come contare il numero di bito con un dato valore in un dato range.</p>
+</div>
+<div class="paragraph">
+<p>I bit sono impostati e ottenuti utilizzando i comandi <code>SETBIT</code> e <code>GETBIT</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; setbit key 10 1
+(integer) 1
+&gt; getbit key 10
+(integer) 1
+&gt; getbit key 11
+(integer) 0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Il comando <code>SETBIT</code> prende come primo argomento la posizione del bit da impostare, e come secondo argomento il valore da assegnare al bit selezionato. Se il bit selezionato è "fuori" dalla stringa che contiene i bit, Redis aumenta la dimensione della stringa per ospetare il bit selezionato.</p>
+</div>
+<div class="paragraph">
+<p>Il <code>GETBIT</code> richiede come argomento l&#8217;indice del bit che si vuole ottenere. Se il bit desiderato è fuori dalla stringa selezionata, il comando restituisce 0.</p>
+</div>
+<div class="paragraph">
+<p>Alcuni comandi che lavorano sui gruppi di bit sono <code>BITCOUNT</code> e <code>BITPOS</code>. <code>BITCOUNT</code> conta i bit in una bitmap, e restituisce il numero di bit con valore 1, mentre <code>BITPOS</code> esamina una bitmap e restituisce del primo indice con valore 1. Entrambi possono operare in un range di byte di una stringa, piuttosto che esaminarla tutta.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; setbit key 0 1
+0
+&gt; setbit key 100 1
+0
+&gt; bitcount key
+2
+&gt; bitpos key 1
+(integer) 0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Una lista completa dei <a href="#_comandi_delle_bitmap">comandi</a> relativi alle bitmap è disponibile in seguito.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_hyperloglog">Hyperloglog</h3>
+<div class="paragraph">
+<p>Un hyperloglog è una struttura dati probabilistica utilizzata per contare elementi unici. Contare elementi unici è un compito che in genere occupa memoria proporzionalmente al numero di elementi da contare, in quanto il metodo deve tenere in memoria gli elementi singoli che ha già trovato; Redis implementa una serie di algoritmi che riducono l&#8217;uso di memoria ad una quantità costante, al costo di una precisione ridotta: nel caso di redis c&#8217;è un margine di errore di questi algoritmi dell'1%, con un uso di memoria fisso che si aggira intorno ai 12kB.</p>
+</div>
+<div class="paragraph">
+<p>Gli hyperloglog in redis sono interpretati come stringhe, quindi si possono utilizzare i comandi <code>SET</code> e <code>GET</code></p>
+</div>
+<div class="paragraph">
+<p>Concettualmente gli hyperloglog sono simili al set. Con un set si può usare il comando <code>SADD</code> per popolare un ser, e poi chiamare <code>SCARD</code> per ottenerene la cardinalità, dato che un set è un insieme di elementi unici. A differenza di un set però, l&#8217;hyperloglog non contiene elementi, ma stati; ogni volta che si incontra un nuovo elemento, si chiama il comando <code>PFADD</code> per aggiungere uno stato all&#8217;hyperloglog; per ottenere il numero di elementi unici invece, si usa il comando <code>PFCOUNT</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; pfadd hll a b c d
+(integer) 1
+&gt; pfcount hll
+(integer) 4</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>È anche possibile unire più hyperloglog con il comando <code>PFMERGE</code>, che prende come argomenti le chiavi dei vari hyperloglog che si vuole unire. Per maggiori dettagli, riferirsi alla <a href="#_comandi_degli_hyperloglog">lista dei comandi</a>.</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_persistenza_sul_disco">Persistenza sul Disco</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Redis offre due strumenti per la persistenza dei dati ed il data recovery: RDB e AOF:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>RDB</p>
+<div class="ulist">
+<ul>
+<li>
+<p>RDB permette di salvare degli snapshot dei dati in intervalli di tempo definiti dall&#8217;utente. Ogni snapshot viene creato da un processo diverso, o da un thread diverso all&#8217;interno dello stesso processo; viene creato ad ogni snapshot un dump.rdb, e per eseguire altri snapshot, Redis prima effettua un <code>fork()</code> del processo, crea un dump.rdb temporaneo, e quando ne ha completato la scrittura va a rinominarlo e spostarlo nella cartella di destinazione.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>AOF</p>
+<div class="ulist">
+<ul>
+<li>
+<p>L&#8217;Append Only File, o AOF, è un log di tutti i comandi di scrittura chiamati, che viene utilizzato per ricostruire il dataset al riavvio del server. L&#8217;AOF, può essere riscritto automaticamente da Redis o tramite una chiamata al server: questo fa si che Redis vada a creare un nuovo AOF, che contiene tutti i comandi necessari a creare il dataset presente alla chiamata, andando ad eliminare comandi superflui come eliminazione e reinserimento di un elemento.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Utilizzare solo RDB è consigliato solo nel caso in cui, se dovesse esserci un problema, perdere i dati inseriti dall&#8217;ultimo snapshot è accettabile. Ad esempio, un server può essere impostato per fare degli snapshot ogni 15 minuti. In caso di crash del server, si andranno a perdere i dati inseriti negli ultimi 15 minuti, ma non quelli inseriti in precedenza, ed al riavvio del server, Redis leggerà lo snapshot per reimpostare il dataset precedente. Uno svantaggio di RDB è che, nel caso di grandi database, il processo creato dal fork() per creare lo snapshot può impiegare del tempo, e causare un ritardo nella risposta del server ai client. La disaster recovery però è molto più rapida, soprattutto per database grandi, rispetto a quella offerta da AOF.</p>
+</div>
+<div class="paragraph">
+<p>Molti utenti di Redis utilizzano solo AOF, anche se è un po meno efficente in caso di recovery, soprattutto a seconda di cosa stava facendo il server prima di andare offline. AOF rimane comunque un tool molto potente, potenzialmente meno efficente di RDB, ma che assicura una persistenza dei dati molto precisa, può variare a seconda della fsync policy addottata dall&#8217;utente; vi sono 3 opzioni per quanto riguarda la fsync: disabilitata, ad ogni query e ogni secondo.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Disabilitata:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Nessun tipo di sincronizzazione automatica, è l&#8217;amministratore che chiama il comando.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Per query:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Ogni comando chiamato fa sì che il server lo registri nel file di log.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Ogni secondo:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>L&#8217;impostazione di default, il servere registra ogni secondo nel file di log tutti i comandi chiamati dall&#8217;ultima registrazione.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>È consigliato utilizzare una combinazione dei due metodi di persistenza. In caso di un riavvio del server, Redis utilizzerà l&#8217;AOF file per ripristinare il server, dato che contiene i dati più completi.</p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_cluster">Cluster</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Redis consente di avere un setup master-slave, e di dividere le chiavi di un database in hash slot, tra più nodi. Il cluster rende più stabile la struttura, in quanto, ogni istanza master replica via replica asincrona, i comandi di scrittura agli slave ad esso assegnati; ciò fa in modo che se un master dovesse avere qualche problema e non essere raggiungibile dai client e dagli slave, uno dei suoi slave viene "promosso" a master, mentre la vecchia istanza master diventa uno slave della nuova istanza master. Ogni nodo del cluster ha bisogno di due porte tcp: quella che usa per comunicare con i client,  ad esempio la 6379, ed una porta ottenuta aggiungendo 10000 alla porta che sta utilizzando, in questo caso 16379. Questa seconda porta è chiamata Cluster Bus ed è usata come canale di comunicazione interna al cluster: i vari nodi utilizzano questa porta per comunicare tra loro cambi di configurazione, individuazione dei problemi, autorizzazione alle promozioni e così via. Il cluster bus è un canale solo per i nodi del server, i vari client devono utilizzare la porta "bassa".</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_api">API</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Le API che consentono di utilizzare Redis con altri linguaggi di programmazione sono diverse, ed un elenco è disponibile <a href="http://redis.io/clients">qui</a>. In questo documento verrà trattata l&#8217;API per C# di StackExchange, sviluppata da Marc Gravell, principalemte per impiegare Redis nei siti di StackExchange, open source e disponibile su <a href="https://github.com/StackExchange/StackExchange.Redis">github</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="_installazione_2">Installazione</h3>
+<div class="paragraph">
+<p>StackExchange.Redis viene installata tramite la package manager console, semplicemente digitando</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-NuGet Console" data-lang="NuGet Console">PM&gt; Install-Package StackExchange.Redis</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>È disponibile anche una versione strongnamed, nel caso il progetto su cui si sta lavorando sia string named</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-NuGet Console" data-lang="NuGet Console">PM&gt; Install-Package StackExchange.Redis.StrongName</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Visual Studio andrà a creare una cartella chiamata StackExchange.Redis.(versione) nella cartella contenente i file del progetto che si sta utilizzando.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_utilizzo">Utilizzo</h3>
+<div class="paragraph">
+<p>Per conentire al programma di connettersi ed operare sul server Redis, è necessario aggiungere stackexchange.redis alle referenze, ed impostare una connessione al server stesso:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-C#" data-lang="C#">using StackExchange.Redis;
+
+....
+
+var conn = ConnectionMultiplexer.Connect("ip:port, password = password");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Il ConnectionMultiplexer è un oggetto particolare che viene utilizzato per gestire le connessioni al server in modo da ottimizzare i tempi, e ridurre al minimo la latenza dei singoli client connessi al server.</p>
+</div>
+<div class="paragraph">
+<p>Una volta connessi al server, si può accedere al database utilizzando la seguente riga di codice:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-C#" data-lang="C#">IDatabase db = conn.GetDatabase()</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Ora abbiamo un database <code>db</code> su cui poter effettuare operazioni di vario genere. Ad ogni operazione viene richiamato uun metodo dell&#8217;oggetto database che abbiamo creato, in questo caso <code>db</code></p>
+</div>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lista_dei_comandi">Lista dei comandi</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_comandi_relativi_alla_gestione_del_server">Comandi relativi alla gestione del server</h3>
+<div class="sect3">
+<h4 id="_bgrewriteaof">BGREWRITEAOF</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">BGREWRITEAOF</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Comiunica a Redis di iniziare a riscirvere l&#8217;Append Only File. Se è già in atto un salvataggio tramite snapshot, Redis restituisce comunque <code>OK</code>, ma notifica che l&#8217;operazione di riscrittura è messa in coda. Se è in corso un&#8217;altra operazione di riscrittura dell&#8217;AOF, Redis restituirà un errore, e non verrà messa in coda una nuova operazione. Se l&#8217;operazione dovesse fallire, l&#8217;AOF precedente non viene modificato.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_bgsave">BGSAVE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">BGSAVE</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Salva il database. Il processo si divide, il parent continua a servire i client, mentre il child esegue il salvataggio. I client possono verificare se il salvataggio è stato completato con il comando LASTSAVE.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_client_getname">CLIENT GETNAME</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">CLIENT GETNAME</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce il nome della connessione, impostata con CLIENT SETNAME. Se non viene impostato un nome, il comando restituisce null.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_client_kill">CLIENT KILL</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">CLIENT KILL [ip:porta] [ID client-id] [TYPE normal|master|slave|pubsub] [ADDR ip:port] [SKIPME yes/no]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Chiude la connessione con il client. Le varie opzioni permettono l&#8217;utilizzo di filtri per chiudere connessioni con determinati client:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>CLIENT KILL ADDR ip:porta</code></dt>
+<dd>
+<p>Chiude la connessione con il client all&#8217;indirizzo specificato, ottenuto dal campo <code>addr</code> di <code>CLIENT LIST</code>.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p><code>CLIENT KILL ID id</code>
+Chiude la connessione con il client con l&#8217;id specificato, ottenuto dal campo <code>id</code> di <code>CLIENT LIST</code>.</p>
+</div>
+<div class="paragraph">
+<p><code>CLIENT KILL TYPE tipo</code>
+Chiude la connessione con tutti i client del tipo specificato. I client bloccati dal comando <code>MONITOR</code> sono considerati <code>normal</code>.</p>
+</div>
+<div class="paragraph">
+<p><code>CLIENT KILL SKIPME yes/no</code>
+Imposta se chiudere o meno la connessione con il client che ha chiamato il comando. Di default è impostato su yes, quindi non chiude la connessione.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_client_list">CLIENT LIST</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">CLIENT LIST</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce una serie di informazioni sui client connessi. I campi restituiti sono:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">id</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">l&#8217;id del client</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">addr</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">l&#8217;indirizzo del client, indicato con ip:porta</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">fd</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">descrittore del file corrispondente al socket</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">age</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">durata totale della connessione in secondi</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">idle</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">tempo in cui il client è rimasto inattivo espresso in secondi</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">flags</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">le <a href="#Flag">flag</a> del client</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">db</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">l&#8217;id del database a cui il client è connesso</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">sub</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">numero di iscrizioni ai canali</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">psub</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">numero di iscrizioni che corrispondono ad un pattern</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">multi</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">numero di comandi in un contesto <code>MULTI/EXEC</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">qbuf</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">lunghezza del buffer delle query. 0 significa che non ci sono delle query in attesa</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">qbuf-free</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">spazio libero del buffer delle query.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">obl</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">lunghezza del buffer di output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">oll</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">lunghezza della lista di output. Le risposte sono messe in coda in questa lista se il buffer è pieno</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">omem</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">utilizzo della memoria del buffer di output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">events</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><a href="#Eventi">eventi</a> del descrittore di file</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">cmd</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ultimo comando chiamato dal client
+<a id="Flag"></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle" colspan="2"><p class="tableblock"><strong>Flag</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">O</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">il client è uno slave in modalità MONITOR</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">S</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">il client è un server slave normale</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">M</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">il client è un master</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">x</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">il client è in un contesto MULTI/EXEC</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">b</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">il client è in attesa in una blocking operation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">i</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">il client è in attesa di un VM I/O (deprecated)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">d</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">una o più chiavi osservate sono state modificate. EXEC fallirà</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">c</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">la connessione sarà chiusa una volta scritta tutta la risposta</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">u</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">il client è sbloccato</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">U</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">il client è connesso tramite un Unix domain socket</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">r</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">il client è in modalità readonly su un nodo del cluster</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">A</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">la connessione verrà chiusa appena possibile</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">N</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">nessun set specifico di flag
+<a id="Eventi"></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle" colspan="2"><p class="tableblock"><strong>Eventi</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">r</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">il socket del client è leggibile (event loop)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">w</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">il socket del client è scrivibile (event loop)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_client_pause">CLIENT PAUSE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">CLIENT PAUSE timeout</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Sospende la connessione a tutti i client per un periodo specificato in millisecondi. Il comando restituisce immediatamente <code>OK</code> al caller, e non elabora più i comandi inviati dai client, ma le interazioni con gli slave proseguono normalmente. Esaurito il timeout, tutti i client sono sbloccati, e vengono eseguiti tutti i comandi messi in coda nei buffer delle query dei client.</p>
+</div>
+<div class="paragraph">
+<p>Il <code>CLIENT PAUSE</code> è utile per modificare la configurazione master-slave, ma può anche essere inserito nelle transazioni.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_client_reply">CLIENT REPLY</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">CLIENT REPLY on|off|skip</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Permette di disattivare le risposte dal server; utile nei casi in cui le risposte dal server vengono ignorate, consente di risparmiare tempo e banda. L&#8217;opzione di default è <code>on</code>, ovvero il client riceve tutte le risposte dal server e restituisce <code>OK</code>; <code>off</code> disabilita tutte le risposte da quando viene chiamato, quindi anche il comando stesso non avrà risposta. <code>Skip</code> invece permette di disattivare la risposta dal server per il comando successivo, ma come <code>off</code>, non restituisce niente.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_client_setname">CLIENT SETNAME</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">CLIENT SETNAME nome</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Imposta il nome della connessione. Il nome in se ha solo due restrizioni: non deve contenere spazi, in quanto causerebbe errori nell&#8217;output di <code>CLIENT LIST</code>, ed è limitato ad una dimensione massima di 512MB, come una normale stringa di Redis. È possibile eliminare il nome di una connessione impostandolo come stringa vuota. Tutte le connessioni vengono avviate senza nome</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_command">COMMAND</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">COMMAND</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce un array contenente tutti i comandi di Redis e relativi dettagli. Viene utilizzato per mappare le chiavi e la loro posizione . Il formato con cui vengono mostrati gli elementi è il seguente:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">nome del comando</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">una semplice stringa in lowecase</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle" rowspan="3"><p class="tableblock"><a href="#Arietà">arietà</a> (numero di argomenti richiesti)</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">l&#8217;arietà comprende anche il comando stesso. Quindise il comando non richiede argomenti, sarà 1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">positiva se il comando richiede un numero specifico di argomenti</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">negativa se il comando richiede un numero minimo di argomenti</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">un array contenente le <a href="#CFlag">flag</a> del comando</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">le flag sono elencate di seguito, ed indicano uno o più stati del comando</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">posizione della prima chiave nella lista degli argomenti</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">per molti comandi la prima chiave è in posizione 1. In posizione 0 c&#8217;è sempre il nome del comando.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">posizione dell&#8217;ultima chiave nella lista degli argomenti</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">se il comando accetta solo una chiave, la posizione della prima, e dell&#8217;ultima chiave coincidono. Se il comando accetta infinite chiavi, l&#8217;ultima chiave è in posizione -1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">step count per trovare la posizione delle chiavi</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">permette di individuare ogni quanti elementi nella lista degli argomenti si trova una chiave. Ad esempio <code>MGET</code> avrà uno step count pari a 1, in quanto ogni argomento è una chiave, mentre <code>MSET</code> avrà uno step count pari a 2, dato che le chiavi si alternano ai valori nell&#8217;argomento.
+<a id="CFlag"></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle" colspan="2"><p class="tableblock"><strong>Flag del comando</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">write</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">il comando può causare delle modifiche</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">readonly</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">il comando non modifica le chiavi</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">denyoom</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">rifiuta il comando se OOM (out of memory)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">admin</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">comando chiamato dall&#8217;amministratore del server</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">pubsub</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">comando chiamato da un client di tipo pub-sub</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">noscript</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">rifiuta questo comando se chiamato da uno script</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">random</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">il comando ha risultati casuali, pericoloso per gli script</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">sort_for_script</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">se chiamato da uno script, ordina l&#8217;output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">loading</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">permette l&#8217;uso del comando anche se il database è in caricamento</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">stale</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">permette l&#8217;uso del comando mentre la replica ha stale data</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">skip_monitor</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">non mostra questo comando in modalità MONITOR</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">asking</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">comando dei cluster: - accetta anche se sta importando</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">fast</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">il comando opera in un tempo costante o pari a log(N). Utilizzato per il monitoraggio della latenza.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">movablekeys</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">le chiavi non hanno una posizione predeterminata.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect4">
+<h5 id="_movablekeys">Movablekeys</h5>
+<div class="paragraph">
+<p>A volte le chiavi non sono in posizioni prestabilite all&#8217;interno dell&#8217;argomento del comando. In questo caso il client deve esaminare tutti i comandi marcati con questa flag ed individuare le chiavi.
+I comandi che vengono marcati con la flag <code>movablekeys</code> sono: <code>SORT, ZUNIONSTORE, ZINTERSTORE, EVAL, EVALSHA</code></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_command_count">COMMAND COUNT</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">COMMAND COUNT</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce un intero che indica il numero totale di comandi nel server Redis.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_command_getkeys">COMMAND GETKEYS</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">COMMAND GETKEYS comando</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce un array di chiavi utlizzate in un comando completo, ovvero un comando seguito dall&#8217;argomento</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">COMMAND GETKEYS MSET a 1 b 2 c 3 d 4
+1) "a"
+2) "b"
+3) "c"
+4) "d"</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_command_info">COMMAND INFO</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">COMMAND INFO comando1 comando2 comando3...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Funziona come <code>COMMAND</code>, ma invece di restituire un array contenente tutti i comandi , mostra solo i dettagli dei comandi specificati nell&#8217;argomento. Il formato di output rimane invariato.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_config_get">CONFIG GET</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">CONFIG GET parametro</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce un parametro dal file di configurazione di Redis. L&#8217;argomento accetta un parametro preciso, oppure una parte del parametro stesso, come riportato nell&#8217;esempio di seguito. In questo caso il comando restituisce tutti i parametri che corrispondono alla ricerca. Se viene passato un asterisco, il comando restituisce tutti i parametri.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">config get *max-*-entries*
+1) "hash-max-zipmap-entries"
+2) "512"
+3) "list-max-ziplist-entries"
+4) "512"
+5) "set-max-intset-entries"
+6) "512"</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_config_resetstat">CONFIG RESETSTAT</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">CONFIG RESETSTAT</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: <code>OK</code></p>
+</div>
+<div class="paragraph">
+<p>Azzera i contatori del server ottenuti tramite il comando <code>INFO</code>.</p>
+</div>
+<div class="paragraph">
+<p>I contatori che vengono azzerati sono:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Keyspace hits</p>
+</li>
+<li>
+<p>Keyspace misses</p>
+</li>
+<li>
+<p>Number of commands processed</p>
+</li>
+<li>
+<p>Number of connections received</p>
+</li>
+<li>
+<p>Number of expired keys</p>
+</li>
+<li>
+<p>Number of rejected connections</p>
+</li>
+<li>
+<p>Latest fork(2) time</p>
+</li>
+<li>
+<p>The aof_delayed_fsync counter</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_config_rewrite">CONFIG REWRITE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">CONFIG REWRITE</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Riscrive il file di configurazione redis.conf per far sì che il file rispecchi la configurazione attuale del server, impostata con il comando <code>CONFIG SET</code>. Il comando è in grado di creare da zero il file, nel caso in cui il file di configurazione originale non sia più presente o sia danneggiato. Il rewrite avviene in modo da conservare il più possibile il contenuto del vecchio file:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>I commenti e la struttura generale del vecchio file sono conservati se possibile.</p>
+</li>
+<li>
+<p>Se un&#8217;opzione è già presente nel vecchio file, ma con un nuovo parametro, viene scritta sulla stessa riga del file vecchio.</p>
+</li>
+<li>
+<p>Se un&#8217;opzione non è presente, ma è impostata su un valore di default, non viene inserita nel file.</p>
+</li>
+<li>
+<p>Se un&#8217;opzione non è presente e non è un valore di default, viene inserita alla fine del file</p>
+</li>
+<li>
+<p>Le righe del vecchio file non più utilizzate vengono eliminate.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_config_set">CONFIG SET</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">CONFIG SET parametro valore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Viene utilizzato per cambiare le impostazioni del server senza doverlo riavviare. La lista dei parametri supportati da <code>CONFIG SET</code> può essere ottenuta con il comando <code>CONFIG GET *</code>.</p>
+</div>
+<div class="paragraph">
+<p>Tutti i parametri alterati vengono immediatamente caricati su Redis, e i cambiamenti avranno effetto dal comando successivo al cambiamento. In genere i parametri ed i valori corrispondono come struttura a quelli presenti nel redis.conf file, con due eccezzioni:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>nelle opzioni che richiedono l&#8217;inserimento di byte o altre quantità, va utilizzata la versione estesa, mentre nel file redis.conf, possono essere specificati in modo abbreviato (10k, 2gb, 20mb e così via). Dalla versione 3.0 di Redis però, è possibile usare unità di memoria con i parametri <code>maxmemory</code>, i buffer di output dei client, e la dimensione del replication backlog.</p>
+</li>
+<li>
+<p>Il parametro <code>save</code> è una singola stringa di interi separati da spazi.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_dbsize">DBSIZE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">DBSIZE</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce un intero che rappresenta il numero di chiavi contenute nel database selezionato.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_debug_object">DEBUG OBJECT</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">DEBUG OBJECT chiave</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Un comando di debug che non dovrebbe essere usato dai client, che dovrebbero invece utilizzare <a href="#Object"><code>OBJECT</code></a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_debug_segfault">DEBUG SEGFAULT</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">DEBUG SEGFAULT</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Effettua un invalid memori access che manda il server in crash. Viene utilizzato per simulare bug in Redis.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_flushall">FLUSHALL</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">FLUSHALL</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Elimina tutte le chiavi di tutti i database presenti sul server.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_flushdb">FLUSHDB</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">FLUSHDB</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Elimina tutte le chiavi del database selezionato.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_info">INFO</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">INFO [sezione]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce informazioni e statistiche sul server. L&#8217;argomento opzionale <code>sezione</code>, permette di filtrare le informazioni ottenute. Le varie sezioni disponibili sono:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>server:: Informazioni generali sul server</p>
+</li>
+<li>
+<p>clients:: Sezione sulle connessioni dei client</p>
+</li>
+<li>
+<p>memory:: Informazioni relative al consumo di memoria</p>
+</li>
+<li>
+<p>persistence: Informazioni relative ai metodi di persistenza RDB e AOF</p>
+</li>
+<li>
+<p>stats: Statistiche generali</p>
+</li>
+<li>
+<p>replication: Informazioni sulla replica master-slave</p>
+</li>
+<li>
+<p>cpu: Statistiche sull&#8217;utilizzo della CPU</p>
+</li>
+<li>
+<p>commandstats: Statistiche sui comandi di Redis</p>
+</li>
+<li>
+<p>cluster: Sezione sul cluster</p>
+</li>
+<li>
+<p>keyspace: Statistiche riguardanti il database</p>
+</li>
+<li>
+<p>all: Restituisce informazioni su tutte le sezioni</p>
+</li>
+<li>
+<p>default: Restituisce solo il set di sezioni di default</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Di seguito sono elencati tutti i parametri restituiti con il comando <code>INFO all</code>, divisi per sezione:</p>
+</div>
+<div class="sect4">
+<h5 id="_server">Server</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>redis_version: Versione del server.</p>
+</li>
+<li>
+<p>redis_git_sha1: Git SHA1.</p>
+</li>
+<li>
+<p>redis_git_dirty: Git dirty flag.</p>
+</li>
+<li>
+<p>os: Il sistema operativo che ospita il server.</p>
+</li>
+<li>
+<p>arch_bits: L&#8217;architettura del sistema operativo (32 or 64 bit).</p>
+</li>
+<li>
+<p>multiplexing_api: Meccanismo di loop di eventi utilizzato da Redis.</p>
+</li>
+<li>
+<p>gcc_version: Versione del compilatore GCC utilizzato per compilare Redis.</p>
+</li>
+<li>
+<p>process_id: PID del processo del server.</p>
+</li>
+<li>
+<p>run_id: Valore random che identifica il server (viene usato da Sentinel e Cluster).</p>
+</li>
+<li>
+<p>tcp_port: Porta TCP/IP in ascolto.</p>
+</li>
+<li>
+<p>uptime_in_seconds: Numero di secondi dall&#8217;avvio del server.</p>
+</li>
+<li>
+<p>uptime_in_days: Numero di giorni dall&#8217;avvio del server.</p>
+</li>
+<li>
+<p>lru_clock: Orologio con precisione al minuto, utilizzato per la gestione degli elementi LRU.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_client">Client</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>connected_clients: Numero di connessioni dai client (escluse le connessioni dagli slave.)</p>
+</li>
+<li>
+<p>client_longest_output_list: lista di output più lunga tra i client connessi al momento.</p>
+</li>
+<li>
+<p>client_biggest_input_buf: buffer di input più grande tra i client connessi al momento.</p>
+</li>
+<li>
+<p>blocked_clients: Numero di client in attesa in una blocking operation (<code>BLPOP</code>, <code>BRPOP</code>, <code>BRPOPLPUSH</code>).</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_memory">Memory</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>used_memory: Numero totale di byte allocati da Redis utilizzando il suo allocatore (standard libc, jemalloc, o un allocatore alternativo come tcmalloc).</p>
+</li>
+<li>
+<p>used_memory_human: Rappresentazione leggibile del valore precedente.</p>
+</li>
+<li>
+<p>used_memory_rss: Numero di byte allocati da Redis second il sistema operativo (resident set size).</p>
+</li>
+<li>
+<p>used_memory_peak: Picco di memoria utilizzata da Redis (in byte).</p>
+</li>
+<li>
+<p>used_memory_peak_human: Rappresentazione leggibile del valore precedente.</p>
+</li>
+<li>
+<p>used_memory_lua: Numero di byte utilizzati dal motore Lua.</p>
+</li>
+<li>
+<p>mem_fragmentation_ratio: Rapporto tra used_memory_rss e used_memory.</p>
+</li>
+<li>
+<p>mem_allocator: Allocatore di memoria, scelto alla compilazione</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Idealmente, il valore di used_memory_rss dovrebbe essere di poco più grande di used_memory. Una grande differenza tra rss e used indica frammentazione della memoria, che può essere interna o esterna, la quale può essere verificata controllando mem_fragmentation_ratio. Quando la used è maggiore della rss, significa che parte della memoria di Redis è stata spostata, e ci saranno latenze.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_persistence">Persistence</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>loading: Flag che indica se il caricamento di un dump file è in corso.</p>
+</li>
+<li>
+<p>rdb_changes_since_last_save: Numero di cambiamenti dall&#8217;ultimo dump.</p>
+</li>
+<li>
+<p>rdb_bgsave_in_progress: Flag che indica se un RDB-save è in corso.</p>
+</li>
+<li>
+<p>rdb_last_save_time: Timestamp in tempo Unix dell&#8217;ultimo RDB save eseguito con successo.</p>
+</li>
+<li>
+<p>rdb_last_bgsave_status: Stato dell&#8217;ultima operazione di salvataggio RDB.</p>
+</li>
+<li>
+<p>rdb_last_bgsave_time_sec: Durata dell&#8217;ultima operazione di salvataggio RDB in secondi.</p>
+</li>
+<li>
+<p>rdb_current_bgsave_time_sec: Durata dell&#8217;operazione di salvataggio RDB corrente.</p>
+</li>
+<li>
+<p>aof_enabled: Flag che indica se il logging dell&#8217;AOF è attivato</p>
+</li>
+<li>
+<p>aof_rewrite_in_progress: Flag che indica se un&#8217;operazione di riscrittura dell&#8217;AOF è in corso</p>
+</li>
+<li>
+<p>aof_rewrite_scheduled: Flag che indica che un&#8217;operazione di riscrittura dell&#8217;AOF verrà eseguita una volta che l&#8217;operazione RDB save è conclusa.</p>
+</li>
+<li>
+<p>aof_last_rewrite_time_sec: Durata dell&#8217;ultima operazione di riscrittura dell&#8217;AOF in secondi.</p>
+</li>
+<li>
+<p>aof_current_rewrite_time_sec: Durata dell&#8217;operazione di riscrittura dell&#8217;AOF corrente.</p>
+</li>
+<li>
+<p>aof_last_bgrewrite_status: Stato dell&#8217;ultima operazione di riscrittura dell&#8217;AOF.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>changes_since_last_save fa riferimento al numero di operazioni che hanno modificato il dataset dall&#8217;ultima chiamata di <code>SAVE</code> o <code>BGSAVE</code>.</p>
+</div>
+<div class="paragraph">
+<p>Se l&#8217;AOF è attivo, saranno aggiunti questi campi:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>aof_current_size: La dimensione dell&#8217;AOF corrente.</p>
+</li>
+<li>
+<p>aof_base_size: La dimensione dell&#8217;AOF dall&#8217;ultimo avvio del server o dall&#8217;ultimo rewrite.</p>
+</li>
+<li>
+<p>aof_pending_rewrite: Flag che indica che un&#8217;operazione di riscrittura dell&#8217;AOF verrà eseguita una volta che l&#8217;operazione RDB save è conclusa.</p>
+</li>
+<li>
+<p>aof_buffer_length: Dimensione del buffer dell&#8217;AOF.</p>
+</li>
+<li>
+<p>aof_rewrite_buffer_length: Dimensione del buffer del rewrite dell&#8217;AOF.</p>
+</li>
+<li>
+<p>aof_pending_bio_fsync: Numero di fsync in attesa nella coda di I/O in background.</p>
+</li>
+<li>
+<p>aof_delayed_fsync: Contatore di fsync ritardati.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Se è in atto un&#8217;operazione di caricamento, saranno aggiunti questi campi:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>loading_start_time: Timestamp in tempo Unix dell&#8217;inizio dell&#8217;operazione di caricamento.</p>
+</li>
+<li>
+<p>loading_total_bytes: Dimensione totale del file.</p>
+</li>
+<li>
+<p>loading_loaded_bytes: Numero di byte già caricati.</p>
+</li>
+<li>
+<p>loading_loaded_perc: Stesso valore espresso in percentuale</p>
+</li>
+<li>
+<p>loading_eta_seconds: Tempo rimanente al completamento del caricamento espresso in secondi.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_stats">Stats</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>total_connections_received: Numero di connessioni accettate dal server.</p>
+</li>
+<li>
+<p>total_commands_processed: Numero complessivo di comandi elaborati dal server.</p>
+</li>
+<li>
+<p>instantaneous_ops_per_sec: Numero di comandi elaborati ogni secondo.</p>
+</li>
+<li>
+<p>rejected_connections: Numero di connessioni rifiutate a causa del limite maxclients.</p>
+</li>
+<li>
+<p>expired_keys: Numero di eventi di scadenza delle chiavi.</p>
+</li>
+<li>
+<p>evicted_keys: Numero di chiavi rimosse a causa del limite massimo della memoria.</p>
+</li>
+<li>
+<p>keyspace_hits: Numero di ricerche di chiavi effettuate con successo nel dizionario.</p>
+</li>
+<li>
+<p>keyspace_misses: Numero di ricerche di chiavi fallite nel dizionario.</p>
+</li>
+<li>
+<p>pubsub_channels: Numero totale di canali pub/sub con iscrizioni dei client.</p>
+</li>
+<li>
+<p>pubsub_patterns: Numero totale di pattern pub/sub con iscrizioni dei client.</p>
+</li>
+<li>
+<p>latest_fork_usec: Durata dell&#8217;ultimo fork in microsecondi.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_replication">Replication</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>role: Indica il ruolo dell&#8217;istanza, ovvero se è master o slave. Uno slave può essere master di altri slave.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Se l&#8217;istanza è uno slave, vengono forniti questi campi:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>master_host: Host o indirizzo IP del master.</p>
+</li>
+<li>
+<p>master_port: Porta TCP in ascolto del master.</p>
+</li>
+<li>
+<p>master_link_status: Stato della connesione con il master (up/down).</p>
+</li>
+<li>
+<p>master_last_io_seconds_ago: Numero di secondi dall&#8217;ultima interazione con il master.</p>
+</li>
+<li>
+<p>master_sync_in_progress: Indica che il master si sta sincronizzando con lo slave.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Se un&#8217;operazione di SYNC è in corso, vengono aggiunti questi campi:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>master_sync_left_bytes: Numero di byte rimanenti per il completamento dell&#8217;operazione.</p>
+</li>
+<li>
+<p>master_sync_last_io_seconds_ago: Numero di secondi dall&#8217;ultimo trasferimento I/O durante un&#8217;operazione SYNC.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Se la connessione tra il master e lo slave è down, viene aggiunto il seguente parametro:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>master_link_down_since_seconds: Downtime della connessione espresso in secondi.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Il campo seguente viene fornito sempre:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>connected_slaves: Numero di slave connessi.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Per ogni slave, viene aggiunta questa riga:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>slaveXXX: id, IP address, port, state</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_cpu">CPU</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>used_cpu_sys: System CPU utilizzata dal server.</p>
+</li>
+<li>
+<p>used_cpu_user:User CPU utilizzata dal server.</p>
+</li>
+<li>
+<p>used_cpu_sys_children: System CPU utilizzata dal processo in background.</p>
+</li>
+<li>
+<p>used_cpu_user_children: User CPU consumed by the processo in background.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_commandstats">Commandstats</h5>
+<div class="paragraph">
+<p>Fornisce statistiche in base al tipo di comando, incluso il numero di chiamate, il tempo CPU complessivo impiegato da questi comandi, e una media della CPU impiegata per esecuzione.</p>
+</div>
+<div class="paragraph">
+<p>Per ogni tipo di comando viene aggiunta questa riga:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>cmdstat_XXX: calls=XXX,usec=XXX,usec_per_call=XXX</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_cluster_2">Cluster</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>cluster_enabled: Indica se Redis è in modalità cluster</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_keyspace">Keyspace</h5>
+<div class="paragraph">
+<p>Fornisce statistiche sui dizionari dei database: il numero di chiavi, ed il numero di chiavi con scadenza.</p>
+</div>
+<div class="paragraph">
+<p>Per ogni database viene aggiunta questa riga:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>dbXXX: keys=XXX,expires=XXX</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lastsave">LASTSAVE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">LASTSAVE</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce il tempo trascorso dall&#8217;ultimo salvataggio in formato Unix.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_monitor">MONITOR</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">MONITOR</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>MONITOR</code> è un comando di debug che restituisce ogni comando elaborato dal server. Viene utilizzato per individuare bug, o in genere vedere cosa sta facendo il server. Per interrompere il monitoraggio, viene utilizzato il comando <code>SIGINT</code>, se il monitoraggio è effettuato tramite redis-cli; se invece viene fatto tramite telnet, va utilizzato <code>QUIT</code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_role">ROLE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ROLE</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Resstituisce un array contenente informazioni riguardo al ruolo dell&#8217;istanza:</p>
+</div>
+<div class="paragraph">
+<p>Il primo elemento indica se l&#8217;istanza è master, slave o sentinel;</p>
+</div>
+<div class="paragraph">
+<p>A seconda del ruolo, vengono poi mostrati campi aggiuntivi:</p>
+</div>
+<div class="sect4">
+<h5 id="_master">Master</h5>
+<div class="paragraph">
+<p>Secondo elemento dell&#8217;array è l&#8217;offset di replica master-slave, utilizzato per la risincronizzazione.</p>
+</div>
+<div class="paragraph">
+<p>Dopo l&#8217;offset, per ogni slave viene inserito un array di 3 elementi che contiene l&#8217;IP, la porta, e l&#8217;ultimo offset di cui lo slave è a conoscenza.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_slave">Slave</h5>
+<div class="paragraph">
+<p>Dopo la stringa che indica che l&#8217;istanza è uno slave, viene inserito un elemento che contiene l&#8217;indirizzo IP del master, un elemento successivo che mostra la porta del master, lo stato della replica dal punto di vista del master, che può essere: connect (l&#8217;istanza si deve connettere al master) connecting (l&#8217;istanza si sta connettendo al master) sync (il master e lo slave stanno effettuando la sincronizzazione) connected (lo slave è online). Infine viene aggiunto un lemento che indica la quantità di dati ricevuti dallo slave finora in termini di offset di replica.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_sentinel">Sentinel</h5>
+<div class="paragraph">
+<p>Dopo la stringa che indica che l&#8217;istanza è una sentinel, viene inserito un array che contiene i nomi di tutti i master che quella sentinel sta monitorando.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_save">SAVE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SAVE</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Il comando <code>SAVE</code> effettua un salvataggio sincrono del dataset, creando un file di tipo RDB</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_shutdown">SHUTDOWN</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SHUTDOWN [NOSAVE|SAVE]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Chiude il server, assicurandosi di uscire senza la perdita di dati: ciò è ottenuto bloccando tutti i client, e, a seconda della persistenza abilitata, va a creare un file RDB, o ad aggiornare l&#8217;AOF, o entrambi. Una volta eseguito il salvataggio, chiude il server.</p>
+</div>
+<div class="paragraph">
+<p>Le opzioni <code>NOSAVE e SAVE</code> permettono di effettuare una chiusura del server salvando i dati anche se non sono configurati savepoint, o di uscire non salvando i dati nonostante siano stati configurati 1 o più savepoint.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_slaveof">SLAVEOF</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SLAVEOF host porta</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Il comando <code>SLAVEOF</code> imposta un&#8217;istanza come slave di un&#8217;altra istanza all&#8217;indirizzo specificato. Il comando viene utilizzato per cambiare al volo le impostazioni di replica; inoltre è possibile rendere uno slave master, con il comando <code>SLAVEOF NO ONE</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_slowlog">SLOWLOG</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SLOWLOG [GET|LEN|RESET] [argomento]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Viene utilizzato per ottenere e resettare un log delle slow query, ovvero delle query che superano un tempo di esecuzione specifico, impostato alla configurazione del server. Il comando <code>SLOWLOG GET [elementi]</code> permette di visualizzare lo slowlog intero, o un numero di elementi passati nell&#8217;argomento. <code>SLOWLOG LEN</code> restituisce la lunghezza del log, mentre <code>SLOWLOG RESET</code> elimina i dati contenuti nel log.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_time">TIME</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">TIME</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce un array contenente due elementi che indicano l&#8217;orario del server: un timestamp in formato Unix ed il numero di microsecondi passati nel secondo attuale.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_comandi_relativi_alla_connessione">Comandi relativi alla connessione</h3>
+<div class="sect3">
+<h4 id="_auth">AUTH</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">AUTH password</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: <code>OK</code></p>
+</div>
+<div class="paragraph">
+<p>Se non è stata inserita la password nel momento della connessione, consente l&#8217;autenticazione al server.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_echo">ECHO</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ECHO messaggio</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce il messaggio.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ping">PING</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">PING [messaggio]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Invia un ping al server. Restituisce <code>PONG</code> se non è stato passato niente nell&#8217;argomento, altrimenti restituisce il messaggio.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_quit">QUIT</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">QUIT</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Chiude la connessione al server, appena tutte le risposte dal server sono state mandate al client. Restituisce sempre <code>OK</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_select">SELECT</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SELECT indice</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Permette di scegliere su quale database presente sul server lavorare. I vari database presenti sul server sono memorizzati con un indice che parte da 0. Restituisce <code>OK</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_comandi_generici_delle_chiavi">Comandi generici delle chiavi</h3>
+<div class="sect3">
+<h4 id="_del">DEL</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">DEL chiave1 chiave2 chiave3...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce un intero delle chiavi eliminate</p>
+</div>
+<div class="paragraph">
+<p>Elimina una chiave ed il valore ad essa associato.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_dump">DUMP</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">DUMP chiave</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Serializza la chiave in un formato specifico a Redis e la restituisce all&#8217;utente. Se la chiave non esiste, restituisce <code>nil</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_exists">EXISTS</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">EXISTS chiave1 chiave2 chiave3</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce 1 se la chiave esiste, altrimenti 0. Se sono specificate più chiavi, restituisce il numero di chiavi che esistono tra quelle passate nell&#8217;argomento.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_expire">EXPIRE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">EXPIRE chiave ttl</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce 1 se l&#8217;operazione ha avuto successo, altrimenti 0.</p>
+</div>
+<div class="paragraph">
+<p>Imposta la vita di una chiave in secondi. Allo scadere del tempo specificato, la chiave viene eliminata</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_expireat">EXPIREAT</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">EXPIREAT chiave timestamp</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce 1 se l&#8217;operazione ha avuto successo, altrimenti 0.</p>
+</div>
+<div class="paragraph">
+<p>Funziona come <code>EXPIRE</code>, ma invece di richiedere il time to live della chiave, richiede un timestamp del momento in cui la chiave scadrà. Questo timestamp va passato in formato Unix.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_keys">KEYS</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">KEYS pattern</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce tutte le chiavi che corrispondono al pattern di ricerca.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">&gt; set key 1
+OK
+&gt; set keey 2
+OK
+&gt; set kayy 3
+OK
+&gt; set k3y 4
+OK
+&gt; keys k?y
+1) "k3y"
+2) "key"
+&gt; keys k*y
+1) "k3y"
+2) "key"
+3) "kayy"
+4) "keey"
+&gt; keys k[ae]y
+1) "key"
+&gt; keys k[^e]y
+1) "k3y"
+&gt; keys k[^a]y
+1) "k3y"
+2) "key"</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_migrate">MIGRATE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">MIGRATE host porta chiave |"" destination-db timeout [COPY] [REPLACE] [KEYS chiave1 chiave2 chiave3...]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce <code>OK</code>, o se le chiavi specificate non esistono, <code>NOKEY</code></p>
+</div>
+<div class="paragraph">
+<p>Effettua un&#8217;operazione atomica di migrazione di una chiave da un&#8217;istanza ad un&#8217;altra. L&#8217;operazione effettua un <code>DUMP</code> della chiave o chiavi specificate, le sposta all&#8217;istanza di destinazione, effettua un <code>RESTORE</code> della chiave o chiavi, e quando il <code>RESTORE</code> restituisce <code>OK</code>, effettua un <code>DEL</code> sull&#8217;istanza di origine. Dalla versione di Redis 3.0.6, è possibile effettuare un <code>MIGRATE</code> su più chiavi: in questo caso, la prima chiave va sostituita con una stringa vuota, e le chiavi da migrare vanno dichiarate dopo l&#8217;opzione <code>KEYS</code>. L&#8217;opzione <code>COPY</code> non effettua l&#8217;eliminazione sull&#8217;istanza di origine, mentre l&#8217;opzione <code>REPLACE</code>, va a sostituire nell&#8217;istanza di destinazione, una chiave con lo stesso nome di quella in arrivo dall&#8217;istanza di origine. Il timeout indica il tempo massimo di attesa durante la comunicazione, espresso in millisecondi. Non si intende però che l&#8217;operazione debba essere compiuta nel tempo specificato, ma che l&#8217;operazione non vad a bloccarne altre per un tempo maggiore a quello specificato. Se viene oltrepassato questo limite, l&#8217;operazione viene annullata, e restituisce un errore speciale: <code>IOERR</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_move">MOVE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">MOVE chiave db</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce 1 se la chiave è stata spostata, altrimenti 0.</p>
+</div>
+<div class="paragraph">
+<p>Sposta la chiave specificata dal database corrente, impostato tramite <code>SELECT</code>, al database di destinazione.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_object">OBJECT</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">OBJECT comando [argomento]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Ottiene informazioni riguardo ad un oggetto di redis. I comandi disponibili sono:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>OBJECT REFCOUNT chiave</code></dt>
+<dd>
+<p>restituisce il numero di reference al valore associato alla chiave.</p>
+</dd>
+<dt class="hdlist1"><code>OBJECT ENCODING chiave</code></dt>
+<dd>
+<p>restituisce la chiave come è stata codificata da Redis.</p>
+</dd>
+<dt class="hdlist1"><code>OBJECT IDLETIME chiave</code></dt>
+<dd>
+<p>restituisce il tempo in cui la chiave non è stata richiesta da operazioni di lettura o scrittura.</p>
+</dd>
+</dl>
+</div>
+<div class="sect4">
+<h5 id="_codifica">Codifica</h5>
+<div class="paragraph">
+<p>Redis codifica le sue strutture dati in modi diversi:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Stringhe</dt>
+<dd>
+<p>possono essere codificate in <code>raw</code> o come <code>int64</code>.</p>
+</dd>
+<dt class="hdlist1">Liste</dt>
+<dd>
+<p>possono essere codificate come <code>ziplist</code> o <code>linkedlist</code>.</p>
+</dd>
+<dt class="hdlist1">Set</dt>
+<dd>
+<p>possono essere codificati come <code>intset</code> o <code>hashtable</code>.</p>
+</dd>
+<dt class="hdlist1">Hash</dt>
+<dd>
+<p>possono essere codificate come <code>hashtable</code> o <code>ziplist</code>.</p>
+</dd>
+<dt class="hdlist1">Set Ordinati</dt>
+<dd>
+<p>possono essere codificati come <code>ziplist</code> o <code>linkedlist</code>.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_persist">PERSIST</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">PERSIST chiave</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Rende una chiave persistente, ovvero toglie il contatore impostato con <code>EXPIRE</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_pexpire">PEXPIRE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">PEXPIRE chiave ttl</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Funziona come <code>EXPIRE</code>, ma il ttl viene espresso in millisecondi.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_pexpireat">PEXPIREAT</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">PEXPIREAT chiave timestamp</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Funziona come <code>EXPIREAT</code>, ma il timestamp è espresso in millisecondi.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_pttl">PTTL</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">PTTL chiave</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce il time to live della chiave espresso in millisecondi.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_randomkey">RANDOMKEY</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">RANDOMKEY</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce una chiave casuale dal database corrente.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_rename">RENAME</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">RENAME chiave nome</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce <code>OK</code></p>
+</div>
+<div class="paragraph">
+<p>Rinomina la chiave con il nome specificato.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_renamenx">RENAMENX</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">RENAMENX chiave nome</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Resstituisce 1 se la chiave è stata rinominata, altrimenti 0.</p>
+</div>
+<div class="paragraph">
+<p>Rinomina la chiave con il nome specificato se esso non esiste già nel database.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_restore">RESTORE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">RESTORE chiave ttl serialized-value [REPLACE]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce <code>OK</code></p>
+</div>
+<div class="paragraph">
+<p>Crea una chiave, assegnandole un valore precedentemente serializzato con <code>DUMP</code>, ed un time to live. Se il ttl è 0, la nuova chiave non avrà scadenza. L&#8217;opzione replace permette di sostituire una chiave, se il nome della chiave specificato è già presente nel database.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_scan">SCAN</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SCAN cursore [MATCH pattern] [COUNT count]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Effettua una scansione del dataset corrente di elementi che corrispondano alla pattern. La ricerca è incrementale, ovvero è possibile analizzare un dataset in piccole porzioni. Alla scansione, Redis restituisce un array di 2 elementi: il primo è il cursore da utilizzare per la scansione successiva, mentre il secondo è un array che contiene gli elementi trovati. L&#8217;opzione <code>COUNT count</code> permette al caller di gestire quanti elementi vengono restituiti nell&#8217;array dei risultati. L&#8217;opzione <code>MATCH</code> permette di cercare elementi in base ad un pattern passato nell&#8217;argomento, simile nel funzionamento al comando <code>KEYS</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sort">SORT</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SORT chiave [BY pattern] [LIMIT offset count] [GET pattern [GET pattern ...]] [ASC|DESC] [ALPHA] [STORE destinazione]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Ordina gli elementi contenuti in una chiave, conservandoli oppure semplicemente restituendoli.</p>
+</div>
+<div class="paragraph">
+<p>L&#8217;opzione <code>LIMIT</code> fa in modo che il comando restituisca un numero specifico di elementi. Richiede due argomenti: l&#8217;offset, il numero di elementi da saltare, e count, quanti elementi restituire partendo dall&#8217;offset. Le opzioni <code>ASC</code>, <code>DESC</code> e <code>ALPHA</code> consentono di visualizzare gli elementi restituiti in ordine crescente, decrescente e lessicografico. Se omessa, l&#8217;opzione di default è crescente. L&#8217;opzione by utilizza una pattern per generare delle chiavi tramite le quali effettuare l&#8217;ordinamento. I nomi delle chiavi sono ottenuti sostituendo il primo asterisco incontrato nell&#8217;argomento pattern con il valore dell&#8217;elemento nel dataset. Se una lista contiene degli elementi che rappresentano chiavi nel dataset, è possibile, invece di ottenere gli id, ottenere la chiave stessa. Queste chiavi esterne, si ottengono con l&#8217;opzione <code>GET pattern</code>. Infine è possibile conservare i risultati ottenuti dal <code>SORT</code> in un&#8217;altra chiave, tramite l&#8217;opzione <code>STORE destinazione</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ttl">TTL</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">TTL chiave</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce il time to live di una chiave espresso in secondi.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_type">TYPE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">TYPE chiave</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce una stringa che indica di che tipo è la chiave specificata.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_wait">WAIT</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">WAIT numslave timeout</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Blocca il client finché tutti i comandi di scrittura precedenti non sono stati registrati da almeno un numero specifico di slave. Se viene raggiunto il timeout specificato in millisecondi, il comando esce ed il client riprende la sua attività. Il comando restituisce sempre il numero di slave che hanno registrato i comandi di scrittura. Se il timeout viene impostato a 0, il client rimane sempre in attesa.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_comandi_delle_stringhe">Comandi delle Stringhe</h3>
+<div class="sect3">
+<h4 id="_append">APPEND</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">APPEND chiave valore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: la lunghezza della stringa dopo l&#8217;operazione.</p>
+</div>
+<div class="paragraph">
+<p>Se la chiave esiste, ed è una stringa, <code>APPEND</code> va ad aggiungere il valore alla fine della stringa dichiesta.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_bitcount">BITCOUNT</h4>
+<div class="paragraph">
+<p>Vedi <a href="#Bitcount"><code>BITCOUNT</code></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_bitop">BITOP</h4>
+<div class="paragraph">
+<p>vedi <a href="#Bitop"><code>BITOP</code></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_bitpos">BITPOS</h4>
+<div class="paragraph">
+<p>vedi <a href="#Bitpos"><code>BITPOS</code></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_decr">DECR</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">DECR chiave</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: il valore della chiave dopo la sottrazione.</p>
+</div>
+<div class="paragraph">
+<p>Se la chiave contiene un valore numerico, e solo un valore numerico, <code>DECR</code> sottrae 1 al valore contenuto nella chiave. Funziona solo con int64; se la chiave non esiste, viene creata una nuova chiave, con valore 0, su cui viene poi effettuata la sottrazione.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_decrby">DECRBY</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">DECRBY chiave valore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: il valore della chiave dopo la sottrazione.</p>
+</div>
+<div class="paragraph">
+<p>Come <code>DECR</code>, va ad effettuare una sottrazione su una stringa che contiene valori numerici. <code>DECRBY</code> però richiede come argomento il valore da sottrarre dalla stringa. Se la chiave non esiste, viene creata una nuova chiave, con valore 0, su cui viene poi effettuata la sottrazione.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_get">GET</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">GET chiave</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: stringa o <code>nil</code> se la chiave non esiste.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_getbit">GETBIT</h4>
+<div class="paragraph">
+<p>Vedi <a href="#Getbit"><code>GETBIT</code></a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_getrange">GETRANGE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">GETRANGE chiave [inizio] [fine]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: stringa.</p>
+</div>
+<div class="paragraph">
+<p><code>GETRANGE</code> restituisce una stringa contenente i caratteri compresi tra gli indici di inizio e fine, della stringa specificata nella chiave. Come indici accetta numeri negativi, che rappresentano i caratteri in posizione -x dalla fine della stringa. -1 è l&#8217;ultimo carattere, -2 il penultimo, -3 il terzultimo e così via. Entrambi i valori di inizio e fine sono inclusi nel range da estrarre; Le richieste che vanno oltre le dimensioni della stringa, vengono limitate alla fine della stringa stessa.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_getset">GETSET</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">GETSET chiave valore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: stringa o <code>nil</code>.</p>
+</div>
+<div class="paragraph">
+<p>Sostituisce il valore assegnato alla chiave quello specificato nell&#8217;argomento, e restituisce il valore precedente alla sostituzione. Se la chiave prima non esisteva, restituisce <code>nil</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_incr">INCR</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">INCR chiave</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce intero: valoredella chiave dopo l&#8217;addizione.</p>
+</div>
+<div class="paragraph">
+<p>Se la chiave contiene un valore numerico, e solo un valore numerico, <code>INCR</code> incrementa di 1 il valore contenuto nella chiave. Funziona solo con int64; se la chiave non esiste, viene creata una nuova chiave, con valore 0, su cui viene poi effettuato l&#8217;incremento.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_incrby">INCRBY</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">INCRBY chiave valore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: il valore della chiave dopo l&#8217;addizione.</p>
+</div>
+<div class="paragraph">
+<p>Come <code>INCR</code>, va ad effettuare un&#8217;addizione su una stringa che contiene valori numerici. <code>INCRBY</code> però richiede come argomento il valore da aggiungere dalla stringa. Se la chiave non esiste, viene creata una nuova chiave, con valore 0, su cui viene poi effettuata l&#8217;addizione.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_incrbyfloat">INCRBYFLOAT</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">INCRBYFLOAT chiave valore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: il valore della chiave dopo l&#8217;addizione.</p>
+</div>
+<div class="paragraph">
+<p>Come <code>INCRBY</code>, va ad effettuare l&#8217;addizione di un valore su una stringa. <code>INCRBYFLOAT</code> però accetta come argomento numeri decimali, di tipo double, con una precisione di 17 cifre. Se la chiave non esiste, viene creata una nuova chiave, con valore 0, su cui viene poi effettuata l&#8217;addizione.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_mget">MGET</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">MGET chiave1 chiave2 chiave3...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: array di stringhe.</p>
+</div>
+<div class="paragraph">
+<p>Come il <code>GET</code> restituisce il valore della chiave specificata nell&#8217;argomento; il <code>MGET</code> però accetta più chiavi nell&#8217;argomento, e restituisce il valore di ognuna.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_mset">MSET</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">MSET chiave1 valore1 chiave2 valore2 chiave3 valore3...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: il numero di chiavi create o modificate.</p>
+</div>
+<div class="paragraph">
+<p>Come il <code>SET</code> imposta più chiavi e valori in un&#8217;unica chiamata. Ogni coppia chiave-valore è separata da uno spazio. Se le chiavi non esistono vengono create.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_msetnx">MSETNX</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">MSETNX chiave1 valore1 chiave2 valore2 chiave3 valore3...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: il numero di chiavi create o modificate.</p>
+</div>
+<div class="paragraph">
+<p>Come il <code>MSET</code> imposta più chiavi e valori in un&#8217;unica chiamata, ma a differenza del <code>MSET</code>, imposta le coppie chiave-valore solo le le chiavi non eistono. Se anche solo una chiave di quelle indicate nell&#8217;argomento esiste, <code>MSETNX</code> non ne imposta nessuna.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_psetex">PSETEX</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">PSETEX chiave tempo[ms]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>PSETEX</code> funziona come <code>SETEX</code>, tranne che il ttl è espresso in millisecondi.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_set_2">SET</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SET chiave "valore" [opzioni]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: <code>OK</code> oppure <code>nil</code> se non viene creata o modificata la chiave (ad esempio se una condizione di esistenza non si verifica).</p>
+</div>
+<div class="paragraph">
+<p><code>SET</code> va a creare o modificare una chiave, impostando il valore passato nell&#8217;argomento. Qualsiasi valore inserito viene interpretato come stringa, e, a meno che non ci sia uno spazio, o della punteggiatura, i doppi apici non sono necessari. Le opzioni passabili come argomento sono:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><strong>Le condizioni di esistenza della chiave</strong></dt>
+<dt class="hdlist1"><code>NX</code></dt>
+<dd>
+<p>Imposta la chiave se la chiave specificata non esiste.</p>
+</dd>
+<dt class="hdlist1"><code>XX</code></dt>
+<dd>
+<p>Imposta la chiave se la chiave specificata esiste.</p>
+</dd>
+<dt class="hdlist1"><strong>La vita della chiave</strong></dt>
+<dt class="hdlist1"><code>EX</code> [secondi]</dt>
+<dd>
+<p>Imposta la durata della chiave.</p>
+</dd>
+<dt class="hdlist1"><code>PX</code> [millisecondi]</dt>
+<dd>
+<p>Imposta la durata della chiave in millisecondi.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_setbit">SETBIT</h4>
+<div class="paragraph">
+<p>Vedi <a href="#Setbit"><code>SETBIT</code></a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_setex">SETEX</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SETEX chiave secondi valore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: <code>OK</code>.</p>
+</div>
+<div class="paragraph">
+<p>Funziona come <code>SET chiave valore EX secondi</code>, assegna un valore alla chiave specificata ed imposta il tempo durante il quale la chiave esite. Esaurito questo tempo, la chiave viene eliminata.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_setnx">SETNX</h4>
+<div class="paragraph">
+<p>Restituisce: <code>OK</code> se la creazione ha avuto successo, altrimenti restituisce <code>nil</code>.</p>
+</div>
+<div class="paragraph">
+<p>Funziona come <code>SET chiave valore NX</code>, assegna un valore alla chiave specificata se la chiave esiste.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_setrange">SETRANGE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SETRANGE chiave indice valore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: la lunghezza della stringa modificata</p>
+</div>
+<div class="paragraph">
+<p><code>SETRANGE</code> va a sostituire una parte della stringa a partire dall&#8217;indice specificato, con il valore passato nell&#8217;argomento.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_strlen">STRLEN</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">STRLEN chiave</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: la lunghezza della stringa.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_comandi_delle_liste">Comandi delle Liste</h3>
+<div class="sect3">
+<h4 id="_blpop">BLPOP</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">BLPOP chaive1 chiave2 chiave3... secondi</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: un array: l&#8217;array può contenere <code>nil</code> se il tempo di attesa è scaduto, oppure due elementi: il primo è la chiave della lista da cui ha preso il valore, il secondo è il valore.</p>
+</div>
+<div class="paragraph">
+<p><code>BLPOP</code> mette il client in attesa di un elemento da prendere dalla cima di una lista; il timeout, espresso in secondi nell&#8217;argomento, dopo la serie di liste da cui il client attende dati, indica per quanto il client rimane in attesa di un dato dalle liste, bloccando gli altri client. Il comando va a prendere il primo elemento che viene aggiunto ad una delle liste specificate, se sono vuote, altrimenti dalla prima lista non vuota.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_brpop">BRPOP</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">BRPOP chiave1 chiave2 chiave3.... secondi</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: un array: l&#8217;array può contenere <code>nil</code> se il tempo di attesa è scaduto, oppure due elementi: il primo è la chiave della lista da cui ha preso il valore, il secondo è il valore.</p>
+</div>
+<div class="paragraph">
+<p><code>BRPOP</code> mette il client in attesa di un elemento da prendere dal fondo di una lista; il timeout, espresso in secondi nell&#8217;argomento, dopo la serie di liste da cui il client attende dati, indica per quanto il client rimane in attesa di un dato dalle liste, bloccando gli altri client. Il comando va a prendere il primo elemento che viene aggiunto ad una delle liste specificate, se sono vuote, altrimenti dalla prima lista non vuota.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_brpoplpush">BRPOPLPUSH</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">BRPOPLPUSH fonte destinazione secondi</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: stringa o <code>nil</code>: restituisce l&#8217;elemento spostato dalla fonte alla destinazione, o <code>nil</code> se il tempo di attesa è stato esaurito.</p>
+</div>
+<div class="paragraph">
+<p><code>BRPOPLPUSH</code> funziona come <code>RPOPLPUSH</code>, ma nel caso la lista fonte sia vuota, rimane in attesa per un numero di secondi specificato nell&#8217;argomento.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lindex">LINDEX</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">LINDEX chiave indice</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: stringa o <code>nil</code></p>
+</div>
+<div class="paragraph">
+<p><code>LINDEX</code> restituisce il valore della lista all&#8217;indice desiderato. Supporta i valori negativi, dove -1 è l&#8217;ultimo elemento della lista, -2 il penultimo e così via. Se l&#8217;indice desiderato non è contenuto nella lista, restituisce <code>nil</code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_linsert">LINSERT</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">LINSERT chiave [BEFORE|AFTER] indice valore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: la lunghezza della lista dopo l&#8217;inserimento.</p>
+</div>
+<div class="paragraph">
+<p><code>LINSERT</code> va ad inserire un valore prima (BEFORE) o dopo (AFTER) l&#8217;indice selezionato. Se l&#8217;indice è al di fuori della lista restituisce -1.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_llen">LLEN</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">LLEN chiave</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: la lunghezza della lista.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lpop">LPOP</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">LPOP chiave</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: stringa o <code>nil</code></p>
+</div>
+<div class="paragraph">
+<p>Rimuove e restituisce il primo elemento di una lista.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lpush">LPUSH</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">LPUSH chiave valore1 valore2 valore3...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: la lunghezza della lista modificata.</p>
+</div>
+<div class="paragraph">
+<p>Inserisce uno o più valori in cima ad una lista. Se sono stati passati più valori, verranno inseriti da sinistra verso destra, quindi nel nostro esempio, valore3 sarà in cima alla lista.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lpushx">LPUSHX</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">LPUSHX chiave valore1 valore2 valore3...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: la lunghezza della lista modificata.</p>
+</div>
+<div class="paragraph">
+<p>Funziona come <code>LPUSH</code>, tranne che inserisce i valori solo le la lista esiste, altrimenti restituisce 0.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lrange">LRANGE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">LRANGE chiave [inizio] [fine]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: array.</p>
+</div>
+<div class="paragraph">
+<p><code>LRANGE</code> restituisce un array contenente gli elementi compresi tra gli indici di inizio e fine, della lista specificata nella chiave. Come indici accetta numeri negativi, che rappresentano i caratteri in posizione -x dalla fine della stringa. -1 è l&#8217;ultimo carattere, -2 il penultimo, -3 il terzultimo e così via. Entrambi i valori di inizio e fine sono inclusi nel range da estrarre; Se l&#8217;inizio va oltre la fine della lista, restituisce una lista vuota, se la fine va oltre la lunghezza della lista, Redis lo interpreta come -1.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lrem">LREM</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">LREM chiave quantità valore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: il numero di elementi rimossi.</p>
+</div>
+<div class="paragraph">
+<p><code>LREM</code> rimuove un elemento da una lista un numero di volte specificato nell&#8217;argomento. Se viene passato un numero negativo, ad esempio -2, rimuove le prime due ricorrenze del valore dalla fine della lista all&#8217;inizio, mentre se viene passato un numero positivo, ad esempio 3, rimuove le prime 3 ricorrenze del valore dall&#8217;inizio della lista verso la fine.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_lset">LSET</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">LSET chiave indice valore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Assegna un valore all&#8217;elemento all&#8217;indice specificato.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ltrim">LTRIM</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">LTRIM chiave inizio fine</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: la lunghezza della nuova lista</p>
+</div>
+<div class="paragraph">
+<p>Elimina tutti gli elementi di una lista non compresi tra gli indici specificati, ottenendo così una lista più corta, delle dimensioni specificate nell&#8217;argomento. Inizio e fine possono essere anche numeri negativi; se inizio &gt; fine o è al di fuori della lista, restituisce una lista vuota, causando la perdita di tutti gli elementi al suo interno.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_rpop">RPOP</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">RPOP chiave</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Come <code>LPOP</code> rimuove e restituisce un elemento, ma a differenza di <code>LPOP</code>, lo rimuove dalla fine della lista.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_rpoplpush">RPOPLPUSH</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">RPOPLPUSH fonte destinazione</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: stringa: l&#8217;elemento spostato.</p>
+</div>
+<div class="paragraph">
+<p>Rimuove l&#8217;ultimo elemento di una lista, e lo inserisce in cima ad una lista di destinazione. Se la lista da cui prende l&#8217;elemento è vuota o non esiste, restituisce <code>nil</code> e non vengono effettuate altre operazioni. Fonte e destinazione possono essere uguali; in questo caso l&#8217;elemento della lista viene spostato in cima.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_rpush">RPUSH</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">RPUSH chiave valore1 valore2 valore3...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: la lunghezza della lista modificata.</p>
+</div>
+<div class="paragraph">
+<p>Inserisce uno o più valori in fondo ad una lista. Se sono stati passati più valori, verranno inseriti da sinistra verso destra, quindi nel nostro esempio, valore3 sarà in fondo alla lista.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_rpushx">RPUSHX</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">RPUSHX chiave valore1 valore2 valore3</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: la lunghezza della lista modificata.</p>
+</div>
+<div class="paragraph">
+<p>Funziona come <code>RPUSH</code>, tranne che inserisce i valori solo le la lista esiste, altrimenti restituisce 0.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_comandi_delle_hash">Comandi delle Hash</h3>
+<div class="sect3">
+<h4 id="_hdel">HDEL</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">HDEL chiave campo1 campo2 campo3...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: il numero di campi eliminati.</p>
+</div>
+<div class="paragraph">
+<p>Elimina i campi specificati. I campi che non esistono vengono ignorati, e non sono contati tra quelli eliminati.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_hexists">HEXISTS</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">HEXISTS chiave campo</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero.</p>
+</div>
+<div class="paragraph">
+<p>Verifica se un campo esiste o meno nell&#8217;hash, restituendo 1 se il campo esiste, o 0 se non esiste.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_hget">HGET</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">HGET chiave campo</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce il valore del campo specificato, o <code>nil</code> se il campo non esiste.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_hgetall">HGETALL</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">HGETALL chiave</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce tutti i campi ed i relativi valori di una chiave in forma di array: se la chiave non esiste restituisce un array vuoto.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_hincrby">HINCRBY</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">HINCRBY chiave campo incremento</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero.</p>
+</div>
+<div class="paragraph">
+<p>Come <code>INCRBY</code>, va ad incrementare di un valore specifico un campo numerico della hash, restituendo il nuovo valore del campo. Se il campo non esiste, viene creato un nuovo campo con valore 0, sul quale viene poi effettuata l&#8217;addizione. Anche <code>HINCRBY</code> accetta int64.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_hincrbyfloat">HINCRBYFLOAT</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">HINCRBYFLOAT chiave campo incremento</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: stringa.</p>
+</div>
+<div class="paragraph">
+<p>Come <code>INCRBYFLOAT</code>, va ad incrementare di un valore di tipo double il campo di una hash. Se il campo non esiste, viene creato con un valore di 0, e poi viene effettuata l&#8217;addizione.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_hkeys">HKEYS</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">HKEYS chiave</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce i nomi dei campi di una hash, ma non i valori associati. I campi vengono espressi in forma di array, se la chiave non esiste, restituisce un array vuoto.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_hlen">HLEN</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">HLEN chiave</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce un intero che indica la lunghezza della hash, ovvero il numero di campi presenti. Se la chiave non esiste, restituisce 0.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_hmget">HMGET</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">HMGET chiave campo1 campo2 campo3...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce il valore di più campi specificati.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_hmset">HMSET</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">HMSET chiave campo1 valore1 campo2 valore2 campo3 valore3...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: <code>OK</code></p>
+</div>
+<div class="paragraph">
+<p>Imposta il valore di uno o più campi di una hash; se la chiave o i campi non esistono, vengono creati.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_hscan">HSCAN</h4>
+<div class="paragraph">
+<p>Vedi <a href="#Scan"><code>SCAN</code></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_hset">HSET</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">HSET chiave campo valore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: <code>OK</code></p>
+</div>
+<div class="paragraph">
+<p>Assegna ad un campo della hash un valore specifico. Se la hash o il campo non esistono, vengono creati.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_hsetnx">HSETNX</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">HSETNX chiave campo valore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero.</p>
+</div>
+<div class="paragraph">
+<p>Assegna ad un campo della hash un valore specifico solo se il valore non esiste. Se la creazione del campo ha avuto successo, restituisce 1, altrimenti, se il campo esisteva già, restituisce 0.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_hstrlen">HSTRLEN</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">HSTRLEN chiave campo</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce un intero che indica la lunghezza del valore assegnato ad un campo della hash. Se il valore non esiste, restituisce 0</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_hvals">HVALS</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">HVALS chiave</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce un array contenente tutti i valori della hash, senza i relativi nomi dei campi. Se la chiave non esiste, restituisce un array vuoto.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_comandi_dei_set">Comandi dei Set</h3>
+<div class="sect3">
+<h4 id="_sadd">SADD</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SADD chiave chiave1 chiave2 chiave3...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: il numero di elementi unici aggiunti al set.</p>
+</div>
+<div class="paragraph">
+<p>Aggiunge gli elementi specificati al set; se un elemento è già presente nel set, non viene aggiunto.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_scard">SCARD</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SCARD chiave</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce un intero che indica la cardinalità del set, ovvero il numero di elementi unici presenti al suo interno. Dato che un set contiene solo elementi unici, <code>SCARD</code> viene utilizzato per ottenere la lunghezza del set. Se la chiave non esiste, <code>SCARD</code> restituisce 0.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sdiff">SDIFF</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SDIFF chiave1 chiave2 chiave3...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Effettua la differenza tra più set, restituendo un array che contiene la differenza tra il primo set specificato, ed i set specificati in seguito. Nel nostro esempio, il risultato della differenza sarà (<code>chiave1</code> - <code>chiave2</code>) - <code>chiave3</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sdiffstore">SDIFFSTORE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SDIFFSTORE destinazione chiave1 chiave2 chiave3...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: il numero di elementi del set di destinazione.</p>
+</div>
+<div class="paragraph">
+<p>Come <code>SDIFF</code>, effettua la differenza tra più set, ma, con gli elementi ottenuti va a popolare un altro set di destinazione, contenente il risultato.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sinter">SINTER</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SINTER chiave1 chiave2 chiave3</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: array.</p>
+</div>
+<div class="paragraph">
+<p>Effettua l&#8217;intersezione tra più set, restituendo un array che contiene gli elementi che tutti i set hanno in comune tra loro. Le chiavi che non esistono vengono interpretate come set vuoti, in questo caso anche il risultato però sarà un array vuoto, dato che non ha elementi in comune con gli altri set.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sinterstore">SINTERSTORE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SINTERSTORE destinazione chiave1 chiave2 chiave3</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: il numero di elementi nel set di destinazione</p>
+</div>
+<div class="paragraph">
+<p>Come <code>SINTER</code>, effettua l&#8217;intersezione tra più set, ma il risultato ottenuto viene inserito in un set di destinazione.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sismember">SISMEMBER</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SISMEBER chiave valore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce 1 se il valore specificato è contenuto nel set, altrimenti restituisce 0.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_smembers">SMEMBERS</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SMEMBERS chiave</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce un array contenente tutti gli elementi di un set.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_smove">SMOVE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SMOVE fonte destinazione valore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero.</p>
+</div>
+<div class="paragraph">
+<p>Sposta un valore da un set fonte ad un set di destinazione. Se il set fonte non contiene l&#8217;elemento o non esiste, l&#8217;operazione non viene effettuata. Se l&#8217;elemento specificato è già presente nel set di destinazione, viene rimosso dalla fonte, ma non viene inserito nella destinazione, ma l&#8217;operazione viene considerata come portata a termine. Se l&#8217;operazione ha avuto successo, restituisce 1, altrimenti restituisce 0.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_spop">SPOP</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SPOP chiave quantità</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce un numero specificato di elementi di un set come stringhe, rimuovendoli dal set stesso; gli elementi vengono estratti senza un ordine preciso. La quantità può essere omessa, in questo caso viene restituito solo un elemento. Se la chiave non esiste, restituisce <code>nil</code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_srandmember">SRANDMEMBER</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SRANDMEMBER chiave quantità</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Simile a <code>SPOP</code>, restituisce un numero di elementi estratti a caso dal set, ma a differenza di <code>SPOP</code>, gli elementi ottenuti non vengono rimossi dal set. Se viene omessa la quantità, viene restituito solo un elemento, if forma di stringa, altrimenti gli elementi vengono restituiti in un array.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_srem">SREM</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SREM valore1 valore2 valore3...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: il numero di elementi rimossi</p>
+</div>
+<div class="paragraph">
+<p>Rimuove uno o più elementi da un set; se un elemento non esiste, viene ignorato. Se la chiave non esiste, restituisce 0.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sscan">SSCAN</h4>
+<div class="paragraph">
+<p>Vedi <a href="#Scan"><code>SCAN</code></a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sunion">SUNION</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SUNION chiave1 chiave2 chiave3...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Effettua l&#8217;unione tra più set, restituendo un array contenente tutti gli elementi unici di tutti i set. Se lo stesso elemento è presente in più set, viene inserito solo una volta.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sunionstore">SUNIONSTORE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SUNIONSTORE destinazione chiave1 chiave2 chiave3...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: il numero di elementi del set di destinazione.</p>
+</div>
+<div class="paragraph">
+<p>Effettua l&#8217;unione tra più set, andando a popolare un set di destinazione con tutti gli elementi unici di tutti i set.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_comandi_dei_set_ordinati">Comandi dei Set Ordinati</h3>
+<div class="sect3">
+<h4 id="_zadd">ZADD</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZADD chiave valore1 valore2 valore3</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: il numero di elementi aggiunti.</p>
+</div>
+<div class="paragraph">
+<p>Aggiunge gli elementi specificati al SO. Gli elementi già presenti nel set non vengono aggiunti.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_zcard">ZCARD</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZCARD chiave</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce la cardinalità del SO, quindi il numero di elementi al suo interno, dato che i SO contengono solo elementi unici.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_zcount">ZCOUNT</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZCOUNT chiave min max</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce il numero di elementi in un SO con uno score compreso tra <code>min</code> e <code>max</code>. Di default, Redis interpreta min e max come valori inclusivi, quindi compresi nel range di valori tra cui cercare. Aggiungendo una parentesi tonda prima del valore però, vengono interpretati come esclusivi.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZCOUNT chiave (1 5</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Nell&#8217;esempio, verranno restituiti tutti i valori con uno score compreso tra 2 e 5. Un&#8217;altra opzione è quella di passare -inf o +inf ovvero - infinito e + infinito.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_zincrby">ZINCRBY</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZINCRBY chiave incremento valore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Come <code>INCRBY</code>, va ad incrementare di un valore specifico un campo numerico del SO, restituendo il nuovo valore del campo. Se il campo non esiste, viene creato un nuovo campo con valore 0, sul quale viene poi effettuata l&#8217;addizione. Anche <code>ZINCRBY</code> accetta int64.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_zinterstore">ZINTERSTORE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZINTERSTORE destinazione numchiavi chiave1 chiave2 chiave3... [WEIGHTS [weight1 weight2 weight3...]] [AGGREGATE SUM|MIN|MAX]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: il numero di elementi del SO di destinazione</p>
+</div>
+<div class="paragraph">
+<p>Effettua un&#8217;intersezione tra più SO, andando a popolare un SO di destinazione con gli elementi in comune tra i SO specificati nell&#8217;argomento. Va specificato il numero di chiavi su cui effettuare l&#8217;intersezione, prima di passare le chiavi stesse. L&#8217;opzione weights richiede un intero per ogni SO da intersecare, e rappresenta il fattore per il quale moltiplicare lo score dei singoli SO; se non viene specificato, vengono moltiplicati per 1. L&#8217;opzione aggregate indica invece come ottenere gli score dei vari elementi. Di default è sum, ovvero lo score dell&#8217;elemento in comune tra i set viene sommato. Alternativamente si può scegliere di tenere lo score più basso <code>MIN</code> o quello più alto <code>MAX</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZADD chiave1 1 a 2 b 3 c 4 d
+(integer) 4
+ZADD chiave2 1 a 2 2 3 d
+(integer) 3
+ZADD chiave3 1 1 2 2 3 3 5 a 8 d
+(integer) 5
+ZINTERSTORE dest 3 chiave1 chiave2 chiave3 WEIGHTS 1 2 3 AGGREGATE SUM
+(integer) 2
+ZRANGE dest 0 -1 WITHSCORES
+1) "a"
+2) "18"
+3) "d"
+4) "34"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Nell&#8217;esempio, i valori in comune a tutti e tre i SO sono <code>a</code> e <code>d</code>: i loro rispettivi score all&#8217;estrazione dal SO sono: 1*1, 1*2 e 5*3 per <code>a</code> e 4*1, 3*2 e 8*3 per <code>d</code>, come specificato nell&#8217;opzione weights. Gli scores vengono poi "passati" alla funzione <code>AGGREGATE</code>, che ne effettua la somma: per <code>a</code> quindi saranno 1+2+15 e per <code>d</code> 4+6+24.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_zlexcount">ZLEXCOUNT</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZLEXCOUNT chiave inizio fine</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Se tutti gli elementi di un SO hanno lo stesso score, <code>ZLEXCOUNT</code> restituisce un intero che indica quanti elementi sono presenti nell&#8217;intervallo compreso tra inizio e fine. <code>ZLEXCOUNT</code> esamina gli elementi non per score, ma in base al valore assegnato. Inizio e fine possono essere passati come limiti inclusivi del range, indicandoli con una parentesi quadra aperta prima del carattere, ad esempio <code>[f</code> o esclusivi, indicati con una parentesi tonda aperta prima del carattere, ad esempio <code>(t</code>. In oltre è possibile passare come argomenti <code>+</code> e <code>-</code>, che funzionano come <code>+inf</code> e <code>-inf</code> in <code>ZCOUNT</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_zrange">ZRANGE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZRANGE chiave inizio fine [WITHSCORES]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce un array che contiene gli elementi di un SO compresi tra gli indici passati all&#8217;argomento. Gli elementi sono ordinati per score e, nel caso abbiano lo stesso score, lessicograficamente, e sono disposti in ordine crescente. L&#8217;opzione <code>WITHSCORES</code> restituisce un array che contiene coppie valore-score. Come gli altri <code>RANGE</code>, è possibile inserire numeri negativi.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_zrangebylex">ZRANGEBYLEX</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZRANGEBYLEX chiave inizio fine [LIMIT offset count]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Se tutti gli elementi di un SO hanno lo stesso score, <code>ZRANGEBYLEX</code> restituisce un array contenete gli elementi del SO compresi nell&#8217;intervallo specificato. Il range di valori da passare funziona come in <code>ZLEXCOUNT</code>. L&#8217;opzione <code>LIMIT</code> indica, se specificata, il numero di elementi da prendere, che rientrano nel range. <code>Offset</code> indica quanti elementi saltare all&#8217;inizio della selezione, mentre <code>count</code> indica quanti elementi prendere dalla selezione.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZADD chiave 0 a 0 b 0 c 0 d 0 e 0 f 0 g
+(integer) 7
+redis&gt;  ZRANGEBYLEX chiave - [c
+1) "a"
+2) "b"
+3) "c"
+ZRANGEBYLEX chiave - (c
+1) "a"
+2) "b"
+ZRANGEBYLEX chiave [aaa (g
+1) "b"
+2) "c"
+3) "d"
+4) "e"
+5) "f"
+ZRANGEBYLEX chiave [aaa (g LIMIT 2 3
+1) "d"
+2) "e"
+3) "f"</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_zrangebyscore">ZRANGEBYSCORE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZRANGEBYSCORE chiave min max [WITHSCORES] [LIMIT offset count]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce un array contenente tutti gli elementi di un SO con uno score compreso tra <code>min</code> e <code>max</code>. Di default, Redis interpreta min e max come valori inclusivi, quindi compresi nel range di valori tra cui cercare. Aggiungendo una parentesi tonda prima del valore però, vengono interpretati come esclusivi. L&#8217;opzione <code>WITHSCORES</code> restituisce un array che contiene coppie valore-score, mentre l&#8217;opzione <code>LIMIT</code> funziona come nel comando <code>ZRANGEBYLEX</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_zrank">ZRANK</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZRANK chiave valore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce un intero che indica l&#8217;indice del valore nel SO. Il SO è a base 0, il che significa che all&#8217;inidice 0 c&#8217;è l&#8217;elemento con lo score più basso.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_zrem">ZREM</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZREM chiave valore1 valore2 valore3...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Rimuove gli elementi specificati dal SO, restituendo un intero che indica il numero di elementi rimossi.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_zremrangebylex">ZREMRANGEBYLEX</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZREMRANGEBYLEX chiave inizio fine</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Se tutti gli elementi di un SO hanno lo stesso score, <code>ZREMRANGEBYLEX</code> ordina gli elementi lessicograficamente, e rimuove gli elementi compresi tra inizio e fine, restituendo un intero che indica quanti elementi sono stati rimossi. I limiti del range funzionano come nel comando <code>ZRANGEBYLEX</code>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_zremrangebyrank">ZREMRANGEBYRANK</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZREMRANGEBYRANK chiave inizio fine</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Rimuove gli elementi compresi tra gli indici inizio e fine, e restituisce un intero che indica quanti elementi sono stati eliminati. I limiti sono inclusivi.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_zremrangebyscore">ZREMRANGEBYSCORE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZREMRANGEBYSCORE chiave inizio fine</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Rimuove gli elementi con uno score compreso tra inizio e fine. Come in <code>ZRANGEBYSCORE</code>, i limiti del range possono essere impostati come inclusivi o esclusivi.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_zrevrange">ZREVRANGE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZREVRANGE chiave inizio fine [WITHSCORES]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Funziona come <code>ZRANGE</code>, ma restituisce un array di elementi ordinati in ordine decrescente.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_zrevrangebylex">ZREVRANGEBYLEX</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZREVRANGEBYLEX chiave inizio fine [LIMIT offset count]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Funziona come <code>ZRANGEBYLEX</code>, ma restituisce un array di elementi ordinati in ordine decrescente.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_zrevrangebyscore">ZREVRANGEBYSCORE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZREVRANGEBYSCORE chiave inizio fine [WITHSCORES] [LIMIT offset count]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Funziona come <code>ZRANGEBYSCORE</code> ma restituisce un array di elementi ordinati in ordine decrescente.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_zrevrank">ZREVRANK</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZREVRANK chiave valore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Funziona come <code>ZRANK</code>, ma gli elementi vengono ordinati in ordine decrescente, quindi l&#8217;elemento all&#8217;indice 0 avrà lo score più alto.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_zscan">ZSCAN</h4>
+<div class="paragraph">
+<p>Vedi <a href="#Scan"><code>SCAN</code></a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_zscore">ZSCORE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZSCORE chiave valore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce una stringa che contiene lo score dell&#8217;elemento specificato. Se l&#8217;elemento non esiste, restituisce <code>nil</code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_zunionstore">ZUNIONSTORE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">ZUNIONSTORE dest chiavi chiave1 chiave2 chiave3... [WEIGHTS] [AGGREGATE]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Effettua l&#8217;unione tra due o più SO, andando a popolare un SO con gli elementi unici dei SO passati nell&#8217;argomento. Come con <code>ZINTERSTORE</code>, è possibile impostare il comportamento dello score dei vari elementi attraverso le opzioni <code>WEIGHTS</code> e <code>AGGREGATE</code></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_comandi_delle_bitmap">Comandi delle Bitmap</h3>
+<div class="sect3">
+<h4 id="Bitcount">BITCOUNT</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">BITCOUNT chiave [inizio] [fine]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero.</p>
+</div>
+<div class="paragraph">
+<p>Conta i byte di una bitmap, restituendo il numero di bit impostati su 1. Può analizzare l&#8217;intera bitmap, oppure, se vengono passati gli argomenti inizio e fine, conta gli elementi in un range specifico. Come per <code>GETRANGE</code>, accetta come argomenti anche valori negativi, dove -1 è l&#8217;ultimo indice della bitmap, -2 è il penultimo e così via.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="Bitop">BITOP</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">BITOP operazione destinazione chiave1, chiave2, chiave3...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: la dimensione della stringa di destinazione.</p>
+</div>
+<div class="paragraph">
+<p>Effettua le operazioni AND, NOT, OR e XOR su più bitmap, e restituendo il risultato in una stringa di destinazione. L&#8217;operatore NOT, essendo unario, richiede solo una stringa di destinazione ed una chiave su cui effettuare l&#8217;operazione. Se due o più bitmap sono di lunghezze differenti, a quelle più corte vengono aggiunti degli 0 finché non raggiungono la dimensione di quella più lunga.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="Bitpos">BITPOS</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">BITPOS chiave bit [inizio] [fine]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Esamina una bitmap, restituendo l&#8217;indice del primo bit impostato su 0 o 1, a seconda di cosa viene richiesto tra gli argomenti del metodo. Come <code>BITCOUNT</code>, può esaminare parte della bitmap, se vengono passati gli indici di inizio e fine del range tra gli argomenti.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="Getbit">GETBIT</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">GETBIT chiave indice</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero.</p>
+</div>
+<div class="paragraph">
+<p>Restituisce il valore di un bit alla posizione passata nell&#8217;argomento. Se l&#8217;indice richiesto è oltre la fine della stringa, restituisce 0, così come restituisce 0 se la stringa è vuota.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="Setbit">SETBIT</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">SETBIT chiave indice valore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: il valore originale del bit modificato.</p>
+</div>
+<div class="paragraph">
+<p>Imposta il bit all&#8217;indice desiderato con il valore espresso nell&#8217;argomento. Se l&#8217;indice specificato nell&#8217;argomento è fuori dalla stringa, quest&#8217;ultima viene ridimensionata per contenere l&#8217;indice desiderato.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_comandi_degli_hyperloglog">Comandi degli Hyperloglog</h3>
+<div class="sect3">
+<h4 id="_pfadd">PFADD</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">PFADD chiave valore1 valore2 valore3</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: 1 se almeno un elemento unico è stato inserito, altrimenti 0.</p>
+</div>
+<div class="paragraph">
+<p>Inserisce nell&#8217;HLL i valori dell&#8217;argomento. Se tra gli elementi inseriti c&#8217;è un elemento che non è già presente nell&#8217;HLL, restituisce 1.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_pfcount">PFCOUNT</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">PFCOUNT chiave1 chiave2 chiave3...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restituisce: intero: la cardinalità dell&#8217;HLL</p>
+</div>
+<div class="paragraph">
+<p><code>PFCOUNT</code>, se chiamato con una sola chiave come argomento, restituisce la cardinalità dell&#8217;HLL, ovvero il numero di elementi unici. Se invece viene chiamato con più chiavi, effettua un&#8217;unione degli HLL passati nell&#8217;argomento, creando un HLL temporaneo, e restituendo la cardinalità di quell&#8217;HLL. Essendo una struttura dati probabilistica, può essere che restituisca una cardinalità sbagliata, ma la percentuale di errore e molto bassa, 0.81%.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_pfmerge">PFMERGE</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-Redis" data-lang="Redis">PFMERGE destinazione fonte1 fonte2 fonte3</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>PFMERGE</code> unisce più HLL in un unico Hyperloglog; se non esiste viene creato.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2016-05-18 16:08:23 W. Europe Summer Time
+</div>
+</div>
+</body>
+</html>

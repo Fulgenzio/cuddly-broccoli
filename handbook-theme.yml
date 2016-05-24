@@ -1,0 +1,38 @@
+page:
+    background_color: #ffeecc
+    
+base:
+    font_color: #492704
+    font_size: 14
+    font_family: calligraffitti
+    
+literal:
+    font_color: #492704
+    font_size: 14
+    font_style: normal
+
+heading:
+    font_color: #660000
+    font_style: normal
+    h1_font_size: $base_font_size * 2
+    h2_font_size: $base_font_size * 1.8
+    h3_font_size: $base_font_size * 1.6
+    h4_font_size: $base_font_size * 1.4
+    h5_font_size: $base_font_size * 1.2
+    h6_font_size: $base_font_size
+    
+table:
+    border_color: #ffdd99
+    font_family: calligraffitti
+    head:
+        font_style: normal
+        font_color: $heading_font_color
+        font_size: $heading_h5_font_size
+    even_row:
+        background_color: $table_border_color
+    header_cell:
+        background_color: $table_border_color
+font:
+    catalog:
+        calligraffitti:
+            normal: calligraffitti-normal.ttf
