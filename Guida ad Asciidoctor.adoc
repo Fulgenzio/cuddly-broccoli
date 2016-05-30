@@ -1,6 +1,7 @@
 = Asciidoctor: manuale d'uso
 :toc: left
 :toc-title: Indice
+<<<<<<< HEAD
 :sectnums:
 :toc-level: 2
 :app-name: pass:quotes[MyApp^(C)^]
@@ -17,19 +18,44 @@ Asciidoctor può essere installato tramite il comando `gem`, con il package mana
 === Linux e Mac
 
 Ci sono diversi modi di installare Asciidoctor, ma il più semplice è utilizzando il comando `gem` da riga di comando:
+=======
+:secnums:
+:toc-level: 2
+:app-name: pass:quotes[MyApp^(C)^]
+
+== Cos'è Asciidoctor
+
+Asciidoctor è un linguaggio di markup che consente di creare documenti in HTML5, pdf, Docbook 5 o 4.5, ed Epub3 in modo sempolice. Per lavorare con asciidoctor serve ruby, e la relativa gem; serve inoltre un editor di testo semplice. Per produrre file in ofrmato PDF inoltre, è necessario utilizzare *asciidoctor-pdf*, che estende le funzionalità di asciidoctor, permettendo la conversione. Quando effettua la conversione di un file dal formato di asciidoctor, `.adoc` in uno dei vari formati che supporta, asciidoctor applica un proprio stile di default, personalizzabile creando file in CSS o YAML.
+
+== Installare Asciidoctor
+
+Asciidoctor può essere installato tramite il comando `gem`, con il package manager delle varie distribuzioni di linux o via Bundler. L'installazione richiede la presenza di ruby nel sistema; asciidoctor funziona con diverse versioni di ruby, incluse le API Jruby, Rubinius e Opal. 
+
+=== Linux e Mac
+
+Ci sono diversi modi di installare asciidoctor, ma il più semplice è utilizzando il comando `gem` da riga di comando:
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 
 [source, Bash]
 ----
 gem install asciidoctor
 ----
 
+<<<<<<< HEAD
 Un altro modo di installare Asciidoctor è utilizzando i package manager di linux, che variano a seconda della distribuzione:
+=======
+Un altro modo di installare asciidoctor è utilizzando i package manager di linux, che variano a seconda della distribuzione:
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 
 Debian o Ubuntu:: `apt-get asciidoctor`
 Fedora 21 o precedente:: `sudo yum install asciidoctor`
 Fedora 22 o successivo:: `sudo dnf install asciidoctor`
 
+<<<<<<< HEAD
 una volta installato Asciidoctor, per effettuare il render di documenti in formato PDF, è necessario scaricare Asciidoctor-pdf, che è disponibile come pre-release su rubygems.org. L'installazione è possibile solo da riga di comando:
+=======
+una volta installato asciidoctor, per effettuare il render di documenti in formato PDF, è necessario scaricare asciidoctor-pdf, che è disponibile come pre-release su rubygems.org. L'installazione è possibile solo da riga di comando:
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 
 [source, CLI]
 ----
@@ -38,14 +64,22 @@ gem install asciidoctor-pdf --pre
 
 === Windows
 
+<<<<<<< HEAD
 Per isntallare Asciidoctor su un sistema Windows, bisogna prima installare ruby; esiste un progetto che ne rende l'installazione molto semplice, chiamato http://rubyinstaller.org/[Ruby Installer]. Una volta scaricato ed eseguita l'installazione, sarà disponibile una command prompt apposita, dalla quale sarà possibile scaricare ed installare la gem di Asciidoctor:
+=======
+Per isntallare asciidoctor su un sistema Windows, bisogna prima installare ruby; esiste un progetto che ne rende l'installazione molto semplice, chiamato http://rubyinstaller.org/[Ruby Installer]. Una volta scaricato ed eseguita l'installazione, sarà disponibile una command prompt apposita, dalla quale sarà possibile scaricare ed installare la gem di asciidoctor:
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 
 [source, "Command prompt"]
 ----
 gem install asciidoctor
 ----
 
+<<<<<<< HEAD
 Una volta scaricato ed installato Asciidoctor, se si vuole produrre documenti in formato PDF, è necessario installare anche la gem Asciidoctor-pdf, la quale è disponibile solo come pre-release:
+=======
+Una volta scaricato ed installato asciidoctor, se si vuole produrre documenti in formato PDF, è necessario installare anche la gem asciidoctor-pdf, la quale è disponibile solo come pre-release:
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 
 [source, "Command prompt"]
 ----
@@ -54,7 +88,11 @@ gem install asciidoctor-pdf --pre
 
 === Source highlighting
 
+<<<<<<< HEAD
 Qualora volessimo uno strumento per l'highlighting del codice nel documento, Asciidoctor supporta CodeRay, Rouge e Pygments, i quali sono scaricabili come gem da riga di comando:
+=======
+Qualora volessimo uno strumento per l'highlighting del codice nel documento, asciidoctor supporta CodeRay, Rouge e Pygments, i quali sono scaricabili come gem da riga di comando:
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 
 [source, CLI]
 ----
@@ -69,7 +107,11 @@ Una volta scaricati uno o più di questi strumenti, possiamo dichiarare nel nost
 
 == L'editor
 
+<<<<<<< HEAD
 Quando decidiamo di lavorare con Asciidoctor, una decisione importante è la scelta dell'editor di testo da utilizzare: editor di testo complessi come Word o Open office sono sconsigliati, ma allo stesso tempo su piattaforme windows è scosigliato l'uso di trumenti come wordpad o notepad. Questi editor infatti possono complicare la conversione o causare errori nell'interpretazione del file. Gli editor consigliati sono TextMate per Mac OS X, o GEdit per i sistemi Linux, mentre per Windows è consigliato Notepad++. Alternativamente è possibile utilizzare Vim, Emacs o Sublime Text. Questi editor di testo sono consigliati perché supportano l'highlighting della sintassi di Asciidoctor.
+=======
+Quando decidiamo di lavorare con asciidoctor, una decisione importante è la scelta dell'editor di testo da utilizzare: editor di testo complessi come Word o Open office sono sconsigliati, ma allo stesso tempo su piattaforme windows è scosigliato l'uso di trumenti come wordpad o notepad. Questi editor infatti possono complicare la conversione o causare errori nell'interpretazione del file. Gli editor consigliati sono TextMate per Mac OS X, o GEdit per i sistemi Linux, mentre per Windows è consigliato Notepad++. Alternativamente è possibile utilizzare Vim, Emacs o Sublime Text. Questi editor di testo sono consigliati perché supportano l'highlighting della sintassi di asciidoctor.
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 
 == Tipologia del documento
 
@@ -81,31 +123,51 @@ Manuale:: il manuale, o MAN page, è utilizzato per produrre documenti simili al
 
 == Struttura del documento
 
+<<<<<<< HEAD
 Un documento Asciidoctor è composto da diversi elementi, suddivisi in elementi block o inline. Ognuno di questi elementi ha una serie di stili, opzioni e funzioni applicabili al loro contenuto; i block element sono elementi che possono occupare più righe, e possono contenere al loro interno altri blocchi. Gli elementi inline invece effettuano delle operazioni su una parte del contenuto di un blocco. Alcuni elementi di tipo block comprendono sezioni, titpoli, header, tabelle e liste, mentre gli elementi inline comprendono quotes, macro o sostituzioni di caratteri.
 
 === Quotes
 
 Con quotes in Asciidoctor si intende una variazione nella formattazione del testo, ad esempio per rendere una parte del testo in grassetto, o in monospace. Ci sono due tipologie di quotes: vincolati (constrained) e liberi (unconstrained).
+=======
+Un documento asciidoctor è composto da diversi elementi, suddivisi in elementi block o inline. Ognuno di questi elementi ha una serie di stili, opzioni e funzioni applicabili al loro contenuto; i block element sono elementi che possono occupare più righe, e possono contenere al loro interno altri blocchi. Gli elementi inline invece effettuano delle operazioni su una parte del contenuto di un blocco. Alcuni elementi di tipo block comprendono sezioni, titpoli, header, tabelle e liste, mentre gli elementi inline comprendono quotes, macro o sostituzioni di caratteri.
+
+=== Quotes
+
+Con quotes in asciidoctor si intende una variazione nella formattazione del testo, ad esempio per rendere una parte del testo in grassetto, o in monospace. Ci sono due tipologie di quotes: vincolati (constrained) e liberi (unconstrained).
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 
 Per quotes vincolati si intende i quotes che comprendono una o più parole nella loro interezza, e non compaiono altri caratteri subito prima o subito dopo dei simboli che delimitano i quotes. 
 
 Venogno utilizzati con parole singole,
 
+<<<<<<< HEAD
 [source, Asciidoctor]
+=======
+[source, asciidoctor]
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 ----
 Questa macchina è *veloce*
 ----
 
 con più parole,
 
+<<<<<<< HEAD
 [source, Asciidoctor]
+=======
+[source, asciidoctor]
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 ----
 Questa macchina è *davvero veloce*
 ----
 
 o quando una parola è seguita da un segno di punteggiatura
 
+<<<<<<< HEAD
 [source, Asciidoctor]
+=======
+[source, asciidoctor]
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 ----
 Non ho mai guidato una macchina *così veloce*!
 ----
@@ -113,9 +175,13 @@ Non ho mai guidato una macchina *così veloce*!
 i quotes mostrati nell'esempio rendono il testo che racchiudono in grassetto. Il risultato delle frasi degli esempi è il seguente:
 
 Questa macchina è *veloce*
+<<<<<<< HEAD
 
 Questa macchina è *davvero veloce*
 
+=======
+Questa macchina è *davvero veloce*
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 Non ho mai guidato una macchina *così veloce*!
 
 I quotes liberi invece servono ad evidenziare parti di una parola o più parole, e vengono usate nei seguenti casi:
@@ -124,51 +190,82 @@ I quotes liberi invece servono ad evidenziare parti di una parola o più parole,
 * se il simbolo di apertura del quote è preceduto da un punto e virgola (;)
 * se ci sono degli spazi subito dopo il simbolo di apertura e subito prima il simbolo di chiusura del quote
 
+<<<<<<< HEAD
 [source, Asciidoctor]
+=======
+[source, asciidoctor]
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 ----
 La parola sc**i**enza si scrive con la *i*
 ----
 
+<<<<<<< HEAD
 [source, Asciidoctor]
+=======
+[source, asciidoctor]
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 ----
 Oggi è il _23_&#8722;__05__&#8722;__2016__
 ----
 
+<<<<<<< HEAD
 [source, Asciidoctor]
+=======
+[source, asciidoctor]
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 ----
 Ho bisogno di più `` spazio ``
 ----
 
+<<<<<<< HEAD
 La parola sc**i**enza si scrive con la *i*
 
 Oggi è il _23_&#8722;__05__&#8722;__2016__
 
 Ho bisogno di più `` spazio ``
 
+=======
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 Come mostrano gli esempi, i quotes liberi sono delimitati con due simboli invece che uno.
 
 Un caso particolare si presenta se vogliamo alterare una o più parole che sono comprese tra i doppi apici:
 
+<<<<<<< HEAD
 [source, Asciidoctor]
+=======
+[source, asciidoctor]
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 ----
 "`@`"
 "``@``"
 "```@```"
 ----
 
+<<<<<<< HEAD
 Dato che i doppi apici non sono lettere, numeri o underscore, verrebbe da utilizzare un quote vincolato, ma in questo caso va utilizzato un quote libero. La terza coppia di accenti viene interpretata dal parser di Asciidoctor come parte dei doppi apici. Se effettuassimo un render dell'esempio otterremmo il testo seguente:
 
 [example]
 ====
 "`@`", "``@``", "```@```"
 ====
+=======
+Dato che i doppi apici non sono lettere, numeri o underscore, verrebbe da utilizzare un quote vincolato, ma in questo caso va utilizzato un quote libero. La terza coppia di accenti viene interpretata dal parser di asciidoctor come parte dei doppi apici. Se effettuassimo un render dell'esempio otterremmo il testo seguente:
+
+"`@`"
+"``@``"
+"```@```"
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 
 === Attributi
 
 Gli attributi sono dichiarazioni effettuate generalmente subito dopo una sezione di livello 0, e che influenzano l'intero documento dalla dichiarazione dell'attributo in poi, tramite comportamenti o stili particolari, come ad esempio la creazione di un indice, o la numerazione delle sezioni del documento. Gli attributi si dividono in 6 categorie, in base alla loro funzione:
 
 * Attributi ambientali (?)
+<<<<<<< HEAD
 ** Sono attributi che Asciidoctor definisce automaticamente, come la data di creazione del documento, o il percorso del file da convertire. Generalmente sono da considerare attributi di sola lettura, anche se possono essere modificati.
+=======
+** Sono attributi che asciidoctor definisce automaticamente, come la data di creazione del documento, o il percorso del file da convertire. Generalmente sono da considerare attributi di sola lettura, anche se possono essere modificati.
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 * Attributi integrati
 ** Si tratta di attributi definibili ovunque nel documento, ad eccezione di una parte, chiamata attributi dell'header, che vanno definiti all'inizio del documento. Un attributo integrato è visibile e viene applicato solo dopo la sua definizione, e non può essere definito in più punti del documento, se non con il prefisso `@`, ad eccezione dell'attributo `sectnums` che può essere definito più volte nello stesso documento.
 * Attributi predefiniti
@@ -192,14 +289,24 @@ Gli attributi hanno un ordine di interpretazione preciso:
 
 Gli attributi vanno definiti con la seguente sintassi:
 
+<<<<<<< HEAD
 [source, Asciidoctor]
+=======
+[source, asciidoctor]
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 ----
 :attributo: valore
 ----
 
+<<<<<<< HEAD
 Come detto in precedenza, gli attributi in Asciidoctor possono richiedere che venga assegnato loro un valore, che può essere numerico, o una stringa, un percorso, un URL o riferimenti ad altri attributi. Inoltre è possibile "disattivare" un attributo impostato in precedenza, inserendo un `!` nell'attributo stesso.
 
 [source, Asciidoctor]
+=======
+Come detto in precedenza, gli attributi in asciidoctor possono richiedere che venga assegnato loro un valore, che può essere numerico, o una stringa, un percorso, un URL o riferimenti ad altri attributi. Inoltre è possibile "disattivare" un attributo impostato in precedenza, inserendo un `!` nell'attributo stesso.
+
+[source, asciidoctor]
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 ----
 :sectnums:
 :leveloffset: 3
@@ -212,9 +319,15 @@ Nell'esempio qui sopra vediamo un attributo che non richiede l'inserimento di va
 
 ==== Sostituizione degli attributi
 
+<<<<<<< HEAD
 Una delle feature di Asciidoctor è quella di poter utilizzare sostituzioni di caratteri come i caratteri speciali; queste sostituzioni sono disponibili anche negli attributi, e possono essere utilizzatio per creare del contenuto da richiamare più volte nel documento utilizzando solo il riferimento all'attributo, così da non digitarne il contenuto; le sostituzioni verranno viste più nel dettaglio in seguito, ma per ora vediamo un esempio:
 
 [source, Asciidoctor]
+=======
+Una delle feature di asciidoctor è quella di poter utilizzare sostituzioni di caratteri come i caratteri speciali; queste sostituzioni sono disponibili anche negli attributi, e possono essere utilizzatio per creare del contenuto da richiamare più volte nel documento utilizzando solo il riferimento all'attributo, così da non digitarne il contenuto; le sostituzioni verranno viste più nel dettaglio in seguito, ma per ora vediamo un esempio:
+
+[source, asciidoctor]
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 ----
 :app-name: pass:quotes[MyApp^(C)^]
 ----
@@ -225,7 +338,11 @@ Nell'esempio riportato qui sopra, la macro pass applica la sostituzione, e se do
 
 In certi casi, come ad esempio la creazione di un attributo definito dall'utente per inserire automaticamente nel documento elementi lunghi come paragrafi interi o righe di codice, può essere utile dividere il contenuto dell'attributo in più righe in modod da renderlo facilmente leggibile da chi andrà a vedere il documento in formato .adoc. Un attributo del genere è definito come ogni altro attributo, ed ogni riga termina con una backslash (`\`).
 
+<<<<<<< HEAD
 [source, Asciidoctor]
+=======
+[source, asciidoctor]
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 ----
 :attributo-lungo: questo è un attributo lungo, è talmente lungo che \
 per facilitare la lettura del contenuto di questo attributo molto lungo \
@@ -236,7 +353,11 @@ altrimenti la sua lettura potrebbe risultare difficile.
 
 ==== Limiti degli attributi
 
+<<<<<<< HEAD
 Gli attributi di Asciidoctor, seppur molto utili e versatili, hanno delle limitazioni riguardo al loro contenuto; e certi elementi non sono supportati all'interno dell'attributo stesso.
+=======
+Gli attributi di asciidoctor, seppur molto utili e versatili, hanno delle limitazioni riguardo al loro contenuto; e certi elementi non sono supportati all'interno dell'attributo stesso.
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 
 *Cos'è supportato*:
 
@@ -257,7 +378,11 @@ Gli attributi di Asciidoctor, seppur molto utili e versatili, hanno delle limita
 
 È possibile assegnare ad un elemento inline o block, oppure una macro, uno o più attributi, e questo si ottiene attraverso l'uso di liste di attributi, le quali hanno la precedenza sugli attributi impostati nel documento per l'elemento specifico a cui fanno riferimento. Una lista di attributi è un insieme di attributi specifici, separati tra loro da una virgola, e compresi tra delle parentesi quadre:
 
+<<<<<<< HEAD
 [source, Asciidoctor]
+=======
+[source, asciidoctor]
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 ----
 [positional-attribute, positional-attribute, named-attribute="valore"]
 ----
@@ -270,7 +395,11 @@ Gli attributi di Asciidoctor, seppur molto utili e versatili, hanno delle limita
 
 Il role è utilizzato principalmente per l'output HTML. L'attributo role infatti, una volta effettuato il render in HTML, diventa la classe di un elemento. Per dichiarare un role ci sono 3 modi: il primo è quello di precedere il nome del role da assegnare con un `.`, il secondo è quello di utilizzare il named attribute `role`, ed il terzo, che è valido solo per gli elementi inline è quello di inserirlo per primo nella lista degli attributi di quell'elemento. Come la classe in HTML, anche il role può contenere più valori:
 
+<<<<<<< HEAD
 [source, Asciidoctor]
+=======
+[source, asciidoctor]
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 ----
 [.role1.role2.role3]<elemento generico>
 [role="role1, role2, role3"]<elemento generico>
@@ -286,18 +415,30 @@ Lo style viene utilizzato per cambiare l'aspetto o il comportamento di un intero
 
 L'id di un elemento ha come scopo principale quello di fornire un'"ancora" per la creazione di cross reference, e nel caso l'output sia HTML, viene inserito come id dell'elemento. Oltre a questa funzione però l'id permette l'applicazione di uno stile particolare ad un elemento. L'id di un elemento è definito con un `#`, compreso come il role tra parentesi quadre. possiamo inoltre definire assieme l'id di un elemento ed il suo role:
 
+<<<<<<< HEAD
 [source, Asciidoctor]
+=======
+[source, asciidoctor]
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 ----
 [#id.role]<elemento>
 ----
 
 ==== Attributi mancanti
 
+<<<<<<< HEAD
 Se viene fatto un riferimento ad un attributo che non è stato definito, Asciidoctor generalmente non mostra la riga che contiene quell'attributo; tuttavia, per evidenziare questi problemi, nelle ultime release, sono stati inseriti due attributi nuovi: _attribute-missing_ e _attribute-undefined_, che permettono all'utente di specificare il comportamento che deve seguire asciidoctor quando incontra attributi mancanti o non definiti.
 
 ===== Attribute-missing
 
 Questo attributo viene utilizzato per definire il comportamento di Asciidoctor quando viene fatto un riferimento ad un attributo non esistente. L'attributo accetta 4 possibili valori: `skip`, `drop`, `drop-line` e `warn`.
+=======
+Se viene fatto un riferimento ad un attributo che non è stato definito, asciidoctor generalmente non mostra la riga che contiene quell'attributo; tuttavia, per evidenziare questi problemi, nelle ultime release, sono stati inseriti due attributi nuovi: _attribute-missing_ e _attribute-undefined_, che permettono all'utente di specificare il comportamento che deve seguire asccidoctor quando incontra attributi mancanti o non definiti.
+
+===== Attribute-missing
+
+Questo attributo viene utilizzato per definire il comportamento di asciidoctor quando viene fatto un riferimento ad un attributo non esistente. L'attributo accetta 4 possibili valori: `skip`, `drop`, `drop-line` e `warn`.
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
 
 * `skip`
 ** l'impostazione di default, il riferimento viene mostrato così come è stato scritto;
@@ -315,6 +456,7 @@ Questo attributo viene utilizzato per definire il comportamento di Asciidoctor q
 ^.^|drop		^.^|Ciao, !
 ^.^|drop-line	^.^|
 ^.^|warn		^.^|WARNING: skipping reference to missing attribute: name
+<<<<<<< HEAD
 |===
 
 ==== Attribute undefined
@@ -659,3 +801,6 @@ Ha stampate in copertina, a grandi caratteri che ispirano fiducia, le parole `NO
 Se il testo è compreso tra due cancelletti (`#`), viene renderizzato come testo evidenziato
 
 #ahiaufhiuawhfia#
+=======
+|===
+>>>>>>> 5bb0c98f2a4ccc2a41b628ff21b84f8a66d2f697
