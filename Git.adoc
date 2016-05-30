@@ -5,7 +5,7 @@
 :hide-uri-scheme:
 :imagesdir: img
 :sectnums:
-:docinfo1:
+
 
 == What is Git
 
