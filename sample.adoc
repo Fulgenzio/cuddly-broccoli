@@ -1,13 +1,26 @@
-[decimal]
-. a
-. a
-. a
-. a
-. a
-. a
-. a
-. a
-. a
-. a
-. a
-. a
+|===
+|riga 1 colonna 1	|riga 1 colonna 2	|riga 1 colonna 3
+|riga 2 colonna 1	|riga 2 colonna 2	|riga 2 colonna 3
+|===
+
+
+La tabella mostrata qui sopra è una semplice tabella a 2 righe e 3 colonne. Le celle sono state messe in ordine per renderne più semplice la lettura, ma è possibile dichiarare tutte le righe e le colonne di una tabella in una riga:
+
+
+
+|===
+|riga 1 colonna 1|riga 1 colonna 2|riga 1 colonna 3|riga 2 colonna 1|riga 2 colonna 2|riga 2 colonna 3
+|===
+
+
+Oppure una riga per cella:
+
+[cols="20,99,10"]
+|===
+|riga 1 colonna 1
+|riga 1 colonna 2
+|riga 1 colonna 3
+|riga 2 colonna 1
+|riga 2 colonna 2
+|riga 2 colonna 3
+|===

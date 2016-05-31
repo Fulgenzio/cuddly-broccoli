@@ -6,6 +6,8 @@
 :app-name: pass:quotes[MyApp^(C)^]
 :imagesdir: img/guida-asciidoctor
 :figure-caption: Figura
+:table-caption: {sectnums}
+:example-caption: Esempio
 
 == Cos'è Asciidoctor
 
@@ -222,7 +224,7 @@ Una delle feature di Asciidoctor è quella di poter utilizzare sostituzioni di c
 
 Nell'esempio riportato qui sopra, la macro pass applica la sostituzione, e se dovessimo fare riferimento all'attributo app-name, otterremmo questo risultato: {app-name}
 
-==== Attributi su più righe
+==== Attributi su righe multiple
 
 In certi casi, come ad esempio la creazione di un attributo definito dall'utente per inserire automaticamente nel documento elementi lunghi come paragrafi interi o righe di codice, può essere utile dividere il contenuto dell'attributo in più righe in modod da renderlo facilmente leggibile da chi andrà a vedere il documento in formato .adoc. Un attributo del genere è definito come ogni altro attributo, ed ogni riga termina con una backslash (`\`).
 
@@ -309,13 +311,13 @@ Questo attributo viene utilizzato per definire il comportamento di Asciidoctor q
 * `warn`
 ** viene mostrato un messaggio di avviso che il riferimento manca;
 
-[cols="2", options="header"]
+[cols="2*^", options="header"]
 |===
-^.^|Valore		^.^|Risultato
-^.^|skip		^.^|Ciao, {nome}!
-^.^|drop		^.^|Ciao, !
-^.^|drop-line	^.^|
-^.^|warn		^.^|WARNING: skipping reference to missing attribute: name
+|Valore		|Risultato
+|skip		|Ciao, {nome}!
+|drop		|Ciao, !
+|drop-line	|
+|warn		|WARNING: skipping reference to missing attribute: name
 |===
 
 ==== Attribute undefined
@@ -557,23 +559,23 @@ L'esempio riportato qui sopra mostra un blocco di tipo `source`, con il titolo, 
 
 Con blocco delimitato si intende un blocco il cui inizio e fine sono dichiarati dall'utente attraverso dei segni di punteggiatura particolari; dentro questi marcatori possono essere contenute righe vuote. Il blocco delimitato non viene chiuso finché il marcatore che ne indica la chiusura non viene trovato. Inoltre il contenuto di un blocco viene interpretato in modi differenti a seconda del tipo di blocco delimitato. Le varie tipologie vengono definite dai marcatori utilizzati. 
 
-[cols="4", options="header"]
+[cols="3*^.^,1", options="header"]
 |===
-^.^|Tipo di blocco 	^.^|Nome del blocco											^.^|Marcatore					^.^|Scopo
-^.^|Admonition		^.^|[etichetta]												^.^|Qualsiasi marcatore			^.^|Contenuto a cui viene associato un tag o un'icona
-^.^|Comment			^.^|Nessuno													^.^|//&#47;/					^.^|Testo che non viene processato durante il render
-^.^|Example			^.^|[example]												^.^|====						^.^|Definisce un blocco admonition oppure un esempio
-^.^|Fenced			^.^|Nessuno													^.^|&#715;&#715;&#715;			^.^|Il contenuto viene mostrato così come è scritto, senza interpretazione
-^.^|Listing			^.^|[listing]												^.^|---							^.^|Il contenuto viene mostrato così come è scritto, senza interpretazione
-^.^|Literal			^.^|[literal]												^.^|..&#46;.					^.^|Il contenuto viene mostrato così come è scritto, senza interpretazione
-^.^|Open			^.^|Quasi tutti i nomi degli altri blocchi					^.^|--							^.^|Blocco generico che può essere utilizzato al posto degli altri blocci, ad eccezione del passthrough e della tabella
-^.^|Passthrough		^.^|[pass]													^.^|&#43;&#43;&#43;&#43;		^.^|Il contenuto viene mostrato così come è scritto, senza interpretazione
-^.^|Quote			^.^|[quote]													^.^|&#95;&#95;&#95;&#95;		^.^|Una citazione, con la possibilità di inserirne l'autore
-^.^|Sidebar			^.^|[sidebar]												^.^|****						^.^|Testo e contenuto renderizzato a lato del testo del documento
-^.^|Source			^.^|[source]												^.^|----						^.^|Il contenuto vien mostrato così come è scritto, senza interpretazione
-^.^|Stem			^.^|[stem]													^.^|&#43;&#43;&#43;&#43;		^.^|Contenuto che non viene processato ma viene inviato direttamente ad uno strumento di interpretazione come AsciiMath o LaTeX math
-^.^|Table			^.^|Nessuno													^.^|{vbar}===					^.^|Mostra il contenuto sottoforma di tabella
-^.^|Verse			^.^|[verse]													^.^|&#95;&#95;&#95;&#95;		^.^|Un verso con la possibilità di inserirne l'autore
+|Tipo di blocco |Nome del blocco											|Marcatore					|Scopo
+|Admonition		|[etichetta]												|Qualsiasi marcatore		|Contenuto a cui viene associato un tag o un'icona
+|Comment		|Nessuno													|//&#47;/					|Testo che non viene processato durante il render
+|Example		|[example]													|====						|Definisce un blocco admonition oppure un esempio
+|Fenced			|Nessuno													|&#715;&#715;&#715;			|Il contenuto viene mostrato così come è scritto, senza interpretazione
+|Listing		|[listing]													|---						|Il contenuto viene mostrato così come è scritto, senza interpretazione
+|Literal		|[literal]													|..&#46;.					|Il contenuto viene mostrato così come è scritto, senza interpretazione
+|Open			|Quasi tutti i nomi degli altri blocchi						|--							|Blocco generico che può essere utilizzato al posto degli altri blocci, ad eccezione del passthrough e della tabella
+|Passthrough	|[pass]														|&#43;&#43;&#43;&#43;		|Il contenuto viene mostrato così come è scritto, senza interpretazione
+|Quote			|[quote]													|&#95;&#95;&#95;&#95;		|Una citazione, con la possibilità di inserirne l'autore
+|Sidebar		|[sidebar]													|&#42;&#42;&#42;&#42;		|Testo e contenuto renderizzato a lato del testo del documento
+|Source			|[source]													|----						|Il contenuto vien mostrato così come è scritto, senza interpretazione
+|Stem			|[stem]														|&#43;&#43;&#43;&#43;		|Contenuto che non viene processato ma viene inviato direttamente ad uno strumento di interpretazione come AsciiMath o LaTeX math
+|Table			|Nessuno													|{vbar}===					|Mostra il contenuto sottoforma di tabella
+|Verse			|[verse]													|&#95;&#95;&#95;&#95;		|Un verso con la possibilità di inserirne l'autore
 |===
 
 === Paragrafi
@@ -735,6 +737,24 @@ La dichiarazione del simbolo va effettuata prima dell'elemento dell'elenco, tra 
 - elemento 3-2
 ====
 
+Se un elemento di un elenco comprende più righe, è possibile includere quelle righe inserendo un segno più (`+`) tra una riga e l'altra:
+
+[source, Asciidoctor]
+----
+- elemento 1
++
+elemento 1 continuato
+- elemento 2
+----
+
+[example]
+====
+- elemento 1
++
+elemento 1 continuato
+- elemento 2
+====
+
 ==== Checklist
 
 Asciidoctor permette la creazione di checklist, ovvero elenchi nei quali gli elementi sono preceduti da riquadri che possono contenere una spunta. Per definire un elemento di una checklist viene utilizzato come marcatore il segno `-`, seguito da due possibili marcatori, separati da uno spazio:
@@ -764,14 +784,14 @@ I tipi di elenchi visti finora sono semplici liste di elementi. Oltre a questa t
 
 [cols="3", options="header"]
 |===
-^.^|Tipo					^.^|Nome		^.^|Scopo
-^.^|Araba					^.^|arabic		^.^|L'elemento è preceduto da un numero arabo.
-^.^|Decimale				^.^|decimal		^.^|L'elemento è preceduto da un numero arabo, ma i numeri a una cifra vengono preceduti da uno 0. I numeri da 1 a 9 diventano quindi numeri da 01 a 09.
-^.^|Minuscola				^.^|loweralpha	^.^|L'elemento è preceduto da una lettera minuscola.
-^.^|Maiuscola				^.^|upperalpha	^.^|L'elemento è preceduto da una lettera maiuscola.
-^.^|Minuscola Romana		^.^|lowerroman	^.^|L'elemento è preceduto da un numero romano, scritto in lettere minuscole (`i`, `xiii`, `iv`).
-^.^|Maiuscola Romana		^.^|upperroman	^.^|L'elemento è preceduto da un numero romano, scritto in lettere maiuscole (`I`, `XIII`, `IV`).
-^.^|Minuscola Greca			^.^|lowergreek	^.^|L'elemento è preceduto da una lettera minuscola dell'alfabeto greco.
+|Tipo					|Nome		|Scopo
+|Araba					|arabic		|L'elemento è preceduto da un numero arabo.
+|Decimale				|decimal	|L'elemento è preceduto da un numero arabo, ma i numeri a una cifra vengono preceduti da uno 0. I numeri da 1 a 9 diventano quindi numeri da 01 a 09.
+|Minuscola				|loweralpha	|L'elemento è preceduto da una lettera minuscola.
+|Maiuscola				|upperalpha	|L'elemento è preceduto da una lettera maiuscola.
+|Minuscola Romana		|lowerroman	|L'elemento è preceduto da un numero romano, scritto in lettere minuscole (`i`, `xiii`, `iv`).
+|Maiuscola Romana		|upperroman	|L'elemento è preceduto da un numero romano, scritto in lettere maiuscole (`I`, `XIII`, `IV`).
+|Minuscola Greca		|lowergreek	|L'elemento è preceduto da una lettera minuscola dell'alfabeto greco.
 |===
 
 Per dichiarare un elemento di un elenco come elemento ordinato viene utilizzato come marcatore il punto (`.`), mentre per definire il tipo di numerazione, come per il simbolo negli elenchi puntati, viene inserito il nome della numerazione tra parentesi quadre. Inoltre se un elemento contiene a sua volta un elenco numerato, Asciidoctor utilizza per il sotto-elenco, e per tutti gli altri sotto-elenchi di quel livello un sistema di numerazione diverso.
@@ -814,4 +834,412 @@ Hard Disk:: Spazio di archiviazione del sistema operativo e dei file
 RAM:: Memoria temporanea per le operazioni della CPU
 ====
 
-Il contenuto di una labeled list può essere un qualsiasi blocco di Asciidoctor. Questo tipo di elenco quindi può contenere altri elenchi, paragrafi o tabelle
+Il contenuto di una labeled list può essere un qualsiasi blocco di Asciidoctor. Questo tipo di elenco quindi può contenere altri elenchi, paragrafi o tabelle.
+
+Un altro impiego per la labeled list è la creazione di un elenco di domande e risposte, tramite l'opzione `qanda`. La sintassi per definire questo tipo di labeled list è la stessa, ma il testo della label deve terminare con un punto di domanda.
+
+[source, Asciidoctor]
+----
+[qanda]
+Qual è la risposta alla domanda fondamentale sulla vita, sull'universo e tutto quanto?::
+42
+----
+
+[example, Asciidoctor]
+====
+[qanda]
+Qual è la risposta alla domanda fondamentale sulla vita, sull'universo e tutto quanto?::
+42
+====
+
+=== Tabelle
+
+Le tabelle sono tra gli elementi più complessi disponibili su Asciidoctor, ma rimangono comunque semplici da leggere anche nel formato originale, ed intuitive da scrivere. Una tabella, come gli altri blocchi in Asciidoctor, utilizza dei marcatori per delimitarne l'inizio e la fine. Ogni tabella è aperta e chiusa da `{vbar}===`, il contenuto è diviso in righe e colonne, che contengono celle. Ogni cella inizia con una barra verticale (`{vbar}`), ed ogni riga della tabella generalmente deve avere lo stesso numero di colonne.
+
+[source, Asciidoctor]
+----
+|===
+|riga 1 colonna 1	|riga 1 colonna 2	|riga 1 colonna 3
+|riga 2 colonna 1	|riga 2 colonna 2	|riga 2 colonna 3
+|===
+----
+
+La tabella mostrata qui sopra è una semplice tabella a 2 righe e 3 colonne. Le celle sono state messe in ordine per renderne più semplice la lettura, ma utilizzando l'attributo `cols`, è possibile dichiarare tutte le righe e le colonne di una tabella in una riga. L'attributo infatti permette di dichiarare quante colonne avrà la tabella, e quindi organizzare le celle dichiarate in righe in base al numero di colonne.
+
+[source, Asciidoctor]
+----
+[cols="3"]
+|===
+|riga 1 colonna 1|riga 1 colonna 2|riga 1 colonna 3|riga 2 colonna 1|riga 2 colonna 2|riga 2 colonna 3
+|===
+----
+
+Un altro metodo per definire una tabella è quello di definire una cella per riga:
+
+[source, Asciidoctor]
+----
+[cols="3"]
+|===
+|riga 1 colonna 1
+|riga 1 colonna 2
+|riga 1 colonna 3
+|riga 2 colonna 1
+|riga 2 colonna 2
+|riga 2 colonna 3
+|===
+----
+
+I 3 esempi mostrati qui sopra, una volta interpretati danno lo stesso risultato:
+
+[example]
+====
+|===
+|riga 1 colonna 1 |riga 1 colonna 2 |riga 1 colonna 3
+|riga 2 colonna 1 |riga 2 colonna 2 |riga 2 colonna 3
+|===
+====
+
+==== Colonne
+
+Come appena visto, il numero di colonne di una tabella è definito dal numero di celle definite nella prima riga non vuota dopo il marcatore di inizio della tabella, o con l'attributo `cols`. Se all'attributo viene assegnato solo un numero, quel numero determina quante colonne avrà la tabella, e creerà una tabella con quel numero di colonne, tutte della stessa larghezza. Oltre ad un singolo numero però, l'attributo `cols` accetta anche un elenco di elementi separati da virgola.
+
+[source, Asciidoctor]
+----
+[cols="1,1,1,1"]
+|===
+|riga 1 colonna 1|riga 1 colonna 2|riga 1 colonna 3|riga 1 colonna 4
+|===
+----
+
+Nell'esempio qui sopra, la tabella avrà 4 colonne della stessa larghezza.
+
+===== Formattazione delle colonne
+
+L'attributo `cols`, oltre a definire il numero di colonne, permette di definire anche la formattazione delle colonne stesse, attraverso l'uso di marcatori che definiscono stile, allineamento e larghezza della colonna, più un marcatore chiamato _moltiplicatore_.
+
+Il moltiplicatore (`*`) viene utilizzato quando si vuole applicare una tipologia di formattazione a tutte le colonne. Se viene utilizzato, va messo sempre prima del marcatore. Nell'esempio seguente, il moltiplicatore assicura che le impostazioni di default vengano applicate a tutte le colonne.
+
+[source, Asciidoctor]
+----
+[cols="3*"]
+----
+
+L'allineamento del contenuto delle celle viene impostato con 3 marcatori, che determinano se il contenuto è centrato (`^`), allineato a sinistra (`<`), o allineato a destra (`>`). Ad esempio per centrare il contenuto di tutte le celle di una tabella, verrà usato `^` subito dopo il moltiplicatore:
+
+[source, Asciidoctor]
+----
+[cols="3*^"]
+|===
+|riga 1 colonna 1 |riga 1 colonna 2 |riga 1 colonna 3
+|riga 2 colonna 1 |riga 2 colonna 2 |riga 2 colonna 3
+|===
+----
+
+[example]
+====
+[cols="3*^"]
+|===
+|riga 1 colonna 1 |riga 1 colonna 2 |riga 1 colonna 3
+|riga 2 colonna 1 |riga 2 colonna 2 |riga 2 colonna 3
+|===
+====
+
+Se però fosse necessario cambiare l'allineamento del contenuto di una sola colonna, è possibile farlo sempre utilizzando il moltiplicatore: supponiamo che nella tabella di 3 colonne vista finora, il contenuto dell'ultima colonna debba essere allineato a destra; per farlo dobbiamo assegnare le impostazioni di default alle prime due colonne, ed aggiungere una colonna con l'allineamento desiderato:
+
+[source, Asciidoctor]
+----
+[cols="2*,^"]
+|===
+|riga 1 colonna 1 |riga 1 colonna 2 |riga 1 colonna 3
+|riga 2 colonna 1 |riga 2 colonna 2 |riga 2 colonna 3
+|===
+----
+
+Se effettuiamo un render della tabella mostrata qui sopra, vediamo come il contenuto della colonna 3 sia allineato a destra:
+
+[example]
+====
+[cols="2*,>"]
+|===
+|riga 1 colonna 1 |riga 1 colonna 2 |riga 1 colonna 3
+|riga 2 colonna 1 |riga 2 colonna 2 |riga 2 colonna 3
+|===
+====
+
+Allo stesso modo, per applicare un allineamento diverso ad ogni singola colonna, viene usata una lista di elementi separati da virgola che ne definiscono l'allineamento.
+
+[source, Asciidoctor]
+----
+[cols="<,2*^,>"]
+----
+
+L'attributo `cols` definisce una tabella a 4 colonne dove il contenuto della prima è allineato a sinistra, la seconda e terza colonna hanno il contenuto centrato, e la quarta colonna lo avrà allineato a destra.
+
+Gli allineamenti visti finora però sono solo allineamenti orizzontali. Per ottenere un allineamento verticale, l'operatore che determina l'allineamento va prefissato con un punto (`.`). Il contenuto può essere allineato verticalmente in alto (`.<`), centrato verticalmente (`.^`), e allineato verticalmente in basso (`.>`). L'allineamento orizzontale e verticale degli elementi può essere combinato, come mostra la tabella seguente:
+
+[[aligncol]]
+[cols="5*^l"]
+|===
+|Allineamento	4+|Orizzontale
+.5+|Verticale	|-		|Sinistra	|Centro		|Destra
+				|Alto	|<.<		|&#94;.<	|>.<
+				|Centro |<.^		|&#94;.^	|>.^
+				|Basso	|<.>		|^.>		|>.>
+|===
+
+Dopo l'operatore che definisce l'allineamento è possibile inserire un operatore che regola la larghezza di una colonna. L'operatore può essere un numero, chiamato intero proporzionale (proportional integer), o un numero da 1 a 99 che indica una percentuale. nel caso sia una percentuale, è possibile omettere il simbolo `%`.
+
+[source, Asciidoctor]
+----
+[cols="1,4,6"]
+|===
+|colonna 1 |colonna 2 |colonna 3
+|===
+
+[cols="60%, 15%, 25%"]
+|===
+|colonna 1 |colonna 2 |colonna 3
+|===
+----
+
+Le due tabelle qui sopra conterranno 3 colonne di larghezza variabile. Nel primo esempio, la larghezza delle colonne viene gestita in proporzione alla prima colonna; quindi la seconda e la terza colonna saranno 4 e 6 vole più larghe della prima. Nel secondo esempio invece, il metro di paragone è la larghezza della tabella: la prima colonna occuperà il 60% della tabella, la seconda il 15% e la terza il 25%. Una volta effettuato il render, le due tabelle appariranno così:
+
+[example]
+====
+.Larghezza proporzionale
+[cols="1,4,6"]
+|===
+|colonna 1 |colonna 2 |colonna 3
+|===
+
+.Larghezza in percentuale
+[cols="60%, 15%, 25%"]
+|===
+|colonna 1 |colonna 2 |colonna 3
+|===
+====
+
+Infine è possibile modificare lo stile della colonna, che definisce se e quale trasformazione viene applicata alla colonna, e va messo come ultimo operatore per la colonna. Di seguito vengono elencati i possibili stili di una colonna:
+
+[[stylecol]]
+[cols="3*^", options="header"]
+|===
+|Nome		|Operatore	|Scopo
+|AsciiDoc	|a			|Ogni tipo di xref:Blocchi[blocco] di asciidoctor può essere contenuto nella colonna
+|Emphasis	|e			|Il testo è mostrato in corsivo
+|Header		|h			|Lo stile dell'header della tabella è applicato alla colonna
+|Literal	|l			|Il contenuto della colonna è interpretato come se fosse all'interno di un blocco literal
+|Monospaced |m			|Il contenuto della colonna è mostrato in monospace
+|None		|d			|Viene utilizzato lo stile di default di Asciidoctor
+|Strong		|s			|Il contenuto della colonna è mostrato in grassetto
+|Verse		|v			|Il contenuto della colonna è mostrato come se fosse all'interno di un blocco verse
+|===
+
+Per applicare uno di questi stili, la sintassi è la stessa della definizione dell'allineamento.
+
+[source, Asciidoctor]
+----
+[cols="3*^m"]
+----
+
+Nell'esempio qui sopra è stata dichiarata una tabella di 3 colonne; il contenuto delle 3 colonne sarà centrato orizzontalmente e mostrato in monospace.
+
+===== Formattazione delle celle
+
+Oltre alla possibilità di modificare intere colonne, Asciidoctor permette di gestire la formattazione delle singole celle. Questo consente di modificarne le dimensioni o il contenuto, l'allineamento e lo stile, in maniera simile alle proprietà dell'attributo `cols`.
+
+Gli operatori che eseguono queste funzioni vanno dichiarati prima della {vbar} della cella, senza spazi.
+
+L'operatore di moltiplicazione che abbiamo visto prima nella formattazione delle colonne è utilizzato nelle singole celle per copiarne il contenuto. Se ad esempio abbiamo una riga le cui celle contengono esattamente lo stesso testo, invece di scriverlo manualmente, o con un copia-incolla, è possibile usare questo operatore per fare in modo che un dato numero di celle di quella riga abbia quel contenuto.
+
+[source, Asciidoctor]
+----
+[cols="4"]
+|===
+|riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3 	|riga 1 cella 4
+3*|stesso contenuto nelle celle 1,2,3				|riga 2 cella 4
+|riga 3 cella 1 |riga 3 cella 2 |riga 3 cella 3 	|riga 3 cella 4
+|===
+----
+
+.Tabella con il contenuto ripetuto
+[example]
+====
+[cols="4"]
+|===
+|riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3 	|riga 1 cella 4
+3*|stesso contenuto nelle celle 1,2,3				|riga 2 cella 4
+|riga 3 cella 1 |riga 3 cella 2 |riga 3 cella 3 	|riga 3 cella 4
+|===
+====
+
+Inoltre è possibile, utilizzando come operatore il segno puù (`+`), fare in modo che una cella si estenda su più colonne o più righe:
+
+[source, Asciidoctor]
+----
+[cols="3"]
+|===
+|riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3
+3+|testo che occupa 3 celle
+.2+|testo che occupa 2 celle su 2 righe |riga 3 cella 2 |riga 3 cella 3
+				|riga 4 cella 2 |riga 4 cella 3
+|===
+----
+
+Semplicemente inserendo prima della `{vbar}` l'operatore `+` preceduto da un numero, possiamo stabilire quante celle verranno occupate orizzontalmente o verticalmente. Le dimensioni della tabella però sono comunque legate al numero di colonne definite dall'attributo `cols` o dalla prima riga della tabella stessa. Non possiamo quindi avere in una tabella da 3 colonne una cella che ne occupa 5, o una che ne occupa 3 dall'ultima colonna.
+
+[example]
+====
+[cols="3"]
+|===
+	|riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3
+  3+|testo che occupa 3 celle
+ .2+|testo che occupa 2 celle su 2 righe |riga 3 cella 2 |riga 3 cella 3
+					|riga 4 cella 2 |riga 4 cella 3
+|===
+====
+
+Per gestire l'allineamento del contenuto della singola cella, basta prefissare alla `{vbar}` gli stessi xref:aligncol[operatori] utilizzati per l'allineamento delle colonne:
+
+[source, Asciidoctor]
+----
+^.^|contenuto centrato orizzontalmente e verticalmente
+<|contenuto allineato a sinistra
+>.>|contenuto allineato a destra ed in basso
+----
+
+Stessa cosa si piò dire dello stile, analogamente all'allineamento, è possibile prefissare alla `{vbar}` uno degli xref:stylecol[operatori] che gestiscono lo stile della colonna.
+
+[source, Asciidoctor]
+----
+m|contenuto in monospace
+a|* contenuto
+* sottoforma
+* di
+* lista
+e|contenuto in corsivo
+----
+
+[example]
+====
+[cols=1]
+|===
+m|monospaced content
+l|slghoiashjgosaj
+a|unordered list
+
+[source, Asciidoctor]
+----
+some stuff goes in here
+----
+
+a|image::markup.png[markup]
+|===
+====
+
+===== Header e footer
+
+Oltre all'attributo `cols`, è possibile utilizzare l'attributo `options`; attivando l'opzione `header`, la prima riga della tabella viene interpretata come header della tabella, ed al suo contenuto viene applicato uno stile diverso. Alternativamente, è possibile fare in modo che una riga venga interpretata come header di una tabella senza dichiarare l'opzione, ma seguendo 3 regole:
+
+. La prima riga subito dopo l'apertura della tabella non è vuota
+. La seconda riga subito dopo l'apertura della tabella è vuota
+. L'attributo `options` non è stato specificato nell'elenco degli attributi della tabella
+
+In questo modo Asciidoctor interpreterà la prima riga come header della tabella.
+
+[source, Asciidoctor]
+----
+[cols="2", options="header"]
+|===
+|Header colonna 1 |Header colonna 2
+|riga 1 colonna 1 |riga 2 colonna 2
+|====
+
+[cols="2"]
+|===
+|Header colonna 1 |Header colonna 2
+
+|riga 1 colonna 1 |riga 2 colonna 2
+|===
+----
+
+[example]
+====
+[cols="2"]
+|===
+|Header colonna 1 |Header colonna 2
+
+|riga 1 colonna 1 |riga 2 colonna 2
+|===
+====
+
+Analogamente all'header, è possibile attivare l'opzione `footer` dell'attributo `options` per far sì che l'ultima riga della tabella venga interpretata come footer della tabella stessa.
+
+===== Larghezza della tabella 
+
+Come impostazione predefinita, una tabella in Asciidoctor occupa tutta la pagina in larghezza; è possibile però, utilizzando l'attributo `width` regolarne la larghezza, impostando che percentuale della pagina deve occupare. Come per la larghezza della colonna, il simbolo `%` può essere omesso.
+
+[source, Asciidoctor]
+----
+[width="40"]
+----
+
+[example]
+====
+[cols="3", width="40"]
+|===
+|riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3
+|riga 2 cella 1 |riga 2 cella 2 |riga 2 cella 3
+|===
+====
+
+===== Bordi della tabella
+
+I bordi di una tabella sono controllati da due attributi: `frame`, che controlla i bordi esterni della tabella, e `grid` che invece gestisce i bordi delle singole celle.
+
+====== Frame
+
+I bordi esterni di una tabella sono controllati dall'attributo `frame`, che accetta come argomenti 4 opzioni:
+
+- `all`
+-- L'opzione predefinita; tutti i bordi della tabella vengono renderizzati.
+- `topbot`
+-- Solo il bordo superiore ed inferiore della tabella vengono renderizzati.
+- `sides`
+-- Solo i bordi a destra e sinistra della tabella vengono renderizzati.
+- `none`
+-- Nessun bordo esterno della tabella viene renderizzato.
+
+.Tabelle con i diversi tipi di `frame`
+[example]
+====
+.all
+[cols="3"]
+|===
+|riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3
+|===
+
+---
+
+.topbot
+[cols="3", frame="topbot"]
+|===
+|riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3
+|===
+
+---
+
+.sides
+[cols="3", frame="sides"]
+|===
+|riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3
+|===
+
+---
+
+.none
+[cols="3", frame="none"]
+|===
+|riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3
+|===
+====
