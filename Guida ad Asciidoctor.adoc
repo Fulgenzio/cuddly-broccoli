@@ -1243,3 +1243,5 @@ I bordi esterni di una tabella sono controllati dall'attributo `frame`, che acce
 |riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3
 |===
 ====
+
+hue

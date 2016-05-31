@@ -18,7 +18,7 @@ title_page:
     font_family: JosefinSans
     font_style: bold
 code:
-    background_color: #e6e6e6
+    background_color: #f2f2f2
     font_family: CutiveMono
 base:
     font_color: #1a1a1a
@@ -42,18 +42,21 @@ heading:
     h6_font_size: $base_font_size
     text_transform: uppercase    
 table:
-    border_color: #e6e6e6
+    border_color: #cccccc
     font_family: JosefinSans
     head:
         font_style: normal
         font_color: $heading_font_color
         font_size: $heading_h5_font_size
     even_row:
-        background_color: $table_border_color
+        background_color: #f2f2f2
     header_cell:
-        background_color: $table_border_color
+        background_color: #f2f2f2
 
 vertical_spacing: 12
+example:
+    background_color: #ffffe6
+
 footer:
   height: 0.75in
   line_height: 1.6
