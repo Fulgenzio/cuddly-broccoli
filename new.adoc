@@ -24,8 +24,8 @@ Il piano dove vivono quasi tutti i mortali. Composto da 5 continenti principali:
 ** Il continente dove per prima è comparsa la vita intelligente, sottoforma di draghi. Composto da un'unica isola ora è l'unico rifugio di molti draghi, nonché il loro principale cimitero, ed il centro del culto dei grandi dragoni.
 * Vallea
 ** Vallea ospita perlopiù umani. La maggior parte del continente è territorio dell'Impero degli uomini, o di Adahimia. Il continente è diviso in 2 isole: Vallea, l'isola più grande, e l'isola volante di Arquel, che ospita l'omonima capitale imperiale.
-* Talenalia
-** Il continente, prende il nome da Talena, la matriarca e regina degli elfi alti. Il continente è attualmente diviso in 4 nazioni: Matriarcato di Talena, Regno di Balir, Terre Selvagge di Yas e la Legione di Tilgan. Il continente è composto da 4 isole, Talenalia, l'isola principale contesa tra barbari di Yas, il popolo di Balir ed il Matriarcato, Elelia, lo scudo del sud, occupato dalla Legione di Tilgan, Valelya, centro di studio religioso e magico del Matriarcato, e Marelia, terra perennemente spazzata da venti gelidi, dove si trova Yas.
+* Shorlea
+** Il continente composto da 4 isole, Talenalia, l'isola principale contesa tra barbari di Yas, il popolo di Balir ed il Matriarcato, Elelia, lo scudo del sud, occupato dalla Legione di Tilgan, Valelya, centro di studio religioso e magico del Matriarcato, e Marelia, terra perennemente spazzata da venti gelidi, dove si trova Yas.
 * Ar-hadda
 ** Ar-hadda, comunemente noto come I Pilastri di Ar-hadda, o Pilastri, era un'unica isola, luogo d'origine della razza elfica. Dopo un'enorme catastrofe dovuta alla loro arroganza, l'isola è emersa dalle acque, e si è spaccata formando un arcipelago di fiordi e altopiani. Il continente ora è spazzato da costanti tempeste di pura energia magica, emanata da quella che era la capitale elfica, che ora prende il nome di Krater, ha mutato gli elfi, i loro schiavi umani e quasi tutte le creature che popolavano il continente, mutandole e generando gli abomini noti adesso come gli uomini-bestia e gli aviani.
 * Gorlanos
@@ -34,6 +34,10 @@ Il piano dove vivono quasi tutti i mortali. Composto da 5 continenti principali:
 === Piano Astrale
 
 Il piano astrale è un grande vuoto, privo di luce, dove l'energia e quindi la magia, scorre in flutti come fosse un fiume, è il dominio di dèi, demoni e guardiani, che si muovono come esseri di pura energia. Gli unici elementi "solidi" che occupano il piano astrale sono i viaggiatori che utilizzano il piano per spostarsi lungo grandi distanze, i vari portali che collegano parti del mondo, e le "ancore" dimensionali utilizzate come punto di riferimento per il viaggio: si tratta di strutture che esistono sia nel materiale che nell'astrale. Agiscono un po come fari, contornati dal riflesso astrale di tutti gli esseri viventi che popolano il mondo. Vi sono inoltre delle piccole enclave di elfi astrali, ed una loro città.
+
+=== Collegamento tra i 2 piani:
+
+Come accennato in precedenza, il piano astrale e quello materiale sono separati da una barriera. Questa barriera inter-dimensionale, non è propriamente un muro tra i due piani; questa barriera infatti è
 
 == Razze senzienti
 
@@ -274,9 +278,7 @@ per qualche giorno i draghi più violenti e rancorosi cominciarono a seminare di
 I draghi decisero quindi di andare a vivere in esilio in una nuova terra che avrebbero tenuto per se giurando che mai più nessun regno li avrebbe domati così com'era successo, così portando con sè vari artefatti di grande potere e anche un piccolo gruppo di persone che aveva																					
 dimostrato di non volere i draghi come servi. Attraversarono il grande mare e trovarono l'isola di Valentar, reputandola adatta al loro scopo vi si insediarono fondando la città libera di Vihr abitata da draghi e da quei pochi che li avevano seguiti volontariamente.																					
 
-Nello scorrere dei millenni l'isola non è cambiata molto. Qualunque tentativo di assalto è stato prontamente represso dalla grande potenza dei draghi, che accettano solo il passaggio di viandanti o di nuovi pellegrini che decidono di stabilirsi in quell'isola.																					
-In particolare molti disertori spesso cercano nell'isola un luogo al sicuro da qualsiasi esercito possa volere di tornare a prenderli, tuttavia non tutti sono reputati degni di soggiornare dagli stessi draghi che vedono in cattiva luce quelli che anche in passato abbiano fatto parte di una																					
-forza armata, a causa del dubbio che non siano spie o infiltrati.																					
+Nello scorrere dei millenni l'isola non è cambiata molto. Qualunque tentativo di assalto è stato prontamente represso dalla grande potenza dei draghi, che accettano solo il passaggio di viandanti o di nuovi pellegrini che decidono di stabilirsi in quell'isola. In particolare molti disertori spesso cercano nell'isola un luogo al sicuro da qualsiasi esercito possa volere di tornare a prenderli, tuttavia non tutti sono reputati degni di soggiornare dagli stessi draghi che vedono in cattiva luce quelli che anche in passato abbiano fatto parte di una forza armata, a causa del dubbio che non siano spie o infiltrati.																					
 
 ==== Londaure 
 
@@ -289,7 +291,7 @@ L'impero Adahim nasce come la iniziale casa del celestiale che ha creato il pian
 
 == Sulle divinità
 
-Le divinità sono aspetti del piano astrale in grado di intercedere nel piano materiale. Sono connessi a quest'ultimo in quanto il numero di creature che credono nella loro esistenza, e che li adorano influisce direttamente sul loro potere. Le varie specie inoltre adorano aspetti diversi delle stesse divinità.
+Le divinità sono aspetti del piano astrale in grado di intercedere nel piano materiale. Sono connessi a quest'ultimo in quanto il numero di creature che credono nella loro esistenza, e che li adorano influisce direttamente sul loro potere. Le varie specie inoltre adorano aspetti diversi delle stesse divinità. I 9 draghi immortali
 
 I draghi, i lucertoloidi ed i coboldi adorano quelli che loro chiamano 9 grandi dragoni, ovvero divinità basate sugli elementi, e sui colori dei draghi stessi. Queste divinità sono:
 
@@ -297,23 +299,23 @@ I draghi, i lucertoloidi ed i coboldi adorano quelli che loro chiamano 9 grandi 
 * Avyumakra, il grande dragone bianco, dio del ghiaccio, signore dell'inverno e dei ghiacci
 * Drogshul, il grande dragone dorato, dio del potere astrale, signore della magia
 * Jotraanviir, il grande dragone marrone, dio della terra, signore delle montagne
+* Kaalvurn, il grande dragone nero, dio della morte, signore dei morti
 * Levhithkron, il grande dragone blu, dio dell'acqua, signore dei mari
 * Londrun, il grande dragone verde, dio della vita, signore di tutte le creature viventi
 * Nehrothkras, il grande dragone azzurro, dio dell'aria, signore dei cieli
-* Kaalvurn, il grande dragone nero, dio della morte, signore dei morti
 * Rolaan, il grande dragone viola, dio del fulmine, signore delle tempeste
 
 Gli elfi silvani hanno un pantheon diverso, adorano i vecchi dei elfici:
 
 * Londuril, il primo tra gli dei, signore della vita e delle foreste
-* Melios, il dio elfico del sole, del fuoco e della guerra
+* Kalantis, il dio elfico del sole, del fuoco e della guerra
 * Sillamen, dio della caccia ed in seguito della morte
-* Kalantis, signore dei ghiacci e delle montagne
+* Melios, signore dei ghiacci e delle montagne
 * Lameril, signore dei mari e della pioggia
 
-Gli elfi alti rifiutano l'esistenza di  divinità, nonostante abbiano avuto una prova diretta della loro esistenza. Riconoscono l'entità che li ha creati come esseri molto potenti, ma alterabili e mortali. Inizialmente aderivano anch'essi allo stesso pantheon adorato dagli elfi silvani. Ma con l'avanzamento tecnologico della loro razza, hanno abbandonato la religione preferendo perdersi nella loro vanità e grandezza.
+Gli elfi alti rifiutano l'esistenza di  divinità, nonostante abbiano avuto una prova diretta della loro esistenza. Riconoscono l'entità che li ha creati, e le evntità che li hanno manipolati come esseri molto potenti, ma alterabili e mortali. Inizialmente aderivano anch'essi allo stesso pantheon adorato dagli elfi silvani. Ma con l'avanzamento tecnologico della loro razza, hanno abbandonato la religione preferendo perdersi nella loro vanità e grandezza.
 
-I nani, pur riconoscendo l'esistenza di altre entità divine, adorano Jornivaark, il loro padre creatore, che li ha plasmati dalla roccia, signore delle montagne e dei metalli, ed Aazrelra, la dea dei vulcani e del fuoco, signora della forgia. Hanno inoltre una terza divinità: Muzar, divinità della guerra e dei guerrieri.
+I nani, pur riconoscendo l'esistenza di altre entità divine, adorano Jandvaark, il loro padre creatore, che li ha plasmati dalla roccia, signore delle montagne e dei metalli, ed Aazelra, la dea dei vulcani e del fuoco, signora della forgia. Hanno inoltre una terza divinità: Muzar, divinità della guerra e dei guerrieri.
 
 Gli gnomi sono creature poco religiose, e sono privi di un loro pantheon. Generalmente gli gnomi si affidano alle religioni dei luoghi dove vivono, ma non è rado trovare gnomi, soprattutto maghi, che non vedono le varie divinità come tali, ma piuttosto come entità del piano astrale molto potenti.
 
@@ -349,7 +351,7 @@ Un caso particolare sono gli orchi: un detto comune in Adahimia recita: "ogni or
 ^.^|Ethedan			^.^|Vagra					^.^|Repubblica Scarlatta, TLDNO
 ^.^|Vihr			^.^|Valentar				^.^|Valentar
 ^.^|Londaure		^.^|Valentar				^.^|Elfi Silvani
-^.^|Krater			^.^|Pilastro di Krater		^.^|Pilastri di Arhada
+^.^|Krater			^.^|Pilastro di Krater		^.^|Pilastri di Ar-hadda
 ^.^|Yas				^.^|Marelia					^.^|Regno di Ignar
 ^.^|Balir			^.^|Talenalia				^.^|Regno di Balir
 ^.^|Garenia		 	^.^|Talenalia				^.^|Regno di Balir
