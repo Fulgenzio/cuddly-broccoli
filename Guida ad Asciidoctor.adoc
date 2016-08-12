@@ -1,0 +1,1765 @@
+= Asciidoctor: manuale d'uso
+:toc: left
+:toc-title: Indice
+:sectnums:
+:toc-level: 2
+:app-name: pass:quotes[MyApp^(C)^]
+:imagesdir: img/guida-asciidoctor
+:figure-caption: Figura
+:table-caption: {sectnums}
+:example-caption: Esempio
+:linkattrs:
+:guida-html: Guida_ad_Asciidoctor.html
+
+== Cos'è Asciidoctor
+
+Asciidoctor è un linguaggio di markup che consente di creare documenti in HTML5, pdf, Docbook 5 o 4.5, ed Epub3 in modo sempolice. Per lavorare con Asciidoctor serve ruby, e la relativa gem; serve inoltre un editor di testo semplice. Per produrre file in ofrmato PDF inoltre, è necessario utilizzare *Asciidoctor-pdf*, che estende le funzionalità di Asciidoctor, permettendo la conversione. Quando effettua la conversione di un file dal formato di Asciidoctor, `.adoc` in uno dei vari formati che supporta, Asciidoctor applica un proprio stile di default, personalizzabile creando file in CSS o YAML.
+
+== Installare Asciidoctor
+
+Asciidoctor può essere installato tramite il comando `gem`, con il package manager delle varie distribuzioni di linux o via Bundler. L'installazione richiede la presenza di ruby nel sistema; Asciidoctor funziona con diverse versioni di ruby, incluse le API Jruby, Rubinius e Opal. 
+
+=== Linux e Mac
+
+Ci sono diversi modi di installare Asciidoctor, ma il più semplice è utilizzando il comando `gem` da riga di comando:
+
+[source, Bash]
+----
+gem install asciidoctor
+----
+
+Un altro modo di installare Asciidoctor è utilizzando i package manager di linux, che variano a seconda della distribuzione:
+
+Debian o Ubuntu:: `apt-get asciidoctor`
+Fedora 21 o precedente:: `sudo yum install asciidoctor`
+Fedora 22 o successivo:: `sudo dnf install asciidoctor`
+
+una volta installato Asciidoctor, per effettuare il render di documenti in formato PDF, è necessario scaricare Asciidoctor-pdf, che è disponibile come pre-release su rubygems.org. L'installazione è possibile solo da riga di comando:
+
+[source, CLI]
+----
+gem install asciidoctor-pdf --pre
+----
+
+=== Windows
+
+Per isntallare Asciidoctor su un sistema Windows, bisogna prima installare ruby; esiste un progetto che ne rende l'installazione molto semplice, chiamato http://rubyinstaller.org/[Ruby Installer]. Una volta scaricato ed eseguita l'installazione, sarà disponibile una command prompt apposita, dalla quale sarà possibile scaricare ed installare la gem di Asciidoctor:
+
+[source, "Command prompt"]
+----
+gem install asciidoctor
+----
+
+Una volta scaricato ed installato Asciidoctor, se si vuole produrre documenti in formato PDF, è necessario installare anche la gem Asciidoctor-pdf, la quale è disponibile solo come pre-release:
+
+[source, "Command prompt"]
+----
+gem install asciidoctor-pdf --pre
+----
+
+=== Source highlighting
+
+Qualora volessimo uno strumento per l'highlighting del codice nel documento, Asciidoctor supporta CodeRay, Rouge e Pygments, i quali sono scaricabili come gem da riga di comando:
+
+[source, CLI]
+----
+gem install coderay
+
+gem install rouge
+
+gem install pygments.rb
+----
+
+Una volta scaricati uno o più di questi strumenti, possiamo dichiarare nel nostro documento cosa utilizziamo per l'highlighting utilizzando l'attributo `:source-highlighter:` nel documento.
+
+== L'editor
+
+Quando decidiamo di lavorare con Asciidoctor, una decisione importante è la scelta dell'editor di testo da utilizzare: editor di testo complessi come Word o Open office sono sconsigliati, ma allo stesso tempo su piattaforme windows è scosigliato l'uso di trumenti come wordpad o notepad. Questi editor infatti possono complicare la conversione o causare errori nell'interpretazione del file. Gli editor consigliati sono TextMate per Mac OS X, o GEdit per i sistemi Linux, mentre per Windows è consigliato Notepad++. Alternativamente è possibile utilizzare Vim, Emacs o Sublime Text. Questi editor di testo sono consigliati perché supportano l'highlighting della sintassi di Asciidoctor.
+
+== Tipologia del documento
+
+Asciidoctor permette di scrivere documenti con diverse tipologie, che si differenziano per la struttura. Le tipologie, sono impostate dichiarando un attributo nel documento, o alla conveersione:
+
+Articolo:: la tipologia di default, che può contenere le sezioni abstract, appendice, bibliografia, glossario ed indice, oltre al corpo dell'articolo. L'attributo che definisce l'articolo è `:article:` e può essere omesso, in quanto è la tipologia di default.
+Libro:: il libro può contenere più sezioni di livello 0, ed oltre alle sezioni dell'articolo, il libro contene il colofone (note sulla produzione del libro), dedica e prefazione. L'attributo per definire un documento come libro è `:book:`.
+Manuale:: il manuale, o MAN page, è utilizzato per produrre documenti simili alla documentazione dei manuali dei sistemi Unix, ha una formattazione particolare, e viene dichiarato con `:manpage:`
+
+== Struttura del documento
+
+Un documento Asciidoctor è composto da diversi elementi, suddivisi in elementi block o inline. Ognuno di questi elementi ha una serie di stili, opzioni e funzioni applicabili al loro contenuto; i block element sono elementi che possono occupare più righe, e possono contenere al loro interno altri blocchi. Gli elementi inline invece effettuano delle operazioni su una parte del contenuto di un blocco. Alcuni elementi di tipo block comprendono sezioni, titpoli, header, tabelle e liste, mentre gli elementi inline comprendono quotes, macro o sostituzioni di caratteri.
+
+== Quotes
+
+Con quotes in Asciidoctor si intende una variazione nella formattazione del testo, ad esempio per rendere una parte del testo in grassetto, o in monospace. Ci sono due tipologie di quotes: vincolati (constrained) e liberi (unconstrained).
+
+Per quotes vincolati si intende i quotes che comprendono una o più parole nella loro interezza, e non compaiono altri caratteri subito prima o subito dopo dei simboli che delimitano i quotes. 
+
+Venogno utilizzati con parole singole,
+
+[source, Asciidoctor]
+----
+Questa macchina è *veloce*
+----
+
+con più parole,
+
+[source, Asciidoctor]
+----
+Questa macchina è *davvero veloce*
+----
+
+o quando una parola è seguita da un segno di punteggiatura
+
+[source, Asciidoctor]
+----
+Non ho mai guidato una macchina *così veloce*!
+----
+
+i quotes mostrati nell'esempio rendono il testo che racchiudono in grassetto. Il risultato delle frasi degli esempi è il seguente:
+
+Questa macchina è *veloce*
+
+Questa macchina è *davvero veloce*
+
+Non ho mai guidato una macchina *così veloce*!
+
+I quotes liberi invece servono ad evidenziare parti di una parola o più parole, e vengono usate nei seguenti casi:
+
+* se una lettera, un numero o un underscore precedono o seguono la parte da comprendere nel quote
+* se il simbolo di apertura del quote è preceduto da un punto e virgola (;)
+* se ci sono degli spazi subito dopo il simbolo di apertura e subito prima il simbolo di chiusura del quote
+
+[source, Asciidoctor]
+----
+La parola sc**i**enza si scrive con la *i*
+----
+
+[source, Asciidoctor]
+----
+Oggi è il _23_&#8722;__05__&#8722;__2016__
+----
+
+[source, Asciidoctor]
+----
+Ho bisogno di più `` spazio ``
+----
+
+La parola sc**i**enza si scrive con la *i*
+
+Oggi è il _23_&#8722;__05__&#8722;__2016__
+
+Ho bisogno di più `` spazio ``
+
+Come mostrano gli esempi, i quotes liberi sono delimitati con due simboli invece che uno.
+
+Un caso particolare si presenta se vogliamo alterare una o più parole che sono comprese tra i doppi apici:
+
+[source, Asciidoctor]
+----
+"`@`"
+"``@``"
+"```@```"
+----
+
+Dato che i doppi apici non sono lettere, numeri o underscore, verrebbe da utilizzare un quote vincolato, ma in questo caso va utilizzato un quote libero. La terza coppia di accenti viene interpretata dal parser di Asciidoctor come parte dei doppi apici. Se effettuassimo un render dell'esempio otterremmo il testo seguente:
+
+[example]
+====
+"`@`", "``@``", "```@```"
+====
+
+== Attributi
+
+Gli attributi sono dichiarazioni effettuate generalmente subito dopo una sezione di livello 0, e che influenzano l'intero documento dalla dichiarazione dell'attributo in poi, tramite comportamenti o stili particolari, come ad esempio la creazione di un indice, o la numerazione delle sezioni del documento. Gli attributi si dividono in 6 categorie, in base alla loro funzione:
+
+* Attributi ambientali (?)
+** Sono attributi che Asciidoctor definisce automaticamente, come la data di creazione del documento, o il percorso del file da convertire. Generalmente sono da considerare attributi di sola lettura, anche se possono essere modificati.
+* Attributi integrati
+** Si tratta di attributi definibili ovunque nel documento, ad eccezione di una parte, chiamata attributi dell'header, che vanno definiti all'inizio del documento. Un attributo integrato è visibile e viene applicato solo dopo la sua definizione, e non può essere definito in più punti del documento, se non con il prefisso `@`, ad eccezione dell'attributo `sectnums` che può essere definito più volte nello stesso documento.
+* Attributi predefiniti
+** Gli attributi predefiniti vengono utilizzati per sostituire alcuni caratteri se necessario.
+* Attributi definiti dall'utente
+** Tutti gli attributi dichiarati e definiti dall'autore; utili per inserire rapidamente contenuto che va utilizzato più volte nel documento.
+* API e attributi da riga di comando
+** Attributi appartenenti alle altre categorie ma che possono essere definiti alla conversione, come ad esempio l'attributo ambientale `:backend:` che può essere definito con l'opzione `-b` da riga di comando, o un attributo che definisce la tipologia del documento, definibile con l'opzione `-d` deella riga di comando.
+* Attributi degli elementi
+** Attributi definiti in un elemento come una lista o una tabella, i quali hanno validità solo per quell'elemento ed hanno la precedenza sugli attributi definiti nel documento.
+
+=== Assegnazione degli attributi
+
+Gli attributi hanno un ordine di interpretazione preciso: 
+
+. Attributi impostati dall'API o dalla riga di comando
+. Attributi impostati nel documento
+. Valore di default degli attributi
+
+È possibile gestire questo ordine in un certo senso: se ad un attributo nell'interfaccia a riga di comando viene aggiunta "```@```" alla fine, la precedenza viene assegnata all'attributo assegnato nel documento, e, qualora non sia presente o assegnato, passa di nuovo alla CLI (command line interface, interfaccia a riga di comando).
+
+Gli attributi vanno definiti con la seguente sintassi:
+
+[source, Asciidoctor]
+----
+:attributo: valore
+----
+
+Come detto in precedenza, gli attributi in Asciidoctor possono richiedere che venga assegnato loro un valore, che può essere numerico, o una stringa, un percorso, un URL o riferimenti ad altri attributi. Inoltre è possibile "disattivare" un attributo impostato in precedenza, inserendo un `!` nell'attributo stesso.
+
+[source, Asciidoctor]
+----
+:sectnums:
+:leveloffset: 3
+il valore di leveloffset è {leveloffset}
+:!sectnums: :sectnums!:
+:imagesdir: ./Immagini
+----
+
+Nell'esempio qui sopra vediamo un attributo che non richiede l'inserimento di valori, `:sectnums:` ed un attributo che invece richiede un valore numerico. L'attributo compreso tra parentesi graffe, `{leveloffset}` rappresenta un riferimento al valore dell'attributo `leveloffset`. Nella penultima riga invece, sono riportati i due modi di "disattivare" l'attributo `:sectnums:`; il punto esclamativo per negare l'attributo precedentemente impostato, può essere inserito subito prima o subito dopo il nome dell'attributo stesso, il risultato non cambia. Infine, nell'ultima riga è mostrato un esempio di sintassi che descrive un percorso.
+
+=== Sostituizione degli attributi
+
+Una delle feature di Asciidoctor è quella di poter utilizzare sostituzioni di caratteri come i caratteri speciali; queste sostituzioni sono disponibili anche negli attributi, e possono essere utilizzatio per creare del contenuto da richiamare più volte nel documento utilizzando solo il riferimento all'attributo, così da non digitarne il contenuto; le sostituzioni verranno viste più nel dettaglio in seguito, ma per ora vediamo un esempio:
+
+[source, Asciidoctor]
+----
+:app-name: pass:quotes[MyApp^(C)^]
+----
+
+Nell'esempio riportato qui sopra, la macro pass applica la sostituzione, e se dovessimo fare riferimento all'attributo app-name, otterremmo questo risultato: {app-name}
+
+=== Attributi su righe multiple
+
+In certi casi, come ad esempio la creazione di un attributo definito dall'utente per inserire automaticamente nel documento elementi lunghi come paragrafi interi o righe di codice, può essere utile dividere il contenuto dell'attributo in più righe in modod da renderlo facilmente leggibile da chi andrà a vedere il documento in formato .adoc. Un attributo del genere è definito come ogni altro attributo, ed ogni riga termina con una backslash (`\`).
+
+[source, Asciidoctor]
+----
+:attributo-lungo: questo è un attributo lungo, è talmente lungo che \
+per facilitare la lettura del contenuto di questo attributo \
+a chi dovesse vedere il documento non renderizzato, \
+quindi il documento in formato originale, è stato diviso in più righe, \
+altrimenti la sua lettura potrebbe risultare difficile.
+----
+
+=== Limiti degli attributi
+
+Gli attributi di Asciidoctor, seppur molto utili e versatili, hanno delle limitazioni riguardo al loro contenuto; e certi elementi non sono supportati all'interno dell'attributo stesso.
+
+*Cos'è supportato*:
+
+* contenuto semplice
+** un numero, una stringa, un percorso o un URL
+* riferimenti ad altri attributi
+* formattazione testuale
+** testo in *grassetto*, _corsivo_ o `monospace` e sostituzione testuale
+* macro
+
+*Cosa non è supportato*:
+
+* liste
+* paragrafi multipli
+* tipologie di markup che necessitano di whitespace
+
+=== Attributi degli elementi
+
+È possibile assegnare ad un elemento inline o block, oppure una macro, uno o più attributi, e questo si ottiene attraverso l'uso di liste di attributi, le quali hanno la precedenza sugli attributi impostati nel documento per l'elemento specifico a cui fanno riferimento. Una lista di attributi è un insieme di attributi specifici, separati tra loro da una virgola, e compresi tra delle parentesi quadre:
+
+[source, Asciidoctor]
+----
+[positional-attribute, positional-attribute, named-attribute="valore"]
+----
+
+*Positional attribute*: il positional attribute in un elemento inline, viene chiamato _role_, mentre in una macro e un elemento di tipo block come una tabella o un paragrafo è chiamato _style_.
+
+*Named attribute* i named attribute sono attributi a cui viene assegnato, tramite l'uso di un `=` un valore compreso tra doppi apici. Un esempio di named attribute è l'attributo `cols` che indica il numero di colonne di una tabella. Per rendere un named attribute indefinito, se in precedenza era stato definito, basta assegnargli il valore `none`.
+
+==== Role
+
+Il role è utilizzato principalmente per l'output HTML. L'attributo role infatti, una volta effettuato il render in HTML, diventa la classe di un elemento. Per dichiarare un role ci sono 3 modi: il primo è quello di precedere il nome del role da assegnare con un `.`, il secondo è quello di utilizzare il named attribute `role`, ed il terzo, che è valido solo per gli elementi inline è quello di inserirlo per primo nella lista degli attributi di quell'elemento. Come la classe in HTML, anche il role può contenere più valori:
+
+[source, Asciidoctor]
+----
+[.role1.role2.role3]<elemento generico>
+[role="role1, role2, role3"]<elemento generico>
+[role]<elemento inline>
+[.role1.role2.role3]<elemento inline>
+----
+
+==== Style
+
+Lo style viene utilizzato per cambiare l'aspetto o il comportamento di un intero elemento di tipo block o macro. In una lista di attributi, è il primo elemento se la lista fa riferimento ad un block o ad una macro. Ad un paragrafo ad esempio può essere assegnato l'attributo `source` per fare in modo che l'intero paragrafo venga renderizzato come un blocco di codice (come è stato fatto per tutti gli esempi di questo manuale).
+
+=== ID
+
+L'id di un elemento ha come scopo principale quello di fornire un'"ancora" per la creazione di cross reference, e nel caso l'output sia HTML, viene inserito come id dell'elemento. Oltre a questa funzione però l'id permette l'applicazione di uno stile particolare ad un elemento. L'id di un elemento è definito con un `#`, compreso come il role tra parentesi quadre. possiamo inoltre definire assieme l'id di un elemento ed il suo role:
+
+[source, Asciidoctor]
+----
+[#id.role]<elemento>
+----
+
+=== Attributi mancanti
+
+Se viene fatto un riferimento ad un attributo che non è stato definito, Asciidoctor generalmente non mostra la riga che contiene quell'attributo; tuttavia, per evidenziare questi problemi, nelle ultime release, sono stati inseriti due attributi nuovi: _attribute-missing_ e _attribute-undefined_, che permettono all'utente di specificare il comportamento che deve seguire asciidoctor quando incontra attributi mancanti o non definiti.
+
+==== Attribute-missing
+
+Questo attributo viene utilizzato per definire il comportamento di Asciidoctor quando viene fatto un riferimento ad un attributo non esistente. L'attributo accetta 4 possibili valori: `skip`, `drop`, `drop-line` e `warn`.
+
+* `skip`
+** l'impostazione di default, il riferimento viene mostrato così come è stato scritto;
+* `drop`
+** il riferimento viene rimosso;
+* `drop-line`
+** l'intera riga contenete il riferimento viene rimossa;
+* `warn`
+** viene mostrato un messaggio di avviso che il riferimento manca;
+
+[cols="2*^", options="header"]
+|===
+|Valore		|Risultato
+|skip		|Ciao, {nome}!
+|drop		|Ciao, !
+|drop-line	|
+|warn		|WARNING: skipping reference to missing attribute: name
+|===
+
+=== Attribute undefined
+
+L'attributo attribute-undefined controlla come vengono gestiti gli statement che disattivano un attributo:
+
+[source, Asciidoctor]
+----
+{set:name!}
+----
+
+Le due opzioni disponibili sono `drop` e `drop-line`. Come con l'attributo attribute-missing, `drop` sostituisce lo statement con una stringa vuota, mentre `drop-line` rimuove la riga che lo contiene. L'impostazione di default è `drop-line`, e quindi è consigliato mettere questi statement in una riga a parte.
+
+== Header
+
+L'header di un documento contiene il titolo del documento, il sottotitolo, infomrazioni sull'autore e sulla versione del documento, e tutti gli attributi che vanno applicati all'intero documento, inclusi gli attributi definiti dall'utente. L'headere non è necessario su un documento di tipo `article` o `book`, mentre è obbligatorio nel `manpage`. Un header deve sempre iniziare con il titolo, seguito da due righe opzionali che contengono i dati dell'autore e la versione del documento. Subito dopo vanno inseriti tutti gli attributi che si vogliono applicare a tutto il documento. La fine dell'header è delimitata dalla prima riga vuota incontrata dopo il titolo; quindi un header non può contenere righe vuote, ma può contenere commenti.
+
+=== Titolo
+
+Il titolo del documento è scritto come una sezione di livello 0, dichiarata con il simbolo uguale seguito da almeno uno spazio, e di seguito il testo del titolo.
+
+[source, Asciidoctor]
+----
+= Il Ristorante Al Termine Dell'Universo
+
+Il succo della storia fin qui.
+Al principio fu creato l'Universo. Questo fatto ha sconcertato non poche persone ed è stato considerato dai più come una cattiva mossa.
+----
+
+[[title-paragraph]]
+.Un titolo con paragrafo
+image::title-paragraph.png[title]
+
+I documenti di tipo `article` o `manpage` possono avere solo una sezione di livello 0, mentre un documento di tipo `book` può avere diverse sezioni di livello 0. Se il documento è di tipo `book`, la prima sezione di livello 0 rappresenta il titolo del documento, mentre le successive sezioni rappresentano il titolo delle parti del libro. Alternativamente ad una sezione di livello 0, il titolo del documento può essere dichiarato con l'attributo `:doctitle:`.
+
+Il sottotitolo del documento è definito tramite l'utilizzo dei due punti (`:`) seguiti da uno spazio; nel caso il titolo sia composto da più elementi di punteggiatura di questo tipo, solo il contenuto dopo gli ultimi due punti viene interpretato come sottotitolo del documento. Inoltre il sottotitolo non viene interpretato se il formato di output è HTML5.
+
+[source, Asciidoctor]
+----
+= Guida Galattica Per Autostoppisti: Il Ristorante Al Termine Dell'Universo
+----
+
+In questo caso il titolo sarà "Guida Galattica Per Autostoppisti", mentre il sottotitolo è "Il Ristorante Al Termine Dell'Universo".
+
+[source, Asciidoctor]
+----
+= Guida Galattica Per Autostoppisti: Parte 2: Il Ristorante Al Termine Dell'Universo
+----
+
+Nell'esempio qui sopra invece, il titolo del documento sarà "Guida Galattica Per Autostoppisti: Parte 2" mentre il sottotitolo è, come sopra "Il Ristorante Al Termine Dell'Universo".
+
+C'è la possibilità di utilizzare un speratore diverso dai due punti per delimitare l'inizio di un sottotitolo, tramite l'utilizzo dell'attributo `title-separator`
+
+=== Autore e contatti
+
+A seguito del titolo e del sottotitolo, Asciidoctor fornisce la possibilità di inserire l'autore del documento, ed eventualmente un contatto mail, o un'URL. Questi dati vengono inseriti in una nuova riga sotto il titolo, ed il contatto mail o URL va compreso tra partentesi angolari (`<` e `>`).
+
+[source, Asciidoctor]
+----
+= Il Ristorante Al Termine Dell'Universo
+Douglas Noel Adams, <http://douglasadams.com[douglasadams.com]>
+
+== Sull'autore
+
+{firstname} {middlename} {lastname}, (1952-2001) è stato un autore e sceneggiatore britannico.
+----
+
+[[author]]
+.Titolo e autore
+image::author.png[author]
+
+Asciidoctor interpreta il contenuto nella sezione riguardante l'autore, e associa automaticamente il contenuto ai seguenti attributi:
+
+* `firstname`
+** Il nome dell'autore.
+* `middlename`
+** Il secondo nome dell'autore.
+* `lastname`
+** Il cognome dell'autore.
+* `author`
+** Il nome completo dell'autore.
+* `authorinitials`
+** Le iniziali dell'autore (nome, secondo nome, cognome).
+* `email`
+** L'indirizzo email o l'URL inserita dopo il nome.
+
+Gli attributi vengono completati automaticamente in base alla posizione in cui sono stati inseriti. Se ad esempio il nome dell'autore viene inserito nell'ordine inverso, ciò cognome e nome, allora il cognome dell'autore risulterà nell'attributo `firstname` ed il nome nell'attributo `lastname`; l'attributo `middlename` viene compilato se il nome comprende più di due elementi. Questi attributi sono inoltre impostabili dall'utente nell'header. 
+
+I formati di output `html` e `docbook` possono accettare più autori di un documento. Ogni autore va definito sulla stessa riga, e vanno separati tra loro con un punto e virgola; il primo autore avrà gli attributi elencati sopra, mentre gli autori successivi saranno assegnati ad attributi simili, il cui nome termina con un underscore seguito dalla posizione dell'autore nell'elenco, ad esempio `author_2`, `author_3` e così via. 
+
+=== Versione, data e note
+
+La versione di un documento contiene 3 attributi: 
+
+* `revnumber`:
+** indica la versione del documento, la quale deve contenere almeno un carattere numerico. Ogni lettera o simbolo che precedono il numero non vengono mostrati. Se l'attributo `revdate` non viene impostato, `revnumber` deve finire con una virgola, o iniziare con la lettera "v" , ad esempio `v0.82a`.
+* `revdate`:
+** indica la data del documento, e se non viene specificata, viene utilizzato l'attributo `docdate`.
+* `revremark`:
+** l'attributo `revremark` permette di inserire un breve commento riguardo alla versione del documento. 
+
+=== Metadati
+
+Nel formato di output `html` è possibile aggiungere dei metadati al documento, tramite lutilizzo di attributi particolari; i più comuni sono `description` e `keywords`
+
+*description*:: consente di inserire una descrizione del documento in un tag `meta`.
+*keywords*:: permette di inserire una lista di parole chiave separate da virgola in un tag meta.
+
+=== Preambolo
+
+Il contenuto compreso tra l'header di un documento e la prima sezione di livello 1, o 0 se si tratta di un output di tipo `book` viene interpretata da Asciidoctor come preambolo di un testo, ed è opzionale
+
+== Sezioni
+
+le sezioni dividono il contenuto di un documento Asciidoctor in base ad un sistema gerarchico, e sono definite con dei titoli della sezione.
+
+[source, Asciidoctor]
+----
+= Sezione di livello 0
+
+== Sezione di livello 1
+
+=== Sezione di livello 2
+
+==== Sezione di livello 3
+
+===== Sezione di livello 4
+
+====== Sezione di livello 5
+----
+
+[[sections]]
+.Titoli delle sezioni
+image::sections.png[sections]
+
+I titoli della sezione seguono delle regole precise sulla loro posizione: come detto in precedenza, un documento non può avere più di una sezione di livello 0 a meno che non venga impostato il formato di output `book`, e le sezioni devono essere inserite in ordine in base al livello:
+
+[source, Asciidoctor]
+----
+= Titolo
+
+= sezione di livello 0 illegale 
+
+== sezione di livello 1
+
+==== sezione di livello 3 illegale
+----
+
+I livelli delle sezioni vanno inseriti in ordine, ovvero una sezione di livello 1 va seguita da una sezione di livello 2, la quale non può contenere sezioni di livello 1 e così via. Asciidoctor supporta, oltre ai titoli delle sezioni definiti con il simbolo `=`, anche la definizione con il simbolo `#`, propria del linguaggio Markup.
+
+=== Id
+
+Alle sezioni viene assegnato un id automaticamente, in base al loro titolo, utilizzabile per cross-reference. Gli id generati in questo modo sono composti così: `-titolo_sezione`; ogni id inizia con un `-`, e gli spazi sono separati da underscore. Per elmininare il prefisso dell'id, o per modificarlo, va assegnato un valore all'attributo `idprefix`; per togliere il prefisso automatico basta non assegnare un valore all'attributo, semplicemente dichiarandolo. 
+
+Possiamo inoltre inserire manualmente degli id che puntano al titolo della sezione, utilizzando una lista di elementi separati da virgole racchiusi in due coppie di parentesi quadre:
+
+[source, Asciidoctor]
+----
+[[sezione 1, capitolo 1, cose]]
+== Capitolo 1
+----
+
+Nell'esempio riportato sopra vengono definiti 3 id per il `Capitolo 1`, al quale possiamo adesso fare riferimento con le parole chiave `sezione 1`, `capitolo 1` e `cose`. 
+
+=== Numerazione
+
+Asciidoctor permette tramite l'utilizzo di alcuni attributi, la possibilità di numerare le sezioni automaticamente; tramite l'utilizzo dell'attributo `sectnums`.
+
+È possibile, se la numerazione delle sezioni è attiva, disattivarla per non numerare alcune sezioni. Per fare ciò basta alternare la negazione dell'attributo `sectnums!`, e l'attributo `sectnums`.
+
+[source, Asciidoctor]
+----
+:sectnums:
+
+= Sezione numerata
+
+== Sezione numerata
+
+:sectnums!:
+
+=== Sezione non numerata
+
+=== Sezione non numerata
+
+:sectnums:
+
+==== Sezione numerata
+----
+
+Come mostrato nell'esempio, i le sezioni compresi tra la negazione dell'attributo e la nuova dichiarazione dell'attributo, non sono numerate. Un ulteriore possibilità per la numerazione delle sezioni, sta nel poter definire la "profondità" della numerazione, ovvero quanti livelli vengono numerati. Di default la numerazione avviene per tutte le sezioni fino al livello 3, ovveero tutte le sezioni dal livello 1 al 3. La profondità della numerazione è stabilita tramite l'attributo `sectnumlevels`, definibile solo nell'header.
+
+=== Stili delle sezioni
+
+Le sezioni, se il formato di output è `article` o `book` possono avere degli stili predefiniti, tipici di tesi, articoli di giornale, o libri. Questi stili sono definiti generalmente all'inizio di un blocco di testo o subito prima di una sezione di livello 1, e sono definiti specificando lo stile tra parentesi quadre. Gli stili possibili sono:
+
+* abstract
+* appendix
+* bibliography
+* colophon
+* dedication
+* glossary
+* index
+* part-introduction
+* preface
+
+Lo stile `part-introduction` è disponibile solo nel caso di un formato di output di tipo `book`
+
+[source, Asciidoctor]
+----
+[abstract]
+== Titolo
+
+contenuto della sezione
+----
+
+Nell'esempio qui sopra, l'intera sezione utilizzera lo stile dell'abstract.
+
+== Blocchi
+
+In Asciidoctor i blocchi sono paragrafi, liste o elementi di un documento che assolvono a funzioni specifiche; un esempio di blocco utilizzato finora è il blocco di tipo `source` che mostra il testo all'interno in monospace e non interpretando il contenuto al suo interno.
+
+=== Titoli
+
+I blocchi possono avere un titolo, che va assegnato prima dell'inizio del blocco:
+
+.Blocco con titolo
+[source, Asciidoctor]
+--
+.Blocco con titolo
+[source, Asciidoctor]
+----
+Contenuto del blocco
+----
+--
+
+L'esempio riportato qui sopra mostra un blocco di tipo `source`, con il titolo, ed al suo interno la sintassi per definire il titolo del blocco. 
+
+=== Blocchi delimitati
+
+Con blocco delimitato si intende un blocco il cui inizio e fine sono dichiarati dall'utente attraverso dei segni di punteggiatura particolari; dentro questi marcatori possono essere contenute righe vuote. Il blocco delimitato non viene chiuso finché il marcatore che ne indica la chiusura non viene trovato. Inoltre il contenuto di un blocco viene interpretato in modi differenti a seconda del tipo di blocco delimitato. Le varie tipologie vengono definite dai marcatori utilizzati. 
+
+[cols="3*^.^,1", options="header"]
+|===
+|Tipo di blocco |Nome del blocco											|Marcatore					|Scopo
+|Admonition		|[etichetta]												|Qualsiasi marcatore		|Contenuto a cui viene associato un tag o un'icona
+|Comment		|Nessuno													|//&#47;/					|Testo che non viene processato durante il render
+|Example		|[example]													|====						|Definisce un blocco admonition oppure un esempio
+|Fenced			|Nessuno													|&#715;&#715;&#715;			|Il contenuto viene mostrato così come è scritto, senza interpretazione
+|Listing		|[listing]													|---						|Il contenuto viene mostrato così come è scritto, senza interpretazione
+|Literal		|[literal]													|..&#46;.					|Il contenuto viene mostrato così come è scritto, senza interpretazione
+|Open			|Quasi tutti i nomi degli altri blocchi						|--							|Blocco generico che può essere utilizzato al posto degli altri blocci, ad eccezione del passthrough e della tabella
+|Passthrough	|[pass]														|&#43;&#43;&#43;&#43;		|Il contenuto viene mostrato così come è scritto, senza interpretazione
+|Quote			|[quote]													|&#95;&#95;&#95;&#95;		|Una citazione, con la possibilità di inserirne l'autore
+|Sidebar		|[sidebar]													|&#42;&#42;&#42;&#42;		|Testo e contenuto renderizzato a lato del testo del documento
+|Source			|[source]													|----						|Il contenuto vien mostrato così come è scritto, senza interpretazione
+|Stem			|[stem]														|&#43;&#43;&#43;&#43;		|Contenuto che non viene processato ma viene inviato direttamente ad uno strumento di interpretazione come AsciiMath o LaTeX math
+|Table			|Nessuno													|{vbar}===					|Mostra il contenuto sottoforma di tabella
+|Verse			|[verse]													|&#95;&#95;&#95;&#95;		|Un verso con la possibilità di inserirne l'autore
+|===
+
+== Paragrafi
+
+Il paragrafo è l'elemento dove solitamente si trova la maggior parte del contenuto di un documento. Per questo motivo, Asciidoctor non richiede alcun tipo di markup per delimitare un paragrafo. Ogni paragrafo infatti inizia e termina con una riga vuota; se nello scrivere si va a capo e si inserisce del testo su una nuova riga, quella riga viene comunque considerata parte del paragrafo. 
+
+[source, Asciidoctor]
+----
+Il contenuto di questa riga
+e di questa, fa parte dello stesso paragrafo.
+
+Il paragrafo precedente termina con una riga vuota,
+quindi il contenuto di queste righe
+fa parte di un nuovo paragrafo.
+----
+
+Anche se viene premuto invio e viene inserito del testo nella riga immediatamente successiva a quella in cui si stava scrivendo, il contenuto risulta nello sesso paragrafo, e quando viene effettuato il render, viene interpretato come se fosse stato scritto sulla stessa riga. Per fare in modo che il contenuto inserito nella nuova riga vada effettivamente nella nuova riga, viene inserito un + al termine della riga stessa:
+
+[source, Asciidoctor]
+----
+Nel mezzo del cammin di nostra vita +
+mi ritrovai per una selva oscura, +
+ché la diritta via era smarrita.
+----
+
+Il contenuto, una volta interpretato da Asciidoctor, verrà messo su più righe, così come è stato scritto. Alternativamente è possibile utilizzare un attributo dichiarato nell'header, per far si che la formattazione delle righe venga rispettata, o come opzione nel blocco per forzare la formattazione solo nel blocco; L'attributo è `hardbreaks`, e l'assegnazione dell'attributo al blocco viene effettuata con l'attributo options: `options="hardbreaks"`, oppure nella sua versione abbreviata `%hardbreaks`.
+
+=== Formattazione del testo
+
+Come visto in precedeza con i xref:Quotes[quotes], è possibile alterare il testo per ottenere diversi effetti. Questa variazione nella formattazione è ottenuta comprendendo il testo da modificare in marcatori, chiamati quotes. Nelle ultime versioni di Asciidoctor, la formattazione del testo ha iniziato a separarsi dai quotes, con l'aggiunta di funzionalità. È possibile ottenere i seguenti tipi di formattazione testuale:
+
+* grassetto
+* corsivo
+* virgolette ed apostrofi curvi
+* apice e pedice
+* monospace
+* evidenziata
+
+
+=== Grassetto e corsivo
+
+Come visto in precedenza è possibile enfatizzare il testo trasformandolo in grassetto o in corsivo, o entrambi. Per rendere del testo in grassetto basta inserire un asterisco (`*`) all'inizio ed alla fine del testo da trasformare, oppure nel caso siano necessari i quotes liberi, due asterischi. Allo stesso modo il testo è trasformato in corsivo inserendo all'inizio ed alla fine del contenuto da modificare, un'underscore (`_`) o due, a seconda dei casi.
+
+=== Virgolette ed apostrofi curvi
+
+Di default Asciidoctor non renderizza i doppi apici, o virgolette (") e gli apici, o apostrofi (') come curvi; è possibile però, utilizzando l'accento grave (```) è possibile trasformarli in apici singoli e doppi curvi:
+
+[source, Asciidoctor]
+----
+"`Il tempo è un'`illusione. L'`ora di pranzo è una doppia illusione`"
+----
+
+Il contenuto riportato nell'esempio, una volta interpretato da Asciidoctor verrà renderizzato così:
+
+[example]
+====
+"`Il tempo è un`'illusione. L`'ora di pranzo è una doppia illusione`"
+====
+
+=== Apice e pedice
+
+Un'altra possibilità che Asciidoctor offre è quella di avere del testo come apice o pedice, ovvero del testo spostato verso l'alto o verso il basso rispetto alla riga, comuni nella scrittura di espressioni matematiche o formule chimiche. Per trasformare del testo in apice o pedice basta comprendere il contenuto tra due accenti circonflessi (`^`), mentre per avere un testo sottoforma di pedice, si usa la tilde (`~`).
+
+[source, Asciidoctor]
+----
+Se x = a^y^, allora y = log~a~ x.
+----
+
+[example]
+====
+Se x = a^y^, allora y = log~a~ x.
+====
+
+=== Monospace
+
+Il testo in monospace è testo che viene renderizzato come se fosse all'interno di un blocco di tipo source. In genere viene utilizzato per fare riferimento ad elementi propri di un linguaggio, come è stato fatto finora per gli attributi di Asciidoctor. Per avere del testo in monospace basta comprenderlo tra una coppia o due di accenti gravi (```).
+
+[source, Asciidoctor]
+----
+Ha stampate in copertina, a grandi caratteri che ispirano fiducia, le parole `NON FATEVI PRENDERE DAL PANICO`
+----
+
+=== Evidenziato
+
+Se il formato di output è HTML, è possibile ottenere del testo evidenziato, comprendendolo tra una coppia di cancelletti (`#`). Nei formati come il pdf, il testo evidenziato viene mostrato come testo normale, ma i cancelletti non vengono renderizzati. Nell'HTML finale, i marcatori sdel testo evidenziato saranno sostituiti dai tag `<marked>`.
+
+[source, Asciidoctor]
+----
+"Quarantadue!" urlò Loonquawl. "Questo è tutto ciò che sai dire dopo un lavoro di #sette milioni e mezzo di anni?#"
+----
+
+[[highlight]]
+.Testo evidenziato
+image::highlight.png[highlight]
+
+=== Ordine dei marcatori
+
+Le varie tipologie di formattazione del testo possono essere combinate tra loro, ma va fatto disponendo i marcatori in una sorta di ordine gerarchico, riportato di seguito, dai primi marcatori, ovvero quelli più esterni, verso l'interno:
+
+. Marcatori che agiscono sullo sfondo: I primi marcatori da inserire sono il cancelletto (`#`) o l'accento grave (```). Non è possibile avere del testo in monospace evidenziato e viceversa.
+. Apice e pedice
+. Grassetto
+. Corsivo
+. Virgolette ed apostrofi curvi
+
+Se queste regole non vengono rispettate, il marcatore più esterno applica la trasformazione, mentre quelli interni vengno interpertati come elementi di testo.
+
+== Elenchi
+
+Asciidoctor permette la creazione di diverse tipologie di elenchi: ordinati, checklist, labeled list, elenchi puntati, e con diversi tipi di "punteggiatura". Per definire un elenco basta inserire in righe consecutive i vari elementi, preceduti da dei marcatori che definiscono il tipo di elenco stesso. Essendo dei blocchi, gli elenchi possono avere dei titoli.
+
+=== Elenchi Puntati
+
+Un elenco puntato è un elenco i cui elementi sono preceduti da un punto, o da un'altro simbolo, che non sia un numero. Un elemento di un elenco puntato è dichiarato con un asterisco (`*`) o un meno (`-`), seguito da uno spazio, ed il contenuto dell'elemento dell'elenco. Inoltre ogni elemento può avere dei sotto elenchi, fino a 5 livelli di profondità.
+
+[source, Asciidoctor]
+----
+* elemento 1
+** elemento 1-1
+** elemento 1-2
+*** elemento 1-2-1
+* elemento 2
+----
+
+[example, Asciidoctor]
+====
+* elemento 1
+** elemento 1-1
+** elemento 1-2
+*** elemento 1-2-1
+* elemento 2
+====
+
+Un elenco puntato può avere diversi tipi di simboli prima degli elementi; i simboli disponibili, assieme alla loro parola chiave sono:
+
+* quadrato, `square`
+* cerchio (l'opzione di default), `circle`
+* disco, `disc`
+* nessuno, ma con indentazione, `none` o `no-bullet`
+* senza indentazione, né simbolo (solo per HTML), `unstyled`
+
+La dichiarazione del simbolo va effettuata prima dell'elemento dell'elenco, tra parentesi quadre:
+
+[source, Asciidoctor]
+----
+[square]
+- elemento 1
+- elemento 2
+- elemento 3
+-- elemento 3-1
+--- elemento 3-2
+----
+
+[example, Asciidoctor]
+====
+- elemento 1
+- elemento 2
+- elemento 3
+- elemento 3-1
+- elemento 3-2
+====
+
+Se un elemento di un elenco comprende più righe, è possibile includere quelle righe inserendo un segno più (`+`) tra una riga e l'altra:
+
+[source, Asciidoctor]
+----
+- elemento 1
++
+elemento 1 continuato
+- elemento 2
+----
+
+[example]
+====
+- elemento 1
++
+elemento 1 continuato
+- elemento 2
+====
+
+=== Checklist
+
+Asciidoctor permette la creazione di checklist, ovvero elenchi nei quali gli elementi sono preceduti da riquadri che possono contenere una spunta. Per definire un elemento di una checklist viene utilizzato come marcatore il segno `-`, seguito da due possibili marcatori, separati da uno spazio:
+
+* Due parentesi quadre, aperta e chiusa, separate da uno spazio (`[ ]`). Questo indica un riquadro non spuntato.
+* Due parentesi quadre, aperta e chiusa, contenenti un asterisco o una x (`[*]` o `[x]`).
+
+[source, Asciidoctor]
+----
+- [ ] elemento non spuntato
+- [x] elemento spuntato
+- elemento senza checkbox
+----
+
+[example, Asciidoctor]
+====
+- [ ] elemento non spuntato
+- [x] elemento spuntato
+- elemento senza checkbox
+====
+
+Inoltre, se l'output è HTML, le checkbox dei vari elementi possono essere rese interattive, permettendo all'utente di spuntarle. Questo è ottenuto attraverso l'opzione `interactive`.
+
+=== Elenchi ordinati
+
+I tipi di elenchi visti finora sono semplici liste di elementi. Oltre a questa tipologia, è possibile creare elenchi ordinati, i cui elementi sono numerati. Ci sono inoltre diversi tipi di numerazione degli elementi di un elenco ordinato: 
+
+[cols="3", options="header"]
+|===
+|Tipo					|Nome		|Scopo
+|Araba					|arabic		|L'elemento è preceduto da un numero arabo.
+|Decimale				|decimal	|L'elemento è preceduto da un numero arabo, ma i numeri a una cifra vengono preceduti da uno 0. I numeri da 1 a 9 diventano quindi numeri da 01 a 09.
+|Minuscola				|loweralpha	|L'elemento è preceduto da una lettera minuscola.
+|Maiuscola				|upperalpha	|L'elemento è preceduto da una lettera maiuscola.
+|Minuscola Romana		|lowerroman	|L'elemento è preceduto da un numero romano, scritto in lettere minuscole (`i`, `xiii`, `iv`).
+|Maiuscola Romana		|upperroman	|L'elemento è preceduto da un numero romano, scritto in lettere maiuscole (`I`, `XIII`, `IV`).
+|Minuscola Greca		|lowergreek	|L'elemento è preceduto da una lettera minuscola dell'alfabeto greco.
+|===
+
+Per dichiarare un elemento di un elenco come elemento ordinato viene utilizzato come marcatore il punto (`.`), mentre per definire il tipo di numerazione, come per il simbolo negli elenchi puntati, viene inserito il nome della numerazione tra parentesi quadre. Inoltre se un elemento contiene a sua volta un elenco numerato, Asciidoctor utilizza per il sotto-elenco, e per tutti gli altri sotto-elenchi di quel livello un sistema di numerazione diverso.
+
+NOTE: Le tipologie di numerazione minuscola greca e decimale sono disponibili solo per l'output HTML
+
+Un'altra possibilità che ci offre asciidoctor è quella dell'attributo `start`, che permette all'utente di controllare il punto di partenza della numerazione, ovvero da che numero o lettera contare gli elementi;
+
+[source, Asciidoctor]
+----
+[start=3]
+. elemento 1
+. elemento 2
+. elemento 3
+----
+
+[example, Asciidoctor]
+====
+[start=3]
+. elemento 1
+. elemento 2
+. elemento 3
+====
+
+=== Labeled list
+
+Un altro modo di elencare le cose in Asciidoctor è quello di utilizzare le labeled list: si tratta di elenchi in cui ogni elemento può essere seguito da del testo indentato. Questo tipo di elenco viene dichiarato con l'uso di due due punti (`::`).
+
+[source, Asciidoctor]
+----
+CPU:: Il cervello del computer
+Hard Disk:: Spazio di archiviazione del sistema operativo e dei file
+RAM:: Memoria temporanea per le operazioni della CPU
+----
+
+[example, Asciidoctor]
+====
+CPU:: Il cervello del computer
+Hard Disk:: Spazio di archiviazione del sistema operativo e dei file
+RAM:: Memoria temporanea per le operazioni della CPU
+====
+
+Il contenuto di una labeled list può essere un qualsiasi blocco di Asciidoctor. Questo tipo di elenco quindi può contenere altri elenchi, paragrafi o tabelle.
+
+Un altro impiego per la labeled list è la creazione di un elenco di domande e risposte, tramite l'opzione `qanda`. La sintassi per definire questo tipo di labeled list è la stessa, ma il testo della label deve terminare con un punto di domanda.
+
+[source, Asciidoctor]
+----
+[qanda]
+Qual è la risposta alla domanda fondamentale sulla vita, sull'universo e tutto quanto?::
+42
+----
+
+[example, Asciidoctor]
+====
+[qanda]
+Qual è la risposta alla domanda fondamentale sulla vita, sull'universo e tutto quanto?::
+42
+====
+
+== Tabelle
+
+Le tabelle sono tra gli elementi più complessi disponibili su Asciidoctor, ma rimangono comunque semplici da leggere anche nel formato originale, ed intuitive da scrivere. Una tabella, come gli altri blocchi in Asciidoctor, utilizza dei marcatori per delimitarne l'inizio e la fine. Ogni tabella è aperta e chiusa da `{vbar}===`, il contenuto è diviso in righe e colonne, che contengono celle. Ogni cella inizia con una barra verticale (`{vbar}`), ed ogni riga della tabella generalmente deve avere lo stesso numero di colonne.
+
+[source, Asciidoctor]
+----
+|===
+|riga 1 colonna 1	|riga 1 colonna 2	|riga 1 colonna 3
+|riga 2 colonna 1	|riga 2 colonna 2	|riga 2 colonna 3
+|===
+----
+
+La tabella mostrata qui sopra è una semplice tabella a 2 righe e 3 colonne. Le celle sono state messe in ordine per renderne più semplice la lettura, ma utilizzando l'attributo `cols`, è possibile dichiarare tutte le righe e le colonne di una tabella in una riga. L'attributo infatti permette di dichiarare quante colonne avrà la tabella, e quindi organizzare le celle dichiarate in righe in base al numero di colonne.
+
+[source, Asciidoctor]
+----
+[cols="3"]
+|===
+|riga 1 colonna 1|riga 1 colonna 2|riga 1 colonna 3|riga 2 colonna 1|riga 2 colonna 2|riga 2 colonna 3
+|===
+----
+
+Un altro metodo per definire una tabella è quello di definire una cella per riga:
+
+[source, Asciidoctor]
+----
+[cols="3"]
+|===
+|riga 1 colonna 1
+|riga 1 colonna 2
+|riga 1 colonna 3
+|riga 2 colonna 1
+|riga 2 colonna 2
+|riga 2 colonna 3
+|===
+----
+
+I 3 esempi mostrati qui sopra, una volta interpretati danno lo stesso risultato:
+
+[example]
+====
+|===
+|riga 1 colonna 1 |riga 1 colonna 2 |riga 1 colonna 3
+|riga 2 colonna 1 |riga 2 colonna 2 |riga 2 colonna 3
+|===
+====
+
+=== Colonne
+
+Come appena visto, il numero di colonne di una tabella è definito dal numero di celle definite nella prima riga non vuota dopo il marcatore di inizio della tabella, o con l'attributo `cols`. Se all'attributo viene assegnato solo un numero, quel numero determina quante colonne avrà la tabella, e creerà una tabella con quel numero di colonne, tutte della stessa larghezza. Oltre ad un singolo numero però, l'attributo `cols` accetta anche un elenco di elementi separati da virgola.
+
+[source, Asciidoctor]
+----
+[cols="1,1,1,1"]
+|===
+|riga 1 colonna 1|riga 1 colonna 2|riga 1 colonna 3|riga 1 colonna 4
+|===
+----
+
+Nell'esempio qui sopra, la tabella avrà 4 colonne della stessa larghezza.
+
+==== Formattazione delle colonne
+
+L'attributo `cols`, oltre a definire il numero di colonne, permette di definire anche la formattazione delle colonne stesse, attraverso l'uso di marcatori che definiscono stile, allineamento e larghezza della colonna, più un marcatore chiamato _moltiplicatore_.
+
+Il moltiplicatore (`*`) viene utilizzato quando si vuole applicare una tipologia di formattazione a tutte le colonne. Se viene utilizzato, va messo sempre prima del marcatore. Nell'esempio seguente, il moltiplicatore assicura che le impostazioni di default vengano applicate a tutte le colonne.
+
+[source, Asciidoctor]
+----
+[cols="3*"]
+----
+
+L'allineamento del contenuto delle celle viene impostato con 3 marcatori, che determinano se il contenuto è centrato (`^`), allineato a sinistra (`<`), o allineato a destra (`>`). Ad esempio per centrare il contenuto di tutte le celle di una tabella, verrà usato `^` subito dopo il moltiplicatore:
+
+[source, Asciidoctor]
+----
+[cols="3*^"]
+|===
+|riga 1 colonna 1 |riga 1 colonna 2 |riga 1 colonna 3
+|riga 2 colonna 1 |riga 2 colonna 2 |riga 2 colonna 3
+|===
+----
+
+[example]
+====
+[cols="3*^"]
+|===
+|riga 1 colonna 1 |riga 1 colonna 2 |riga 1 colonna 3
+|riga 2 colonna 1 |riga 2 colonna 2 |riga 2 colonna 3
+|===
+====
+
+Se però fosse necessario cambiare l'allineamento del contenuto di una sola colonna, è possibile farlo sempre utilizzando il moltiplicatore: supponiamo che nella tabella di 3 colonne vista finora, il contenuto dell'ultima colonna debba essere allineato a destra; per farlo dobbiamo assegnare le impostazioni di default alle prime due colonne, ed aggiungere una colonna con l'allineamento desiderato:
+
+[source, Asciidoctor]
+----
+[cols="2*,^"]
+|===
+|riga 1 colonna 1 |riga 1 colonna 2 |riga 1 colonna 3
+|riga 2 colonna 1 |riga 2 colonna 2 |riga 2 colonna 3
+|===
+----
+
+Se effettuiamo un render della tabella mostrata qui sopra, vediamo come il contenuto della colonna 3 sia allineato a destra:
+
+[example]
+====
+[cols="2*,>"]
+|===
+|riga 1 colonna 1 |riga 1 colonna 2 |riga 1 colonna 3
+|riga 2 colonna 1 |riga 2 colonna 2 |riga 2 colonna 3
+|===
+====
+
+Allo stesso modo, per applicare un allineamento diverso ad ogni singola colonna, viene usata una lista di elementi separati da virgola che ne definiscono l'allineamento.
+
+[source, Asciidoctor]
+----
+[cols="<,2*^,>"]
+----
+
+L'attributo `cols` definisce una tabella a 4 colonne dove il contenuto della prima è allineato a sinistra, la seconda e terza colonna hanno il contenuto centrato, e la quarta colonna lo avrà allineato a destra.
+
+Gli allineamenti visti finora però sono solo allineamenti orizzontali. Per ottenere un allineamento verticale, l'operatore che determina l'allineamento va prefissato con un punto (`.`). Il contenuto può essere allineato verticalmente in alto (`.<`), centrato verticalmente (`.^`), e allineato verticalmente in basso (`.>`). L'allineamento orizzontale e verticale degli elementi può essere combinato, come mostra la tabella seguente:
+
+[[aligncol]]
+[cols="5*^l"]
+|===
+|Allineamento	4+|Orizzontale
+.5+|Verticale	|-		|Sinistra	|Centro		|Destra
+				|Alto	|<.<		|&#94;.<	|>.<
+				|Centro |<.^		|&#94;.^	|>.^
+				|Basso	|<.>		|^.>		|>.>
+|===
+
+Dopo l'operatore che definisce l'allineamento è possibile inserire un operatore che regola la larghezza di una colonna. L'operatore può essere un numero, chiamato intero proporzionale (proportional integer), o un numero da 1 a 99 che indica una percentuale. nel caso sia una percentuale, è possibile omettere il simbolo `%`.
+
+[source, Asciidoctor]
+----
+[cols="1,4,6"]
+|===
+|colonna 1 |colonna 2 |colonna 3
+|===
+
+[cols="60%, 15%, 25%"]
+|===
+|colonna 1 |colonna 2 |colonna 3
+|===
+----
+
+Le due tabelle qui sopra conterranno 3 colonne di larghezza variabile. Nel primo esempio, la larghezza delle colonne viene gestita in proporzione alla prima colonna; quindi la seconda e la terza colonna saranno 4 e 6 vole più larghe della prima. Nel secondo esempio invece, il metro di paragone è la larghezza della tabella: la prima colonna occuperà il 60% della tabella, la seconda il 15% e la terza il 25%. Una volta effettuato il render, le due tabelle appariranno così:
+
+[example]
+====
+.Larghezza proporzionale
+[cols="1,4,6"]
+|===
+|colonna 1 |colonna 2 |colonna 3
+|===
+
+.Larghezza in percentuale
+[cols="60%, 15%, 25%"]
+|===
+|colonna 1 |colonna 2 |colonna 3
+|===
+====
+
+Infine è possibile modificare lo stile della colonna, che definisce se e quale trasformazione viene applicata alla colonna, e va messo come ultimo operatore per la colonna. Di seguito vengono elencati i possibili stili di una colonna:
+
+[[stylecol]]
+[cols="3*^", options="header"]
+|===
+|Nome		|Operatore	|Scopo
+|AsciiDoc	|a			|Ogni tipo di xref:Blocchi[blocco] di asciidoctor può essere contenuto nella colonna
+|Emphasis	|e			|Il testo è mostrato in corsivo
+|Header		|h			|Lo stile dell'header della tabella è applicato alla colonna
+|Literal	|l			|Il contenuto della colonna è interpretato come se fosse all'interno di un blocco literal
+|Monospaced |m			|Il contenuto della colonna è mostrato in monospace
+|None		|d			|Viene utilizzato lo stile di default di Asciidoctor
+|Strong		|s			|Il contenuto della colonna è mostrato in grassetto
+|Verse		|v			|Il contenuto della colonna è mostrato come se fosse all'interno di un blocco verse
+|===
+
+Per applicare uno di questi stili, la sintassi è la stessa della definizione dell'allineamento.
+
+[source, Asciidoctor]
+----
+[cols="3*^m"]
+----
+
+Nell'esempio qui sopra è stata dichiarata una tabella di 3 colonne; il contenuto delle 3 colonne sarà centrato orizzontalmente e mostrato in monospace.
+
+==== Formattazione delle celle
+
+Oltre alla possibilità di modificare intere colonne, Asciidoctor permette di gestire la formattazione delle singole celle. Questo consente di modificarne le dimensioni o il contenuto, l'allineamento e lo stile, in maniera simile alle proprietà dell'attributo `cols`.
+
+Gli operatori che eseguono queste funzioni vanno dichiarati prima della {vbar} della cella, senza spazi.
+
+L'operatore di moltiplicazione che abbiamo visto prima nella formattazione delle colonne è utilizzato nelle singole celle per copiarne il contenuto. Se ad esempio abbiamo una riga le cui celle contengono esattamente lo stesso testo, invece di scriverlo manualmente, o con un copia-incolla, è possibile usare questo operatore per fare in modo che un dato numero di celle di quella riga abbia quel contenuto.
+
+[source, Asciidoctor]
+----
+[cols="4"]
+|===
+|riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3 	|riga 1 cella 4
+3*|stesso contenuto nelle celle 1,2,3				|riga 2 cella 4
+|riga 3 cella 1 |riga 3 cella 2 |riga 3 cella 3 	|riga 3 cella 4
+|===
+----
+
+.Tabella con il contenuto ripetuto
+[example]
+====
+[cols="4"]
+|===
+|riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3 	|riga 1 cella 4
+3*|stesso contenuto nelle celle 1,2,3				|riga 2 cella 4
+|riga 3 cella 1 |riga 3 cella 2 |riga 3 cella 3 	|riga 3 cella 4
+|===
+====
+
+Inoltre è possibile, utilizzando come operatore il segno puù (`+`), fare in modo che una cella si estenda su più colonne o più righe:
+
+[source, Asciidoctor]
+----
+[cols="3"]
+|===
+|riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3
+3+|testo che occupa 3 celle
+.2+|testo che occupa 2 celle su 2 righe |riga 3 cella 2 |riga 3 cella 3
+				|riga 4 cella 2 |riga 4 cella 3
+|===
+----
+
+Semplicemente inserendo prima della `{vbar}` l'operatore `+` preceduto da un numero, possiamo stabilire quante celle verranno occupate orizzontalmente o verticalmente. Le dimensioni della tabella però sono comunque legate al numero di colonne definite dall'attributo `cols` o dalla prima riga della tabella stessa. Non possiamo quindi avere in una tabella da 3 colonne una cella che ne occupa 5, o una che ne occupa 3 dall'ultima colonna.
+
+[example]
+====
+[cols="3"]
+|===
+	|riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3
+  3+|testo che occupa 3 celle
+ .2+|testo che occupa 2 celle su 2 righe |riga 3 cella 2 |riga 3 cella 3
+					|riga 4 cella 2 |riga 4 cella 3
+|===
+====
+
+Per gestire l'allineamento del contenuto della singola cella, basta prefissare alla `{vbar}` gli stessi xref:aligncol[operatori] utilizzati per l'allineamento delle colonne:
+
+[source, Asciidoctor]
+----
+^.^|contenuto centrato orizzontalmente e verticalmente
+<|contenuto allineato a sinistra
+>.>|contenuto allineato a destra ed in basso
+----
+
+Stessa cosa si piò dire dello stile, analogamente all'allineamento, è possibile prefissare alla `{vbar}` uno degli xref:stylecol[operatori] che gestiscono lo stile della colonna.
+
+[source, Asciidoctor]
+----
+m|contenuto in monospace
+a|* contenuto
+* sottoforma
+* di
+* lista
+e|contenuto in corsivo
+----
+
+NOTE: L'attirbuto di stile `a`, AsciiDoc, è disponibile solo con il convertitore di default, non è disponibile con asciidoctor-pdf.
+
+==== Header e footer
+
+Oltre all'attributo `cols`, è possibile utilizzare l'attributo `options`; attivando l'opzione `header`, la prima riga della tabella viene interpretata come header della tabella, ed al suo contenuto viene applicato uno stile diverso. Alternativamente, è possibile fare in modo che una riga venga interpretata come header di una tabella senza dichiarare l'opzione, ma seguendo 3 regole:
+
+. La prima riga subito dopo l'apertura della tabella non è vuota
+. La seconda riga subito dopo l'apertura della tabella è vuota
+. L'attributo `options` non è stato specificato nell'elenco degli attributi della tabella
+
+In questo modo Asciidoctor interpreterà la prima riga come header della tabella.
+
+[source, Asciidoctor]
+----
+[cols="2", options="header"]
+|===
+|Header colonna 1 |Header colonna 2
+|riga 1 colonna 1 |riga 2 colonna 2
+|====
+
+[cols="2"]
+|===
+|Header colonna 1 |Header colonna 2
+
+|riga 1 colonna 1 |riga 2 colonna 2
+|===
+----
+
+[example]
+====
+[cols="2"]
+|===
+|Header colonna 1 |Header colonna 2
+
+|riga 1 colonna 1 |riga 2 colonna 2
+|===
+====
+
+Analogamente all'header, è possibile attivare l'opzione `footer` dell'attributo `options` per far sì che l'ultima riga della tabella venga interpretata come footer della tabella stessa.
+
+===== Larghezza della tabella 
+
+Come impostazione predefinita, una tabella in Asciidoctor occupa tutta la pagina in larghezza; è possibile però, utilizzando l'attributo `width` regolarne la larghezza, impostando che percentuale della pagina deve occupare. Come per la larghezza della colonna, il simbolo `%` può essere omesso.
+
+[source, Asciidoctor]
+----
+[width="40"]
+----
+
+[example]
+====
+[cols="3", width="40"]
+|===
+|riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3
+|riga 2 cella 1 |riga 2 cella 2 |riga 2 cella 3
+|===
+====
+
+==== Bordi della tabella
+
+I bordi di una tabella sono controllati da due attributi: `frame`, che controlla i bordi esterni della tabella, e `grid` che invece gestisce i bordi delle singole celle.
+
+===== Frame
+
+I bordi esterni di una tabella sono controllati dall'attributo `frame`, che accetta come argomenti 4 opzioni:
+
+- `all`
+-- L'opzione predefinita; tutti i bordi della tabella vengono renderizzati.
+- `topbot`
+-- Solo il bordo superiore ed inferiore della tabella vengono renderizzati.
+- `sides`
+-- Solo i bordi a destra e sinistra della tabella vengono renderizzati.
+- `none`
+-- Nessun bordo esterno della tabella viene renderizzato.
+
+.Tabelle con i diversi tipi di `frame`
+[example]
+====
+.all
+[cols="3"]
+|===
+|riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3
+|===
+
+---
+
+.topbot
+[cols="3", frame="topbot"]
+|===
+|riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3
+|===
+
+---
+
+.sides
+[cols="3", frame="sides"]
+|===
+|riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3
+|===
+
+---
+
+.none
+[cols="3", frame="none"]
+|===
+|riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3
+|===
+====
+
+<<<<<<< HEAD
+===== Grid
+
+I bordi che marcano le singole righe e colonne di una tabella sono controllati dall'attributo `grid`, che ha 4 possibili opzioni:
+
+- `all`
+-- Come per l'attributo `frame`, è l'opzione predefinita, tutti i bordi vengono renderizzati.
+- `cols`
+-- Vengono renderizzati solo i bordi verticali delle celle, che separano le colonne.
+- `rows`
+-- Vengono renderizzati solo i bordi orizzontali delle celle, che separano le righe.
+- `none`
+-- Come per l'attributo `frame`, la tabella viene renderizzata senza bordi interni.
+
+. Tabelle con i diversi tipi di `grid`
+[example]
+====
+.all
+[cols="3"]
+|===
+|riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3
+|===
+
+---
+
+.cols
+[cols="3", grid="cols"]
+|===
+|riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3
+|===
+
+---
+
+.rows
+[cols="3", grid="rows"]
+|===
+|riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3
+|riga 2 cella 1 |riga 2 cella 2 |riga 2 cella 3
+|===
+
+---
+
+.none
+[cols="3", grid="none"]
+|===
+|riga 1 cella 1 |riga 1 cella 2 |riga 1 cella 3
+|===
+====
+
+=== Titolo delle tabelle
+
+Le tabelle sono dei blocchi, e in quanto a tali possono avere un titolo, definito prima degli attributi della tabella. Asciidoctor prefissa certi elementi, come le tabelle o le immagini, con una caption, ovvero con del testo generato automaticamente, che precede il titolo della tabella. Questo può essere modificato tramite l'attributo `table-caption` nella lista degli attributi della tabella, o nell'header del documento per avere una caption applicata a tutte le tabelle. Per disattivare questa generazione automatica, basta negare l'attributo nell'header, oppure dichiararlo e non assegnarvi niente nella lista degli attributi della tabella.
+
+=== DSV e CSV
+
+Come visto finora le tabelle sono comprese tra due marcatori (`{vbar}===`), ed i loro contenuti sono separati da una pipe (`{vabr}`), questo metodo di definizione è chiamato PSV, valori separati da pipe. Ci sono però altri due modi di definire il contenuto di una tabella: valori separati da virgola (CSV), e valori separati da un delimitatore (DSV). Queste due metodi di definizione di una tabella sono controllati da un attributo: `format`. 
+
+Quando il `format` della tabella è `csv`, i contenuti delle singole celle sono separati da una virgola, e si perde la pipe iniziale:
+
+[source, Asciidoctor]
+----
+[cols="2", format="csv"]
+|===
+riga 1 colonna 1,riga 1 colonna 2
+riga 2 colonna 1,riga 2 colonna 2
+|===
+----
+
+Quando invece il `format` della tabella è `dsv`, i contenuti sono separati dal simbolo due punti (`:`), e si perde la pipe iniziale:
+
+[source, Asciidoctor]
+----
+[cols="2", format="dsv"]
+|===
+riga 1 colonna 1:riga 1 colonna 2
+riga 2 colonna 1:riga 2 colonna 2
+|===
+----
+
+Oltre ai metodi appena visti, è possibile omettere l'attributo format, e sostituire la pipe con una virgola o due punti a seconda del metodo di definizione desiderato:
+
+[source, Asciidoctor]
+----
+[cols="2"]
+,===
+riga 1 colonna 1,riga 1 colonna 2
+riga 2 colonna 1,riga 2 colonna 2
+,===
+
+[cols="2"]
+:===
+riga 1 colonna 2:riga 1 colonna 2
+riga 2 colonna 1:riga 2 colonna 2
+:===
+----
+
+== Horizontal rules e page break
+
+Asciidoctor permette l'utilizzo di horizontal rules, ovvero linee orizzontali che in HTML vengono definite con i ag `<hr>`. Per ottenere una riga del genere, viene utilizzato un marcatore composto da 3 apostrofi:
+
+[source, Asciidoctor]
+----
+'''
+----
+
+[example]
+====
+,,,
+====
+
+Inoltre, Asciidoctor riconosce in parte anche la sintassi di Markdown per definire queste linee, consentendo l'uso dei caratteri meno ed asterisco ripetuti 3 volte per definire una linea:
+
+[source, Asciidoctor]
+--
+---
+
+- - - 
+
+***
+
+* * *
+--
+
+Ripetendo invece 3 parentesi angolari aperte (`<`), è possibile forzare un page break, ovvero fare in modo che il contenuto successivo al marcatore venga inserito in una nuova pagina.
+
+== URL
+
+Asciidoctor facilita l'inserimento di URL e link nel documento, riconoscendo automaticamente una serie di schemi come elementi di un url. Gli schemi che riconosce sono:
+
+* http
+* https
+* ftp
+* irc
+* mailto
+* email@email.com
+
+Qualsiasi URL scritta con uno di questi schemi viene automaticamente interpretata come link. Per evitare che un URL venga interpretata in questo modo, e venga renderizzata come semplice testo, basta prefissarla con una backslash (`\`). Inoltre è disponibile un attributo da dichiarare nell'header del documento che consente all'URL di essere inserita nel documento finale senza schema; l'attributo è `:hide-uri-scheme:`, e va semplicemente dichiarato.
+
+Se invece vogliamo inserire un URL, ma con del testo che la mascheri, dobbiamo inserire il testo che andrà a sostituire l'URL subito dopo la stessa, chiuso tra parentesi quadre:
+
+[source, Asciidoctor]
+----
+È possibile contribuire ad Asciidoctor da https://github.com/asciidoctor[github].
+----
+
+[example]
+====
+È possibile contribuire ad Asciidoctor da https://github.com/asciidoctor[github].
+====
+
+Se l'URL non inizia con uno degli schemi riconosciuti automaticamente, per inserirla bisogna utilizzare la macro `link`:
+
+[source, Asciidoctor]
+----
+link:url[testo opzionale, target opzionale, role opzionale]
+----
+
+In un link dichiarato in questo modo, il role va ad applicare una classe CSS al link, mentre il testo ha la stessa funzione del testo compreso tra due parentesi quadre di un URL riconosciuta da Asciidoctor. Il target invece indica la tipologia di pagina che si vuole visualizzare. Il target ed il role vengono dichiarati con gli attributi `window` e `role`. 
+
+[source, Asciidoctor]
+----
+link:asciidoctor.org[Asciidoctor, window="_blank", role="url"]
+----
+
+L'esempio qui sopra mostra un link dichiarato con la macro, che contiene del testo, un target ed un role. Quando si inserisce un target ed un role ad un link in questo modo, bisogna dichiarare l'attributo `:linkattrs:` nell'header del documento.
+
+Oltre ad un'URL, con la macro `link` è possibile inserire link ad altri file:
+
+[source, Asciidoctor]
+----
+link:{guida-html}[La guida in formato HTML]
+----
+
+[example]
+====
+link:{guida-html}[La guida in formato HTML]
+====
+
+Inoltre se il documento a cui fare collegamento è in HTML, è possibile inserire un collegamento ad una sezione specifica del file, aggiungendo un cancelletto (`#`) ed il nome della sezione, subito dopo il formato del documento.
+
+[source, Asciidoctor]
+----
+link:{guida-html}#Url[Sezione sui link]
+----
+
+Negli esempi precedenti è stato utilizzato un riferimento all'attributo `guida-html` per avere il link al file. Questo perché il nome del file collegato contiene underscore (`_`); in questo caso, o nel caso il link contenga l'accento circonflesso (`^`), non si può scrivere direttamente il link, in quanto quei due caratteri sono elementi di formattazione di Asciidoctor, e causano un'errata interpretazione del link. Per ovviare a questo problema, ci osno due metodi: il primo, quello che è stato utilizzato negli esempi, è quello di dichiarare un attributo definito dall'utente che contiene il link, ed all'occorrenza fare riferimento all'attributo. Il secondo metodo invece, ottiene la corretta interpretazione del link tramite una macro: l'inline pass macro che permette di gestire che caratteri vengono interpretati dal convertitore. Le macro verranno viste nel dettaglio più avanti.
+
+== Cross reference
+
+Per creare dei link che puntano a sezioni interne al documento, o a sezioni di un altro documento, o a certi elementi viene utilizzata la macro `xref`, che funziona in un modo simile alla macro `link`, ma ha bisogno di un elemento a cui fare riferimento. Questo elemento è chiamato _ancora_.
+
+=== Definizione di un'ancora
+
+L'ancora, può essere definita ovunque: nell'header, in mezzo ad un paragrafo, in una tabella, ed è compresa da due coppie di parentesi quadre. In precedenza, nella sezione riguardante i blocchi è stato mostrato come definire l'id di un blocco, ovverlo un'ancora che permette di fare riferimento a quel blocco.
+
+[source, Asciidoctor]
+----
+[[ancora]]Elemento a cui l'ancora fa riferimento
+----
+
+Un'ancora può essere definita ovunque può essere inserito del testo, e quando viene interpretata, non viene mostrata nel documento finale. Ogni riferimento interno che punta a quell'ancora però permetterà di navigare al punto in cui l'ancora è situata.
+
+.Un'ancora definita in un elenco numerato
+[source, Asciidoctor]
+----
+. Primo elemento
+. Secondo elemento
+. [[punto-tre]]Terzo elemento
+. Quarto elemento
+----
+
+Oltre all'ancora è possibile definire anche il testo che verrà inserito ogni volta che viene fatto un riferimento a quell'ancora. Per farlo, basta inserire il testo assieme alla definizione dell'ancora, separato da essa da una virgola:
+
+[source, Asciidoctor]
+----
+[[ancora, Elemento]]Elemento a cui fa riferimento
+----
+
+Nell'esempio riportato qui sopra, ogni volta che vierrà fatto un riferimento all'ancora, automaticamente quel riferimento avrà come testo `Elemento`.
+
+Alternativamente è possibile definire un'ancora tramite la macro `anchor`:
+
+[source, Asciidoctor]
+----
+anchor:nome-ancora[testo sostitutivo]
+----
+
+=== Riferimenti interni
+
+Ora che abbiamo definito un'ancora, possiamo utilizzarla per fare riferimento ad essa e navigare rapidamente in parti diverse del documento. Nel caso si voglia fare riferimento ad una sezione utilizzando il titolo della sezione stessa, non è necessario creare un'ancora. Asciidoctor infatti crea automaticamente un'ancora alla dichiarazione del titolo di una sezione; tale ancora ha lo stesso nome della sezione. Ci sono due modi di creare riferimenti interni: il primo è utilizzando l'id o il titolo della sezione racchiuso in due coppie di parentesi angolate, mentre il secondo, come visto in precedenza viene effettuato tramite l'uso della macro `xref`.
+
+[source, Asciidoctor]
+----
+<<ancora>>
+
+<<titolo della sezione>>
+
+xref:ancora
+
+xref:titolo della sezione
+----
+
+NOTE: La sintassi con le parentesi angolate è una forma abbreviata della macro xref.
+
+Nell'esempio qui sopra vediamo i due modi di creare riferimenti interni, entrambi con l'ancora ed il titolo della sezione. Se nell'ancora è stato specificato il testo che va a mascherare il riferimento, allora è sufficiente creare il riferimento come mostra l'esempio. Altrimenti, se l'ancora non è stata definita, o sew si vuole che venga visualizzato un testo differente da quello impostato nell'acora, si può specificare in due modi, a seconda del metodo utilizzato per fare il riferimento interno:
+
+Parentesi angolate:: successivamente all'ancora o al titolo della sezione, possibile specificare un testo alternativo separandolo dall'ancora o dal titolo con una virgola.
+Macro xref:: Come per la macro `link`, è possibile inserire un testo alternativo all'interno di parentesi quadre subito dopo l'ancora o il titolo della sezione.
+
+[source, Asciidoctor]
+----
+<<ancora, testo alternativo>>
+
+xref:ancora[testo alternativo]
+----
+
+=== Riferimenti interni ad altri documenti
+
+La macro xref permette di avere collegamenti a sezioni di altri documenti, in modo simile alla macro link. La differenza tra le due macro in questo caso è che link è legata al convertitore HTML, e potrebbe causare errori negli altri convertitori, mentre la macro xref è compatibile con tutti gli altri convertitori di Asciidoctor. Inoltre la macro xref permette il riferimento ad un'ancora di un documento esterno, non solo ad una sezione.
+
+Per effettuare un riferimento ad un altro documento, la sintassi è uguale alla macro link, ma in questo caso possiamo puntare ad ancore e senzioni anche se il documento a cui facciamo riferimento non è in formato HTML. 
+
+[source, Asciidoctor]
+----
+<<documento.adoc#sezione-3,Sezione 3>>
+
+xref:documento.adoc#sezione-3[Sezione 3]
+----
+
+Lèestensione del documento è necessaria solo se ci sono più documenti con lo stesso nome ma in formati diversi.
+
+== Include directive
+
+Include directive è uno strumento che permette all'utente di importare dati da fonti esterne; può essere utilizzata per:
+
+- Suddividere un documento in file più piccoli, così da renderne più semplice la modifica
+- Inserire snippet di codice direttamente dai sorgenti, così da avere un documento che rimane aggiornato
+- Popolare tabelle con gli output di altri programmi
+- Una creazione di documenti più flessibile tramite l'uso di alcuni metodi dei preprocessori (solo con il convertitore asciidoctor)
+- Riutilizzare pezzi di un documento più volte in un altro documento
+
+La sintassi dell'ìinclude directive è la seguente:
+
+[source, Asciidoctor]
+----
+include::percorso[leveloffset=livello,lines=range,tags=nomi,indent=profondità]
+----
+
+=== Percorso
+
+Il percorso al file può essere assoluto o relativo. Se il percorso è relativo, il processore effettua le seguenti operazioni:
+
+- Se lo strumento include è utilizzato nel documento principale, i percorsi relativi sono risolti partendo dalla posizione del documento principale.
+- Se invece lo strumento è utilizzato in un documento che a sua volta è stato incluso, i percorsi relativi partono dalla posizione del documento che effettua l'inclusione.
+
+=== Level offset e suddivisione
+
+Nel caso di documenti molto grandi, come ad esempio un libro, può essere utile suddividere il documento in parti più piccole, in modo da renderne la modifica più agevole. Il `leveloffset` in questo caso consente di alterare il livello delle sezioni del documento incluso.
+
+[source, Asciidoctor]
+----
+
+= Il mio libro
+
+include::capitolo1.adoc[leveloffset=+1]
+
+include::capitolo2.adoc[leveloffset=+1]
+----
+
+Il `leveloffset` nel caso di un libro come nell'esempio, permette la scrittura ed eventuale pubblicazione dei singoli capitoli come documenti indipendenti, ma ne permette l'inclusione nel libro completo, aumentando tutte le sezioni di 1 livello. Questo perché come detto in precedenza, alcuni formati di output non accettano più di una sezione di livello 1.
+
+Essendo inoltre il `leveloffset` relativo, non crea problemi se il documento incluso include a sua volta altri documenti. Se vogliamo applicare lo stesso offset ai documenti che importiamo, è possibile dichiarare l'attributo `:leveloffset:` ed assegnare ad esso un offset.
+
+NOTE: Se un file non è in un formato nativo ad Asciidoctor (`.asciidoc`, `.adoc`, `.ad`, `.asc`, o `.txt`), il contenuto non viene interpretato. Viene solo effettuata una conversione a UTF-8, e poi il contenuto viene inserito così com'è.
+
+=== Inserire parte di un documento
+
+Include directive consente di importare parte di un documento, ed il contenuto da importare può essere delimitato da tag definiti dall'utente o un range definito dal numero delle righe, ad esempio dalla riga 1 alla 42.
+
+L'inclusione tramite tag viene effettuata utilizzando l'attributo `tags`, che specifica i nomi dei tag da includere. 
+
+La definizione di un tag viene fatta in un commento, ed ha un comportamento simile ad un blocco; il tag infatti è compreso tra due marcatori, che in questo caso sono due macro:
+
+[source, Asciidoctor]
+----
+tag::nometag
+
+end::nometag
+----
+
+Una volta definiti i tag ed il loro contenuto nel documento da includere, possiamo riportarne i nomi nell'attributo `tags`:
+
+[source, Asciidoctor]
+----
+include::file.adoc[tags=tag1;tag2;tag3]
+----
+
+Nell'esempio riportato qui sopra vediamo che l'argomento dell'attributo `tags` accetta un elenco di valori separati da un punto e virgola.
+
+Per includere porzioni di documenti per numero di riga, l'attributo da usare è `lines`, ed il range di righe da includere è strutturato così: `lines=inizio..fine`, dove inizio e fine sono rispettivamente il numero della prima riga da includere ed il numero dell'ultima riga da includere, separati da due punti consecutivi (`..`). Come per i tag, l'argomento può essere un elenco i cui elementi sono separati da punto e virgola.
+
+=== Indent
+
+Nel caso venga importato del codice, può capitare che lo snippet importato sia indentato. L'attributo indent permette di modificare l'indentazione del blocco di codice importato:
+
+- Se `indent=0`, l'indentazione che precede il blocco di codice fino all'elemento più esterno viene eliminata.
+- Se `indent>0`, l'indentazione che precede il blocco di codice fino all'elemento più esterno viene eliminata, e vengono aggiunte un numero di colonne di indentazione pari a quello definito nell'attributo.
+
+[source, Asciidoctor]
+----
+[indoent=0]
+	def names
+      @name.split ' '
+    end
+
+[indent=2]
+	def names
+      @name.split ' '
+    end
+----
+
+I due esempi qui sopra, una volta interpretati produrranno:
+
+[example]
+====
+Indent 0
+
+def names
+  @name.split ' '
+end
+
+* * *
+
+Indent 2
+
+		def names
+    	  @name.split ' '
+		end
+
+====
+
+=== Includere il contenuto di un URI
+
+== Immagini
+
+Per ihnserire un'immagine in un documento, basta inserire il nome e formato dell'immagine, prefissati dalla macro `image::` ed una coppia di parentesi quadre alla fine:
+
+[source, Asciidoctor]
+----
+image::immagine.jpg[]
+----
+
+Tra le parentesi quadre è possibile specificare una serie di argomenti, elencati di seguito in ordine di definizione:
+
+* Testo alternativo (nel caso l'immagine non venga visualizzata)
+* Larghezza dell'mmagine
+* Altezza dell'immagine
+* Link a cui punta l'immagine
+
+Essendo poi un'immagine un elemento di tipo block, è possibile assegnarle un id ed un titolo:
+
+[source, Asciidoctor]
+----
+[[id-immagine]]
+.Titolo dell'immagine
+image::immagine.jpg[Immagine, 300, 200, link="http://link.immagine"]
+----
+
+Asciidoctor prefissa automaticamente le immagini inserite come blocco con un numero ed una caption, che di default è "Figure". Per disattivare quest'opzione o alterarla, basta disattivare o assegnare un nuovo valore all'attributo `figure-caption`.
+
+Alternativamente è possibile inserire le immagini come elemento inline, con una sintassi quasi identica alla precedente: a differenza dell'elemento inserito come blocco infatti, la macro è `image:`, ovvero con un simbolo `:` in meno.
+
+Le immagini vengono inserite in base al percorso dichiarato nell'attributo `imagesdir`, che di default è un percorso vuoto; questo vuol dire che se non viene specificato un percorso, le immagini devono essere nella stessa directory del documento. L'attributo accetta 3 tipologie di argomenti: percorsi relativi, percorsi assoluti e URL.
+
+=== Allineamento delle immagini
+
+Per gestire la posizione delle immagini ed il loro allineamento con il testo ci sono due possibilità:
+
+- Attributi di posizionamento
+- Roles
+
+==== Attributi di posizionamento
+
+Asciidoctor fornisce un attributo, `align` per gestire l'allineamento dell'immagine all'interno del blocco in cui viene inserita, ovvero `left`, `right` o `center`, rispettivamente sinistra, destra o al centro. L'attributo `float` invece può essere applicato sia alle immagini inserite come blocco sia come elementi inline. L'attributo inserisce l'immagine a destra o sinistra della pagina, e gestisce il posizionamento del contenuto dell'elemento in cui è stata inserita l'immagine intorno ad essa.
+
+[source, Asciidoctor]
+----
+image::immagine.jpg[Immagine,100,100,float="left",align="right"]
+
+image:immagine.png[Immagine,50,50,float="right"]
+----
+
+Nell'esempio riportato qui sopra vediamo un'immagine dichiarata come blocco ed una come inline, che utilizzano gli attributi di allineamento.
+
+==== Roles
+
+In alternativa agli attributi, soprattutto nel caso l'output sia un documento HTML, è possibile assegnare dei roles che corrispondono a classi CSS nel foglio di stile di Asciidoctor.
+
+[cols="6*^", options:"header"]
+|===
+|- 		2+|Float 3+|Align
+|Role	|left |right |text-left |text-right |text-center
+|Blocco 5*|si
+|Inline 2*|si 3*|no
+|===
+
+La tabella qui sopra mostra i 5 role disponibili; nelle immagini inserite come elementi inline, non sono utilizzabili i role `text-left`, `text-right` e `text-center`.
+
+Oltre alla gestione dell'allineamento dellimmagine, attraverso i role, è possibile inserire un'immagine come thumbnail, ovvero con un margine interno per separarla ulteriormente dal testo. Per ottenere questo effetto, va utilizzato il role `thumb`, o la sua forma abbreviata, `th`. Inoltre, per dare ad un'immagine in un documento HTML5 un significato semantico, è possibile utilizzare il role `related`.
+
+Se vogliamo allineare un'immagine senza avere il testo a fianco, è possibile inserire le immagini in un pseudo-blocco, con il role `float-group`:
+
+[source, Asciidoctor]
+----
+[.float-group]
+--
+[.left]
+image:immagine.png[Immagine,10,20]
+--
+testo sotto l'immagine
+----
+
+Nell'esempio qui sopra, l'immagine è stata racchiusa in un blocco delimitato, ed il testo, essendo al di fuori del blocco, viene inserito sotto l'immagine e non a destra di essa.
+
+== Blocchi delimitati
+
+Come visto in precedenza, i blocchi delimitati sono blocchi compresi tra due marcatori. In questa sezione vedremo in particolare due tipologie di blocchi: `admonition` e `verse`.
+
+=== Admonition
+
+Il blocco admonition è un blocco delimitato che ha dei marcatori variabili, ed a seconda dei marcatori viene renderizzato in modo diverso. Viene utilizzato per inserire del testo, affiancato a delle icone che denotato un avviso, un suggerimento, del contenuto importante eccetera. Asciidoctor fornisce 5 tipi di blocco admonition, ed ognuno è dichiarato da una parola chiave:
+
+- Note
+- Tip
+- Important
+- Caution
+- Warning
+
+Per inserire uno di questi blocchi nel testo la sintassi è la seguente:
+
+[source, Asciidoctor]
+----
+NOTE: Il testo del marcatore va sempre in maiuscolo, e seguito da due punti.
+----
+
+Il blocco renderizzato sarà così:
+
+NOTE: Il testo del marcatore va sempre in maiuscolo, e seguito da due punti.
+
+Nel caso si voglia inserire del contenuto complesso in uno di questi blocchi, come ad esempio una lista, il marcatore viene utilizzato come attributo in un blocco delimitato:
+
+[source, Asciidoctor]
+----
+[IMPORTANT]
+====
+Regole per l'utilizzo di un admonition:
+
+. I marcatori vanno inseriti sempre in maiuscolo
+. I marcatori vanno seguiti dai due punti ed uno spazio
+. Se usati come attributi vanno solo scritti in maiuscolo
+====
+----
+
+=== Verse
+
+Il blocco verse viene generalmente utilizzato per inserire citazioni o parti di libri o testi; la sua dichiarazione ha la seguente sintassi:
+
+. Nome del blocco (`verse` o `quote`)
+. Autore a cui è attribuito il contenuto
+. Informazioni bibliografiche da cui è stato estratto il contenuto
+. Contenuto
+
+I primi 3 punti vanno inseriti in una lista di attributi; se il contenuto occupa soltanto una riga, è possibile inserire la lista degli attributi direttamente sopra il contenuto, altrimenti vengono utilizzati come marcatori di apertura e chiusura del blocco 4 underscore (`_`).
+
+== Rendering del documento
+
+I documenti nel formato di Asciidoctor, pur essendo leggeibili, possono diventare molto di più, ed in modo semplice: per effettuare un render in pdf o HTML di un documento in formato .adoc, basta avviare la command prompt, e, dopo essersi postati nella directory del file, digitare i seguenti comandi:
+
+[source, Asciidoctor]
+----
+asciidoctor file.adoc
+
+asciidoctor-pdf file.adoc
+----
+
+Una volta premuto invio, Asciidoctor interpreterà il testo e produrrà un documento finito. Nel caso si debba produrre un documento in formato PDF, e si voglia appllicare al documento un foglio di stile personalizzato oppure dei font diversi da quelli di default, basterà aggiungere come argomenti `pdf-style` e `pdf-fontsdir`:
+
+[source, Asciidoctor]
+----
+asciidoctor-pdf -a pdf-style="directory del foglio di stile" -a pdf-fontsdir="directory dei font" file.adoc
+----

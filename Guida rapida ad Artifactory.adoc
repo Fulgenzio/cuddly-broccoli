@@ -1,0 +1,72 @@
+= Artifactory e Maven: setup e utilizzo
+
+== Installazione di Artifactory
+
+Artifactory permette di creare un repository locale per plugin, librerie, ed artefatti in generale. Il programma non richiede un'installazione locale, ma solo un'installazione sulla macchina che ospeiterà questo repository. Il resto delle operazioni sono effettuate tramite la webapp di Artifactory. Per installare Artifactory, scaricare il file .zip o .rpm dal seguente link: https://bintray.com/jfrog/product/JFrog-Artifactory-Oss/view. Una volta scaricato, eseguire l'installazione del programma, (su macchine windows, estrarre ed eseguire Artifactory.bat) ed avviare il servizio Artifactory:
+
+
+[source, cmd]
+----
+Windows: 
+
+sc start artifactory
+
+Linux/Mac
+
+service start artifactory
+----
+
+Artifactory contiene una build di Tomcat, quindi non sono necessari altri passaggi per utilizzarlo.
+
+== Primo accesso
+
+Ora che Artifactory è installato, è possibile accedervi via interfaccia web, andando al seguente indirizzo: [indirizzo ip della macchina host]:8081/Artifactory. La webapp richiede delle credenziali di accesso, e per ora, le uniche presenti sono quelle dell'amministratore:
+
+Login::
+admin
+Password::
+password
+
+Ora che abbiamo effettuato l'accesso è possibile effettuare una serie di operazioni, come la gestione delle impostazioni di sicurezza, la creazione di nuovi repository, utenti e gruppi.
+
+=== Sicurezza
+
+Nel pannello "Admin", è presente la sezione sicurezza, che permette di regolare gli accessi ai repository, e gestire utenti, gruppi e permessi. Nella sezione "General", sono persenti, in alto a sinistra, 3 checkbox ed un menù dropdown. Le checkbox permettono all'amministratore di consentire o meno l'accesso ad utenti anonimi, ovvero utenti non autenticati su Artifactory. Togliere la spunta dalla prima checkbox rende il repository privato. Nel menù dropdown invece è possibile scegliere che tipo di password gli utenti debbano utilizzare per lavorare sul repository; Artifactory cripta le password degli utenti, e qui è possibile decidere se rendere questa password criptata obbligatoria, opzionale oppure non utilizzarla.
+
+NOTE: La password criptata serve solamente nei file locali, dove vengono contenuti i dati del server di Artifactory; per accedere alla webapp bisogna utilizzare la password non criptata.
+
+=== Repository
+
+Andiamo ora a creare un nuovo repository su Artifactory. Di default, Artifactory parte con 6 repository locali, ed uno remoto. Nel pannello "Repositories" sono disponibili 4 categorie di repository: local, remote, virtual e distribution; è dispèonibile inoltre una sezione dedicata al layout dove è possibile modificare il layout di default dei vari tipi di repository.
+
+Spostandoci sulla sezione "Local" compare una lista dei repository locali, con la possibilità di modificarli e di crearne di nuovi. Andiamo ora a creare un nuovo repository locale: cliccando sul tasto "New", veniamo portati sulla finestra di creazione di un repository locale, e subito compare un modal che ci chiede di selezionare la tipologia di repository da creare. Una volta selezionata la tipologia, ci viene chiesto di inserire la chiave del repository, ovvero il nome, una breve descrizione pubblica, ed una interna agli utenti autenticati. Possiamo in seguito scegliere il layout che il nostro repository avrà, scegliendo tra quelli presenti nel pannello visto in precedenza. Successivamente alle operazioni generali, vi è una sezione contenente delle impostazioni specifiche alla tipologia di repository scelto. Nelle impostazioni avanzate è possibile alterare il comportamento del repository in modo che non effettui l'artifact resolution e non permetta il deploy di nuovi artefatti, o rendere visibili da Artifactory i file HTML e javadoc. Una volta terminata la configurazione del repository, cliccare su save, ed il repository verrà creato.
+
+== Utenti
+
+Come amministratore, è possibile creare nuovi utenti. Per farlo, spostarsi nel pannello administrator, e nella sezione security, andare sul pannello users. Nella sezione users, per creare un nuovo utente basta cliccare sul tasto "New" posto in alto a sinistra nello schermo; comparirà un popup che chiede di immettere le credenziali del nuovo utente, quali login, password ed indirizzo email ed assegnare all'utente permessi da amministratore; infine è possibile assegnare l'utente a dei gruppi. La tabella in fondo alla pagina mostra i vari permessi dell'utente.
+
+== Gruppi
+
+I gruppi permettono di gestire i permessi in modo più pratico rispetto all'assegnazione per singolo utente; come per la creazione di un nuovo utente, per creare nuovi gruppi bisogna spostarsi nella sezione "Groups", nella categoria security. Cliccando sul tasto "New" ci viene chiesto di isnerire il nome del gruppo, assieme ad una breve descrizione, la quale non è obbligatoria. È possibile inoltre impostare un gruppo come gruppo di default, e fare in modo che tutti i nuovi utenti facciano parte di quel gruppo. Questo è particolarmente utile se si utilizzano metodi di autenticazione esterni ad Artifactory, e quindi non gli account di Artifactory stesso. Nella sezione successiva invece troviamo due liste, una con gli utenti presenti su Artifactory, ed una che elenca i membri di un gruppo; possiamo quindi spostare gli utenti da una tabella ad un altra per assegnarli al gruppo creato. 
+
+== Permessi
+
+Oltre che ad assegnare permessi ad un signolo utente, è possibile definire una sorta di insieme di permessi che va assegnato poi ad un gruppo o al singolo utente. Gli utenti appartenenti al gruppo erediteranno quei permessi. Per gestire questi insiemi, andare sulla scheda "Permissions", nella sezione "Security"
+
+NOTE: queste azioni si possono effettuare soltanto come utente amministratore.
+
+Cliccando sul tasto new, possiamo definire un nuovo insieme di permessi: 
+
+Verrà chiesto di inserire il nome del nuov insieme di permessi, di selezionare i repository presenti su Artifactory, ed eventualmente scegliere se esetendere il permesso ai repository locali e remoti che verranno creati in futuro. Cliccando su Next, possiamo decidere a che gruppi assegnare questi permessi, e decidere cosa effettivamente i membri del gruppo selezionato sono autorizzati a fare. Infine è possibile impostare questi permessi per i singoli utenti, allo stesso modo per cui vengono assegnati i permessi ai gruppi.
+
+== Setup locale
+
+Per iniziare ad utilizzare Artifactory da locale, sono necessari alcuni semplici passi. Di seguito verranno indicate le istruzioni per utilizzare Artifactory con un repository maven.
+
+Per prima cosa, nella cartella dove è contenuto il repository locale di maven, bisogna creare un file settings.xml oppure modificae quello già esistente. Fortunatamente Artifactory dispone di una funzione che genera automaticamente il contenuto del file settings.xml. Per utilizzare questa funzionalità bisogna autenticarsi su Artifactory con il proprio login e password; nel pannello "Artifacts", in alto a sinistra c'è un tasto "Set Me Up": una volta cliccato compare un modal che permette di generare xml da inserire nei POM, oppure, cliccando su "Generate Maven Settings", possiamo selezionare i vari repository che vogliamo utilizzare come repository di librerie, release e plugin; cliccando infine su "Generate Settings", comparirà un campo contenente il codice xml da copiare ed inserire nel file settings.xml.
+
+Una volta generate queste impostazioni, il file xml va modificato andando ad inserire nei campi username e password il nostro nome utente e la nostra password. A seconda delle policy sull'utilizzo della password, può essere necessario inserire la password criptata invece che quella in plaintext.
+
+Terminata la configurazione del file settings.xml, possiamo ora generare l'xml da inserire nel POM. Sempre cliccando sul tasto "Set Me Up", vediamo che ci sono dei menù dropdown che ci permettono di scegliere la tipologia del repository ed il repository su cui vogliamo effettuare il deploy. Una volta scelto il repository, cliccare su insert credentials ed inserire la password relativa all'account di Artifactory. Una volta inserita, comparirà una sezione che contiene il codice xml da inserire nel POM per lavorare con il repository selezionato. 
+
+Una volta predisposto l'ambienete tramite l'xml ed il POM, è possibile tramite riga di comando di maven, o con il plugin di maven di Intellij ad esempio, effettuare il package ed il deploy ai repository impostati sul POM.

@@ -64,10 +64,10 @@ footer:
   border_color: #0d0d0d
   recto_content:
     right: |
-      {document-title}: {document-subtitle}  20&#8260;05&#8260;2016 Copyright &#169; Jmatica srl - Tutti i diritti riservati.    {page-number}/{page-count}
+      {document-title}: {document-subtitle}  12&#8260;07&#8260;2016 Copyright &#169; Jmatica srl - Tutti i diritti riservati.    {page-number}/{page-count}
   verso_content:
     left: |
-      {document-title}: {document-subtitle}  20&#8722;05&#8722;2016 Copyright &#169; Jmatica srl - Tutti i diritti riservati.     {page-number}/{page-count}
+      {document-title}: {document-subtitle}  12&#8722;07&#8722;2016 Copyright &#169; Jmatica srl - Tutti i diritti riservati.     {page-number}/{page-count}
 
 header:
     height: 0.75in
