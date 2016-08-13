@@ -1,0 +1,11 @@
+= Organizzazione Copmagnia del Corno Nero
+
+== Ruoli ed organizzazione per le uscite.
+
+* Designare per ogni uscita un organizzatore::
+L'organizzatore avrà il compito di:
+	** Sentire l'organizzazione e gestirne i rapporti.
+	** Sentire i membri partecipanti.
+	** Gestire i trasporti.
+	** Stampare la lista del materiale necessario.
+* Organizzare carico e scarico
