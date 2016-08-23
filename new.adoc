@@ -57,12 +57,12 @@ Il piano astrale, è una dimensione diversa da quella terrena, e tenuta in conta
 ^.^|Draghi			^.^|Quadrupedi alati simili a felini, affini agli elementi						^.^|D, E		x
 ^.^|Viverne			^.^|Draconidi alati bipedi, poco intelligenti									^.^|X			x
 ^.^|Nani			^.^|Standard nani																^.^|E			x
-^.^|Gnomi			^.^|Piccoli umanoidi, molto intelligenti, grandi accademici						^.^|D, E		x	
+^.^|Gnomi			^.^|Piccoli umanoidi, molto intelligenti, grandi accademici						^.^|D, E, S		x	
 ^.^|Vampiri			^.^|Non morti che migliorano in capacità fisica col tempo						^.^|D, E, S		x	
-^.^|Aviani			^.^|Elfi alati, vivono distaccati dal mondo										^.^|X			x
+^.^|Aviani			^.^|Elfi alati, vivono distaccati dal mondo										^.^|S			x
 ^.^|Mezzosangue		^.^|Uomini-bestie, mezz'orchi e mezzi draghi									^.^|D, E, S		x
-^.^|Demoni			^.^|Manifestazioni meteriali delle emozioni, e maghi che perdono il controllo	^.^|D, E, S		x
-^.^|Guardiani		^.^|Manifestazioni meteriali delle emozioni, e maghi che si distaccano dal mat	^.^|D, E, S		x
+^.^|Demoni			^.^|Manifestazioni meteriali delle emozioni, e maghi che perdono il controllo	^.^|E			x
+^.^|Guardiani		^.^|Manifestazioni meteriali delle emozioni, e maghi che si distaccano dal mat	^.^|D			x
 ^.^|Divinità		^.^|Riflessi astrali delle credenze del piano materiale, e emozioni				^.^|D, E, S		x
 ^.^|Semidei			^.^|Creature del piano materiale con discendenza divina							^.^|D, E, S		x
 |===	
@@ -121,7 +121,15 @@ La magia, in entrambi i piani consiste principalmente in manipolazione dell'ener
 
 === Magia Distaccata
 
-La prima forma di magia, quella praticata originariamente da elfi e dragoni, è una forma di magia che consente all'individuo di attingere all'energia astrale 
+La prima forma di magia, quella praticata originariamente da elfi e dragoni, è una forma di magia che consente all'individuo di attingere all'energia astrale intensificando il collegamento tra il riflesso astrale dell'incantatore e lo spirito materiale. Questo collegamento viene intensificato utilizzando l'energia astrale dello spirito, "scollegando" il soggetto dal piano materiale. Questa tecnica richiede una grande concentrazione, ma permette di accedere ad un potere immenso. Questo potere però ha un costo. Ogni volta che il soggetto trasferisce il suo spirito per attingere al piano astrale, parte di esso rimane perso nel collegamento, finchè tutto lo spirito del soggetto, e quindi la sua volontà non finisce nel piano astrale, diventando così un guardiano.
+
+=== Magia Emotiva
+
+La magia emotiva è una forma di magia tipicamente umana. Funziona grazie alla capacità innata di alcuni elementi molto emotivi, di amplificare il proprio spirito ed il collegamento con il riflesso astrale mediante le emozioni. Ad esempio, un soggetto può esaltarsi ed entrare in uno stato di eccitazione per la battaglia ed ira. Questo stato alterato consente di attingere all'energia astrale ed utilizzare la magia in modo offensivo in battaglia. Allo stesso modo, uno stato di pietà e compassione permette di proteggere e curare gli altri. Questi stati alterati, negli individui meno esperti, possono essere ottenuti attraverso l'uso di sostanze. L'uso di questa magia però fa sì che l'incantatore al momento del lancio di un incantesimo, sia quasi interamente controllato dalle proprie emozioni, ed abbia in se una quantità enorme di energia astrale; se dovesse perdere il controllo rischierebbe di impazzire, l'eccesso di energia astrale sovraccaricherebbe la sua mente, facendolo diventare un essere in grado di provare solo l'emozione che lo ha sopraffatto, questa creatura viene normalmente definita demone.
+
+=== Magia del Sangue
+
+Alcune razze senzienti, soprattutto quelle mutate
 
 == Sul tempo
 
