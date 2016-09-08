@@ -1,0 +1,50 @@
+= Game Idea
+
+2d sidescroller, stile terraria setting dell'ambientazione di D&D
+
+sistema di classi, 6 classi?
+
+4 macro classi:
+
+soldier: durability
+
+mage: glass cannon ranged/cc
+
+thief: glass cannon melee
+
+engineer
+
+possibili ramificazioni delle classi:
+
+soldier::
+	knight::
+		tank. heavy armor, low dmg, durable mount?
+	footman::
+		medium armor, medium dmg
+	auxiliary::
+		fast, light armor, spear
+	archer::
+		ranged, light armor low melee, fast
+	musketeer::
+		ranged, very light armor, high dmg, slow
+mage::
+	elementalist::
+		high dmg, no armor no cc
+	battlemage::
+		medium dmg light armor, some cc
+	bloodmage::
+		no armor, fast, high melee dmg
+	summoner::
+		no armor, some cc, minions, low dmg
+	dark mage::
+		cc, dot, minions
+thief::
+	thug::
+		medium dmg, heavy armor, low ranged
+	assassin::
+		no armor, high dmg melee medium ranged
+	
+	
+	
+	
+armor: 4 tipi: 
