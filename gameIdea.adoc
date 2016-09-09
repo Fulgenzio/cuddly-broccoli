@@ -41,10 +41,42 @@ mage::
 thief::
 	thug::
 		medium dmg, heavy armor, low ranged
-	assassin::
-		no armor, high dmg melee medium ranged
-	
-	
+	silent blade::
+		no armor, high dmg melee medium ranged, fast
+	poison master::
+		no armor, dot, cc, fast medium ranged
+	shadowmancer::
+		no armor, minions, cc
+	sharpshooter::
+		no armor, high ranged, low melee, some cc
+engineer::
+	biomechanic::
+		heavy armor, medium melee
+	mecha-sorcerer::
+		medium armor, medium magic dmg
+	gunner::
+		medium armor, medium ranged
+	mechanic::
+		minions, cc
+	alchemist::
+		medium armor, low ranged, dot, cc
 	
 	
 armor: 4 tipi: 
+
+heavy: plate, alta difesa, ma riduce l'atk spd
+medium: mail, buona difesa, riduce minimamente l'atk spd
+light: poca difesa, non riduce l'atk spd
+none: 0 def, + atk spd/move spd
+
+armi:
+1handed(standard armi a 1 mano)
+2handed(standard armi a 2 mani)
+huge(cannoni, armi da mech)
+small(pugnali, pozioni, throwable)
+ranged(bow, crossbow, firearms)
+m-1handed(bacchette e scettri)
+m-2handed(bastoni)
+
+tipi di danni:
+	cutting, piercing, blunt
