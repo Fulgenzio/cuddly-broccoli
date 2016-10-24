@@ -623,12 +623,13 @@ Come visto in precedenza è possibile enfatizzare il testo trasformandolo in gra
 
 === Virgolette ed apostrofi curvi
 
-Di default Asciidoctor non renderizza i doppi apici, o virgolette (") e gli apici, o apostrofi (') come curvi; è possibile però, utilizzando l'accento grave (```) è possibile trasformarli in apici singoli e doppi curvi:
-
+Di default Asciidoctor non renderizza i doppi apici, o virgolette ("") e gli apici, o apostrofi (') come curvi; è possibile però, utilizzando l'accento grave (````) è possibile trasformarli in apici singoli e doppi curvi:
+ 
 [source, Asciidoctor]
 ----
 "`Il tempo è un'`illusione. L'`ora di pranzo è una doppia illusione`"
 ----
+
 
 Il contenuto riportato nell'esempio, una volta interpretato da Asciidoctor verrà renderizzato così:
 
@@ -653,7 +654,7 @@ Se x = a^y^, allora y = log~a~ x.
 
 === Monospace
 
-Il testo in monospace è testo che viene renderizzato come se fosse all'interno di un blocco di tipo source. In genere viene utilizzato per fare riferimento ad elementi propri di un linguaggio, come è stato fatto finora per gli attributi di Asciidoctor. Per avere del testo in monospace basta comprenderlo tra una coppia o due di accenti gravi (```).
+Il testo in monospace è testo che viene renderizzato come se fosse all'interno di un blocco di tipo source. In genere viene utilizzato per fare riferimento ad elementi propri di un linguaggio, come è stato fatto finora per gli attributi di Asciidoctor. Per avere del testo in monospace basta comprenderlo tra una coppia o due di accenti gravi (````).
 
 [source, Asciidoctor]
 ----
@@ -677,7 +678,7 @@ image::highlight.png[highlight]
 
 Le varie tipologie di formattazione del testo possono essere combinate tra loro, ma va fatto disponendo i marcatori in una sorta di ordine gerarchico, riportato di seguito, dai primi marcatori, ovvero quelli più esterni, verso l'interno:
 
-. Marcatori che agiscono sullo sfondo: I primi marcatori da inserire sono il cancelletto (`#`) o l'accento grave (```). Non è possibile avere del testo in monospace evidenziato e viceversa.
+. Marcatori che agiscono sullo sfondo: I primi marcatori da inserire sono il cancelletto (`#`) o l'accento grave (````). Non è possibile avere del testo in monospace evidenziato e viceversa.
 . Apice e pedice
 . Grassetto
 . Corsivo

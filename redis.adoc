@@ -515,7 +515,7 @@ Un hyperloglog è una struttura dati probabilistica utilizzata per contare eleme
 
 Gli hyperloglog in redis sono interpretati come stringhe, quindi si possono utilizzare i comandi `SET` e `GET`
 
-Concettualmente gli hyperloglog sono simili al set. Con un set si può usare il comando `SADD` per popolare un ser, e poi chiamare `SCARD` per ottenerene la cardinalità, dato che un set è un insieme di elementi unici. A differenza di un set però, l'hyperloglog non contiene elementi, ma stati; ogni volta che si incontra un nuovo elemento, si chiama il comando `PFADD` per aggiungere uno stato all'hyperloglog; per ottenere il numero di elementi unici invece, si usa il comando `PFCOUNT`
+Concettualmente gli hyperloglog sono simili al set. Con un set si può usare il comando `SADD` per popolare un set, e poi chiamare `SCARD` per ottenerene la cardinalità, dato che un set è un insieme di elementi unici. A differenza di un set però, l'hyperloglog non contiene elementi, ma stati; ogni volta che si incontra un nuovo elemento, si chiama il comando `PFADD` per aggiungere uno stato all'hyperloglog; per ottenere il numero di elementi unici invece, si usa il comando `PFCOUNT`
 
 [source, Redis]
 ----
@@ -540,7 +540,7 @@ Redis offre due strumenti per la persistenza dei dati ed il data recovery: RDB e
 
 Utilizzare solo RDB è consigliato solo nel caso in cui, se dovesse esserci un problema, perdere i dati inseriti dall'ultimo snapshot è accettabile. Ad esempio, un server può essere impostato per fare degli snapshot ogni 15 minuti. In caso di crash del server, si andranno a perdere i dati inseriti negli ultimi 15 minuti, ma non quelli inseriti in precedenza, ed al riavvio del server, Redis leggerà lo snapshot per reimpostare il dataset precedente. Uno svantaggio di RDB è che, nel caso di grandi database, il processo creato dal fork() per creare lo snapshot può impiegare del tempo, e causare un ritardo nella risposta del server ai client. La disaster recovery però è molto più rapida, soprattutto per database grandi, rispetto a quella offerta da AOF.
 
-Molti utenti di Redis utilizzano solo AOF, anche se è un po meno efficente in caso di recovery, soprattutto a seconda di cosa stava facendo il server prima di andare offline. AOF rimane comunque un tool molto potente, potenzialmente meno efficente di RDB, ma che assicura una persistenza dei dati molto precisa, può variare a seconda della fsync policy addottata dall'utente; vi sono 3 opzioni per quanto riguarda la fsync: disabilitata, ad ogni query e ogni secondo.
+Molti utenti di Redis utilizzano solo AOF, anche se è un po meno efficente in caso di recovery, soprattutto a seconda di cosa stava facendo il server prima di andare offline. AOF rimane comunque uno strumento molto potente, potenzialmente meno efficente di RDB, ma che assicura una persistenza dei dati molto precisa, può variare a seconda della fsync policy addottata dall'utente; vi sono 3 opzioni per quanto riguarda la fsync: disabilitata, ad ogni query e ogni secondo.
 
 * Disabilitata:
 ** Nessun tipo di sincronizzazione automatica, è l'amministratore che chiama il comando.
@@ -570,7 +570,7 @@ StackExchange.Redis viene installata tramite la package manager console, semplic
 PM> Install-Package StackExchange.Redis
 ----
 
-È disponibile anche una versione strongnamed, nel caso il progetto su cui si sta lavorando sia string named
+È disponibile anche una versione strongnamed, nel caso il progetto su cui si sta lavorando sia strong named
 
 [source, NuGet Console]
 ----
@@ -601,7 +601,7 @@ Una volta connessi al server, si può accedere al database utilizzando la seguen
 IDatabase db = conn.GetDatabase()
 ----
 
-Ora abbiamo un database `db` su cui poter effettuare operazioni di vario genere. Ad ogni operazione viene richiamato uun metodo dell'oggetto database che abbiamo creato, in questo caso `db`
+Ora abbiamo un database `db` su cui poter effettuare operazioni di vario genere. Ad ogni operazione viene richiamato un metodo dell'oggetto database che abbiamo creato, in questo caso `db`
 
 <<<
 
