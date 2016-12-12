@@ -26,7 +26,7 @@ soldier::
 	archer::
 		ranged, light armor low melee, fast
 	musketeer::
-		ranged, very light armor, high dmg, slow
+		ranged, light armor, high dmg, slow
 mage::
 	elementalist::
 		high dmg, no armor no cc
@@ -37,7 +37,7 @@ mage::
 	summoner::
 		no armor, some cc, minions, low dmg
 	dark mage::
-		cc, dot, minions
+		cc, dot, minions, no armor
 thief::
 	thug::
 		medium dmg, heavy armor, low ranged
@@ -72,7 +72,7 @@ none: 0 def, + atk spd/move spd
 armi:
 1handed(standard armi a 1 mano)
 2handed(standard armi a 2 mani)
-huge(cannoni, armi da mech)
+huge(cannoni, armi da mech, armi da mount)
 small(pugnali, pozioni, throwable)
 ranged(bow, crossbow, firearms)
 m-1handed(bacchette e scettri)
