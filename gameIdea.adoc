@@ -80,3 +80,6 @@ m-2handed(bastoni)
 
 tipi di danni:
 	cutting, piercing, blunt
+
+	
+930912 4
