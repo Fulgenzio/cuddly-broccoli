@@ -80,6 +80,3 @@ m-2handed(bastoni)
 
 tipi di danni:
 	cutting, piercing, blunt
-
-
-	
