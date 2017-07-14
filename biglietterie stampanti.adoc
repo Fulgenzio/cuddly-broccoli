@@ -1,0 +1,25 @@
+[cols="3", options="header"]
+|===
+^.^|Biglietteria			^.^|Stampante
+^.^|padova					^.^|hp officejet pro 8100
+^.^|cittadella				^.^|hp laserjet 2015
+^.^|oderzo					^.^|hp laserjet 2015
+^.^|motta					^.^|epson stylus d120
+^.^|portogruaro 			^.^|non nostra
+^.^|montebelluna			^.^|hp laserjet pro m201n
+^.^|castelfranco (bar roma)	^.^|hp deskjet 6940
+^.^|pieve di soligo			^.^|kyocera fs1041
+^.^|conegliano				^.^|ricoh aficio mp201spf
+^.^|vittorio veneto			^.^|hp  laserjet p2014
+^.^|noale					^.^|non nostra
+^.^|valdobbiadene			^.^|hp deskjet
+^.^|istrana					^.^|hp laserjet pro m201
+^.^|vicenza					^.^|hp deskjet 6940						
+^.^|feltre					^.^|hp deskjet 6940
+^.^|castelfranco ctm		^.^|ricoh aficio c3002
+
+oki microline1190
+
+
+|===
+ 0437930912 4 michela

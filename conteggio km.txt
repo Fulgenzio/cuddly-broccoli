@@ -1,0 +1,101 @@
+pe 26319
+
+347 907 4683 mandelli francesco
+hunext 633882 int 5/1
+
+remote registry per riavviare il dfs
+
+
+13327
+13327
+
+postazione 7616
+
+box jesolo -atvo -jes
+
+03/05 treviso - castelfranco - 32km
+03/05 treviso - vittorio veneto - 50km
+09/05 treviso - vittorio veneto - 50km
+17/05 vittorio veneto - conegliano - 14km
+17/05 conegliano - montebelluna - 31km
+17/05 montebelluna - treviso - 22km
+17/05 treviso - castelfranco - 33km
+17/05 castelfranco - montebelluna - 20km
+17/05 montebelluna - follina - 30km
+22/05 treviso - montebelluna 22km
+22/05 montebelluna - treviso 22km
+
+05/06 treviso - valdobbiadene 40km
+08/06 follina - portogruaro 75km
+08/06 portogruaro - treviso 60km
+09/06 valdobbiadene - treviso 40km
+21/06 treviso - montebelluna 22km
+21/06 montebelluna - follina 30km
+22/06 treviso - castelfranco 33km
+22/06 castelfranco - treviso 33km
+27/06 follina - portogruaro 75km
+27/06 portogruaro - treviso 60km
+27/06 treviso - conegliano 30km
+
+11/07 vittorio veneto - conegliano 16km
+11/07 conegliano - treviso
+
+13/07 vittorio veneto - conegliano 16km
+13/07 conegliano - vittorio veneto
+
+10.0.100.30 maior conte accesso negato
+
+mompolv13
+
+sWnr7niPpyn7
+
+TELEFONO DALL'AGNOL
+IMEI
+359038083886124
+SN
+RF8J53L973J
+
+TELEFONO CONTE
+imei
+862551031321556
+sn
+57UDU17120001956
+sim
+8939104250024713312
+
+184295757
+
+PORTATILE CONTE
+5CD63865YN
+pid
+W4N73EA£ABZ
+
+TELEFONO GREGORI
+862551032001371
+SN
+57U4C17123008919
+sim
+8939104250024713320
+
+accesso web
+login
+gestione dispositivo 
+gestrione auth utente
+cod. utente
+flag su cosa va bloccato
+creazione utente -> codice utente -> selezionare cosa va sbloccato
+
+space (.) x4 0 8x -> comunicazione ethernet 
+
+
+tallon in gestione eseercizio
+
+2310 bergamin67
+
+2396 bergamin75
+
+551 basso officina
+
+2741 basso
+
+iQrF3jqp8nfr

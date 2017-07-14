@@ -1,0 +1,119 @@
+= Guida all'accensione e spegnimento di macchine virtuali
+:toc: left
+:toclevels: 2
+:icons: font
+:hide-uri-scheme:
+:imagesdir: img
+:sectnums:
+:figure-caption: Fig.
+
+
+== Premessa
+
+L'avvio e lo spegnimento di macchine virtuali che montano windows xp, non è possibile via remote desktop. Per eseguire queste operazioni, è quindi necessario lavorare direttamente dall'interfaccia web di gestione di vmware.
+
+== Come fare
+
+=== Accesso all'interfaccia web
+
+Per accedere all'interfaccia web di gestione, è necessario aprire un browser web e andare al seguente indirizzo: https://srvvc.mom.local:9443. 
+
+==== In caso di problemi di connessione
+
+È possibile che all'apertura dell'url venga visualizzata una finestra che dice che la connessione non è sicura. È necessario quindi aggiungere la pagina alle eccezioni di sicurezza del browser, per poter proseguire. Nel caso non venga visualizzata questa pagina, si può procedere con il login.
+
+[[chromeNoCa]]
+.Violazione di sicurezza su Google Chrome.
+image::chromeNoCa.png[chromeNoCa]
+
+[[fireFoxNoCa]]
+.Violazione di sicurezza su Mozilla Firefox
+image::fireFoxNoCa.png[fireFoxNoCa]
+
+In entrambi i casi, dobbiamo cliccare su "avanzate".
+
+[[chromeAdvBtn]]
+.Il tasto "Avanzate" su Google Chrome
+image::chromeAdvancedBtn.png[chromeAdvBtn]
+
+[[fireFoxAdvBtn]]
+.Il tasto "Avanzate" su Mozilla Firefox
+image::firefoxAdvancedBtn.png[fireFoxAdvBtn]
+
+Una volta premuto il tasto, su Google Chrome, dovremo premere il tasto "Procedi su srvvc.mom.local".
+
+[[chromeProceed]]
+.Il tasto "Procedi su srvvc.mom.local".
+image::chromeProceed.png[chromeProceed]
+
+Su Mozilla Firefox invece, dovremo cliccare sul tasto "Aggiungi Eccezione";
+
+[[firefoxAddExc]]
+.Il tasto "Aggiungi eccezione" su Mozilla Firefox.
+image::firefoxAddExc.png[firefoxAddExc]
+
+si aprirà poi un popup che ci consentirà di aggiungere l'indirizzo alla listas degli indirizzi sicuri.
+
+[[firefoxConfExc]]
+.Il tasto "Conferma eccezione" su Mozilla Firefox.
+image::firefoxConfirmExc.png[firefoxConfExc]
+
+Una volta premuto il tasto, potremo procedere al sito, ed effettuare il login.
+
+==== Login
+
+Per accedere all'interfaccia web, è necessario inserire di dominio fornite di seguito
+
+[source, Credentials]
+----
+Utente::
+mom.local\aesyspnl
+Passowrd::
+treviso*99
+----
+
+WARNING: È necessario specificare il prefisso di dominio (mom.local\) per accedere
+
+=== Operazioni
+
+Una volta effettuato l'accesso al sito, verrà visualizzata la home page dell'interfaccia web, per effettuare le operazioni di spegnimento ed accensione delle macchine virtuali, bisogna spostarsi sulla home page del Virtual Center VmWare. Per farlo basta cliccare sul tasto "vCenter", nel pannello di navigazione situato a sinistra della pagina.
+
+[[vCenterHomeBtn]]
+.Il tasto che ci porta alla pagina iniziale del virtual center
+image::vCenterHomeBtn.png[vCenterHomeBtn]
+
+Da questa pagina possiamo visualizzare le varie macchine virtuali su cui possiamo eseguire operazioni. per vederle è necessario selezionare prima l'host desiderato, e poi il cluster contenente la macchina virtuale su cui intendiamo lavorare; per farlo, bisogna spostarsi, sempre dal pannello di navigazione, sulla sezione "Hosts and Clusters"
+
+[[HnC]]
+.Il tasto che ci permette di visualizzare gli host ed i cluster
+image::hnc.png[HnC]
+
+Premendo il tasto, verrà visualizzata, nel pannello centrale una finestra che ci consente di vedere le risorse ed i dati relativi alla macchina virtuale selezionata, mentre nel pannello di navigazione, a sinistra della pagina, compare un albero, che ha la seguente struttura:
+
+[example]
+====
+Host::
+Cluster::
+Macchina virtuale
+====
+
+Espanendo quindi la struttura ad albero, sarà possibile selezionare la macchina virtuale sulla quale intendiamo eseguire le operazioni.
+
+[[tree]]
+.L'albero espanso
+image::vmTree.png[tree]
+
+Andando a cliccare con il tasto destro del mouse sulla macchina virtuale, apparirà un menu con elencate diverse operazioni.
+
+[[vmAct]]
+.Il menu che elenca le operazioni eseguibili.
+image::vmActions.png[vmAct]
+
+Le operazioni che possiamo andare ad effettuare sulla macchina sono le seguenti:
+
+Power On::
+Avvia la macchina virtuale ed il sistema operativo.
+Shut Down Guest OS::
+Arresta il sistema e spegne la macchina virtuale.
+Restart Guest OS::
+Riavvia il sistema operativo della macchina virtuale.
