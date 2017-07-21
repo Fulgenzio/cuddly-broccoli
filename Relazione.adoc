@@ -1,1 +1,19 @@
 = Relazione 
+
+Stato attuale: java application con dropwizard, esegue le chiamate rest correttamente, ottenendo la risposta aspettata. Il server jetty embedded gestisce bene le richieste.
+
+Problema: non gestisce la parte front end.
+
+Soluzione 1: separare front end e back end. il front end fa le chiamate rest verso il b.e che le processa e restituisce. 
+          - richiede un webserver per il front end (apache) e l'applicazione eseguita in modalità server per il back end.
+              -- Fattibile ma avere due server sulla stessa macchina non mi va molto. Last resort
+
+Soluzione 2: utilizzare l'embedded jetty per entrambi gli aspetti.
+          - richiede l'utilizzo di jetty come webserver e la gestione dei context multipli
+              -- Fattibile, necessita documentazione.
+          - richiede l'implementazione di jsp per gestire le pagine in front end
+              -- Fattibile, necessita documentazione.
+              
+Ricercare: context multipli, integrazione con jsp, handler e resource handler di jetty
+
+Valutazione tempi: la ricerca può dimostrarsi lunga, la soluzione tempisticamente ottimale sarebbe la n.1
